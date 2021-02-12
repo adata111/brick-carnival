@@ -1,0 +1,19 @@
+
+
+HT=50
+SCREEN=200
+WIDTH=200
+DEAD = 0
+INPUT_CHAR=''
+# PLAY_AREA 
+TOP = 4
+BOTTOM = HT
+LEFT = 1
+RIGHT = WIDTH-1
+
+obj_bricks=[]
+x_bricks = []
+
+GAMETIME=100
+LIVES = 5
+SCORE = 0
