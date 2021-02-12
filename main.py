@@ -30,11 +30,11 @@ setBricks()
 while True:
 	key = input_to()
 	display_arr = copy.deepcopy(blank_arr)
-	print("\033[H\033[J", end="")
 	if(globalVar.LIVES<=0):
 		print("GAME OVER")
 		print("Score:",globalVar.SCORE)
 		break
+	print("\033[H\033[J", end="")
 
 	if(key=='d'):
 		if(newBall.is_moving()==0):
@@ -54,18 +54,12 @@ while True:
 		newBall.check_paddle_collision(newPaddle)
 		newBall.check_brick_collision()
 		newBall.move(1,newPaddle)
+	display_arr = newBall.getArr(Fore.CYAN, '⚪', display_arr)
 	k=0
 	j=0
 	for obj in globalVar.obj_bricks:
-		# j+=1
-		# if(obj.broken==1):
-		# 	del obj
-
-		# 	k+=1
-		# 	continue
-		# obj.setx(k)
 		display_arr = obj.getArr(' ',display_arr)
-	display_arr = newBall.getArr(Back.CYAN, ' ', display_arr)
+		
 
 	display_arr = ''.join(display_arr)
 	print(display_arr)

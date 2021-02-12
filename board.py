@@ -22,6 +22,8 @@ class Board:
 		
 		grid[0] = '_'*WIDTH
 		grid[HT-1] = '_'*WIDTH
+
+		grid[3] = '_'*WIDTH
 		# for i in range(0,HT):
 		# 	if (i==0):
 		# 		grid[i] = ' ' + grid[i][1:WIDTH-2] + ' \n'

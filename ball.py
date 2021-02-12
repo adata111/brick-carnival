@@ -16,7 +16,7 @@ class Ball:
 		self.v_x = 0
 		self.v_y = 0
 		self.moving = 0
-		self.weird = 0
+		self.thru = 0
 
 	def move(self,v=1, paddle=None):
 		if(self.moving == 0):
@@ -62,50 +62,76 @@ class Ball:
 
 	def check_brick_collision(self):
 		check = 0
-		for brick in globalVar.obj_bricks:
+		v_x=self.v_x
+		v_y=self.v_y
+		for brick in reversed(globalVar.obj_bricks):
 			if(brick.is_broken()):
 				continue
 			# f=open("debug.txt","a")
 			# f.write(str(brick.x)+ " " + str(brick.y) + " " + str(self.x) + " " + str(self.y) +"\n")
 			# f.close()
-			if((self.x>=brick.getx() and self.x+self.width<=brick.getx()+brick.width) and (self.y<=brick.gety()+brick.height and self.y+self.height>=brick.gety()) ):
+			if((self.x>=brick.getx() and self.x+self.width<=brick.getx()+brick.width) and (self.y==brick.gety()+brick.height or self.y+self.height==brick.gety()) ):
 				if(self.v_y==0): #not possible, but okay
 					continue
 				# collision with top or bottom brick surface 
-				self.v_y = -self.v_y
+				v_y = -self.v_y
 				check = 1
-			elif((self.x+self.width>=brick.getx() and self.x<=brick.getx()+brick.width) and (self.y+self.height<=brick.gety()+brick.height and self.y>=brick.gety())):
+			elif((self.x+self.width==brick.getx() or self.x==brick.getx()+brick.width) and (self.y+self.height<=brick.gety()+brick.height and self.y>=brick.gety())):
 				if(self.v_x==0):
 					continue
 				# collision with left or right edge of brick
-				self.v_x = -self.v_x
+				v_x = -self.v_x
 				check = 1
-			elif((self.x+self.width)==brick.getx() and self.v_x>0): # top-left or bottom-left collision possible
+			
+			if(check):
+				if(self.thru==0):
+					self.v_y = v_y
+					self.v_x = v_x
+				else:
+					brick.break_it()
+					break
+				if(brick.strength != -1):
+					brick.reduce_strength()
+				break
+		if(check):
+			return
+		check=0
+		for brick in globalVar.obj_bricks:
+			if(brick.is_broken()):
+				continue
+			if((self.x+self.width)==brick.getx() and self.v_x>0): # top-left or bottom-left collision possible
 				if(self.y==brick.gety()+brick.height and self.v_y<0): 
 					# bottom-left collision
-					self.v_y = -self.v_y
-					self.v_x = -self.v_x
+					v_y = -self.v_y
+					# self.v_x = -self.v_x
 					check = 1
 				elif(self.y+self.height==brick.gety() and self.v_y>0):
 					# top-left collision 
-					self.v_y = -self.v_y
-					self.v_x = -self.v_x
+					# self.v_y = -self.v_y
+					v_x = -self.v_x
 					check = 1
 			elif(self.x==(brick.getx()+brick.width) and self.v_x<0): # top-right or bottom-right collision possible
 				if(self.y==brick.gety()+brick.height and self.v_y<0): 
 					# bottom-right collision
-					self.v_y = -self.v_y
-					self.v_x = -self.v_x
+					v_y = -self.v_y
+					# self.v_x = -self.v_x
 					check = 1
 				elif(self.y+self.height==brick.gety() and self.v_y>0):
 					# top-right collision 
-					self.v_y = -self.v_y
-					self.v_x = -self.v_x
+					# self.v_y = -self.v_y
+					v_x = -self.v_x
 					check = 1
 			if(check):
+				if(self.thru==0):
+					self.v_y = v_y
+					self.v_x = v_x
+				else:
+					brick.break_it()
+					break
 				if(brick.strength != -1):
 					brick.reduce_strength()
 				break
+
 			
 
 	def kill_ball(self, p):
@@ -117,6 +143,7 @@ class Ball:
 		self.y = p.y-self.height
 		self.moving = 0
 		self.v_y = -2
+		self.thru = 0
 		
 
 
