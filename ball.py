@@ -1,7 +1,7 @@
 
 from headers import *
 import globalVar
-from globalVar import TOP, BOTTOM, LIVES, HT, WIDTH, LEFT, RIGHT, obj_bricks
+from globalVar import TOP, BOTTOM, LIVES, HT, WIDTH, LEFT, RIGHT, obj_bricks, paddle
 rows = HT
 cols = WIDTH
 
@@ -18,7 +18,8 @@ class Ball:
 		self.moving = 0
 		self.thru = 0
 
-	def move(self,v=1, paddle=None):
+	def move(self,v=1):
+		paddle=globalVar.paddle
 		if(self.moving == 0):
 			if(paddle.x+paddle.width>=cols-1 and v>0):
 				v = 0
@@ -39,7 +40,7 @@ class Ball:
 			# f=open("debug.txt","a")
 			# f.write(str(self.y) + " " + str(self.height) + " " + str(HT) + "\n")
 			# f.close()
-			self.kill_ball(paddle)
+			self.kill_ball()
 			return
 
 		elif(self.y<=TOP and self.v_y<0):
@@ -55,10 +56,12 @@ class Ball:
 		# 	self.weird=0
 		
 
-	def check_paddle_collision(self, paddle):
+	def check_paddle_collision(self):
+		paddle = globalVar.paddle
 		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # ball is within x coordinates of paddle
 			if(self.y+self.height==paddle.y):
-				self.v_y = - self.v_y
+				self.set_vel(- self.v_y)
+
 
 	def check_brick_collision(self):
 		check = 0
@@ -134,7 +137,8 @@ class Ball:
 
 			
 
-	def kill_ball(self, p):
+	def kill_ball(self):
+		p = globalVar.paddle
 		if(p==None):
 			return
 		l = globalVar.LIVES
@@ -143,6 +147,7 @@ class Ball:
 		self.y = p.y-self.height
 		self.moving = 0
 		self.v_y = -2
+		self.v_x = 0
 		self.thru = 0
 		
 
@@ -153,8 +158,10 @@ class Ball:
 		self.moving = 1
 		self.set_vel()
 
-	def set_vel(self, vx=2, vy=-2):
-		self.v_x = vx
+	def set_vel(self, vy=-2):
+		paddle = globalVar.paddle
+
+		self.v_x = self.v_x + (-((self.x-paddle.x-(paddle.width//2))//-5))
 		self.v_y = vy
 
 	def getArr(self, color, symbol, arr):

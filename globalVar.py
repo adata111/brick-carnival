@@ -13,6 +13,7 @@ RIGHT = WIDTH-1
 
 obj_bricks=[]
 x_bricks = []
+paddle = None
 
 GAMETIME=100
 LIVES = 5

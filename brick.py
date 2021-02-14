@@ -17,8 +17,6 @@ class Brick:
 		self.strength = -1
 		# self.actual_x = xx
 		self.colour = Back.WHITE
-		print(x,y)
-		print("width height",width,height)
 
 	def getArr(self, symbol, arr):
 		y = self.y
