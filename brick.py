@@ -7,7 +7,7 @@ from colorama import init, Fore, Back, Style
 colours = [Back.GREEN, Back.YELLOW, Back.RED ]
 
 class Brick:
-	def __init__(self, width, height, x,y):
+	def __init__(self, width, height, x,y, pu=None):
 		super().__init__()
 		self.width = width
 		self.height = height
@@ -15,6 +15,7 @@ class Brick:
 		self.y = y
 		self.broken = 0
 		self.strength = -1
+		self.power_up = pu
 		# self.actual_x = xx
 		self.colour = Back.WHITE
 
@@ -31,8 +32,11 @@ class Brick:
 		return self.broken
 
 	def break_it(self):
+		globalVar.SCORE += 5*(4-self.strength)
 		self.broken=1
 		self.colour = Back.RESET
+		if(self.power_up):
+			self.power_up.set_visible()
 
 	def getx(self):
 		return self.x
@@ -42,14 +46,14 @@ class Brick:
 
 
 class Breakable(Brick):
-	def __init__(self, width, height, x,y,st):
-		Brick.__init__(self,width, height, x,y)
+	def __init__(self, width, height, x,y,st, pu):
+		Brick.__init__(self,width, height, x,y, pu)
 		self.strength = st
 		self.colour = colours[st-1]
 
 	def reduce_strength(self):
-		globalVar.SCORE += 5*(4-self.strength)
 		self.strength -= 1
+		globalVar.SCORE += 5*(4-self.strength)
 		if (self.strength == 0):
 			self.break_it()
 			return

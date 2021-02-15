@@ -1,6 +1,8 @@
 from brick import *
+from ball import *
+from powerUp import *
 import globalVar
-from globalVar import TOP, HT, WIDTH, x_bricks, obj_bricks
+from globalVar import TOP, HT, WIDTH, x_bricks, obj_bricks, balls, power_ups
 
 def setBricks():
     for i in range(WIDTH-18, 2, -10):
@@ -14,6 +16,13 @@ def setBricks():
             if((j+i)%7 ==0):
                 globalVar.obj_bricks.append(Brick(10,2,i,y))
             else:
-                globalVar.obj_bricks.append(Breakable(10,2,i,y, 1+((i+j)%3)))
+                newPowerUp = Thru_ball( i+5, y)
+                globalVar.power_ups.append(newPowerUp)
+                globalVar.obj_bricks.append(Breakable(10,2,i,y, 1+((i+j)%3), newPowerUp))
             k+=1
+
+def create_ball():
+    newBall = Ball(1, 1, 20)
+    globalVar.balls.append(newBall)
+    return newBall
 

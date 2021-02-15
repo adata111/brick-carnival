@@ -173,3 +173,9 @@ class Ball:
 		for i in range(y, y+h):
 			arr[i] = arr[i][:x] + color + Style.BRIGHT + symbol*w + Fore.RESET + Back.RESET + arr[i][x+w:]
 		return arr
+
+	def set_thru(self):
+		self.thru = 1
+
+	def unset_thru(self):
+		self.thru = 0

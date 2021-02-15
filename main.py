@@ -4,11 +4,10 @@ from headers import *
 from paddle import *
 from input import *
 from board import *
-from ball import *
 import globalVar
-from globalVar import TOP, BOTTOM, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle
+from globalVar import TOP, BOTTOM, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups
 import globalFunc
-from globalFunc import setBricks
+from globalFunc import setBricks, create_ball
 
 fps = 25
 t = 1/fps
@@ -21,7 +20,7 @@ for i in range(HT):
 board_arr = copy.deepcopy(blank_arr)
 newBoard = Board(board_arr)
 globalVar.paddle = Paddle(20, 1)
-newBall = Ball(1, 1, 20)
+newBall = create_ball()
 setBricks()
 # for obj in obj_bricks:
 	
@@ -59,7 +58,11 @@ while True:
 	j=0
 	for obj in globalVar.obj_bricks:
 		display_arr = obj.getArr(' ',display_arr)
-		
+	
+	for power_up in power_ups:
+		if(power_up.visible):
+			power_up.move()
+			display_arr = power_up.getArr(Fore.YELLOW, 'T', display_arr)
 
 	display_arr = ''.join(display_arr)
 	print(display_arr)
