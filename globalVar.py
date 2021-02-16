@@ -20,3 +20,5 @@ power_ups = []
 GAMETIME=100
 LIVES = 5
 SCORE = 0
+
+POWERS = {'thru':'T', 'shrink':'S'}

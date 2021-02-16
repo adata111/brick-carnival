@@ -62,7 +62,7 @@ while True:
 	for power_up in power_ups:
 		if(power_up.visible):
 			power_up.move()
-			display_arr = power_up.getArr(Fore.YELLOW, 'T', display_arr)
+			display_arr = power_up.getArr(Fore.YELLOW, display_arr)
 
 	display_arr = ''.join(display_arr)
 	print(display_arr)

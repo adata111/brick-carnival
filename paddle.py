@@ -38,7 +38,7 @@ class Paddle:
 
 
 	def expand(self):
-		if (self.width>=16):
+		if (self.width>=36):
 			return
 		self.width += 2
 
