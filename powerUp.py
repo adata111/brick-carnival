@@ -64,3 +64,11 @@ class Shrink_paddle(PowerUp):
 	def activate_power_up(self):
 		super().activate_power_up()
 		globalVar.paddle.shrink()
+
+class Expand_paddle(PowerUp):
+	def __init__(self, x, y):
+		super().__init__(x,y,globalVar.POWERS['expand'])
+
+	def activate_power_up(self):
+		super().activate_power_up()
+		globalVar.paddle.expand()
