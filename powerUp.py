@@ -57,6 +57,15 @@ class Thru_ball(PowerUp):
 		for ball in balls:
 			ball.set_thru()
 
+class Fast_ball(PowerUp):
+	def __init__(self, x, y):
+		super().__init__(x,y, globalVar.POWERS['fast'])
+
+	def activate_power_up(self):
+		super().activate_power_up()
+		for ball in balls:
+			ball.incr_vel()
+
 class Shrink_paddle(PowerUp):
 	def __init__(self, x, y):
 		super().__init__(x,y,globalVar.POWERS['shrink'])

@@ -1,6 +1,6 @@
 
 
-HT=50
+HT=52
 SCREEN=200
 WIDTH=200
 DEAD = 0
@@ -21,4 +21,4 @@ GAMETIME=100
 LIVES = 5
 SCORE = 0
 
-POWERS = {'thru':'T', 'shrink':'S', 'expand':'E'}
+POWERS = {'thru':'T', 'shrink':'S', 'expand':'E', 'fast':'F'}

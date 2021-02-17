@@ -21,7 +21,7 @@ class Ball:
 	def move(self,v=1):
 		paddle=globalVar.paddle
 		if(self.moving == 0):
-			if(paddle.x+paddle.width>=cols-1 and v>0):
+			if(paddle.x+paddle.width>=RIGHT and v>0):
 				v = 0
 			elif(paddle.x<2 and v<0):
 				v = 0
@@ -32,6 +32,10 @@ class Ball:
 			self.v_x = -self.v_x
 		elif(self.x<LEFT and self.v_x<0):
 			self.v_x = -self.v_x
+		if(self.x+self.v_x+self.width>RIGHT):
+			self.v_x = -self.v_x
+		elif(self.y+self.v_y<TOP):
+			self.v_y = -self.v_y
 
 		self.x += self.v_x
 
@@ -44,6 +48,11 @@ class Ball:
 			return
 
 		elif(self.y<=TOP and self.v_y<0):
+			self.v_y = -self.v_y
+		if(self.y+self.v_y>BOTTOM):
+			self.kill_ball()
+			return
+		elif(self.y+self.v_y<TOP):
 			self.v_y = -self.v_y
 		self.y += self.v_y
 		# if(self.y<16 and self.weird==0):
@@ -61,6 +70,17 @@ class Ball:
 		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # ball is within x coordinates of paddle
 			if(self.y+self.height==paddle.y):
 				self.set_vel(- self.v_y)
+				return
+		if(self.x+self.width<paddle.x+paddle.width and self.x+self.v_x+self.width>paddle.x and self.v_x>=0): # top-left collision possible
+			if(self.y+self.height<paddle.y and self.y+self.v_y+self.height>paddle.y):
+				# top-left collision 
+				self.v_y = -self.v_y
+				self.y -= self.v_y
+		elif(self.x>(paddle.x) and self.x+self.v_x<paddle.width+paddle.x and self.v_x<=0): # top-right collision possible
+			if(self.y+self.height<paddle.y and self.v_y+self.y+self.height>paddle.y):
+				# top-right collision 
+				self.v_y = -self.v_y
+				self.y -= self.v_y
 
 
 	def check_brick_collision(self):
@@ -134,6 +154,49 @@ class Ball:
 				if(brick.strength != -1):
 					brick.reduce_strength()
 				break
+		if(check):
+			return
+		check=0
+		for brick in globalVar.obj_bricks:
+			if(brick.is_broken()):
+				continue
+
+			if((self.x+self.width)<brick.getx()+brick.width and self.x+self.v_x+self.width>brick.getx() and self.v_x>=0): # top-left or bottom-left collision possible
+				if(self.y>brick.gety()+brick.height and self.y+self.v_y<brick.gety()+brick.height): 
+					# bottom-left collision
+					v_y = -self.v_y
+					self.y += self.v_y
+					# self.v_x = -self.v_x
+					check = 1
+				elif(self.y+self.height<brick.gety() and self.y+self.v_y+self.height>brick.gety()):
+					# top-left collision 
+					# self.v_y = -self.v_y
+					v_x = -self.v_x
+					self.x += self.v_x
+					check = 1
+			elif(self.x>(brick.getx()) and self.x+self.v_x<brick.width+brick.getx() and self.v_x<=0): # top-right or bottom-right collision possible
+				if(self.y>brick.gety()+brick.height and self.v_y+self.y<brick.gety()+brick.height): 
+					# bottom-right collision
+					v_y = -self.v_y
+					self.y += self.v_y
+					# self.v_x = -self.v_x
+					check = 1
+				elif(self.y+self.height<brick.gety() and self.v_y+self.y+self.height>brick.gety()):
+					# top-right collision 
+					# self.v_y = -self.v_y
+					v_x = -self.v_x
+					self.x += self.v_x
+					check = 1
+			if(check):
+				if(self.thru==0):
+					self.v_y = v_y
+					self.v_x = v_x
+				else:
+					brick.break_it()
+					break
+				if(brick.strength != -1):
+					brick.reduce_strength()
+				break
 
 			
 
@@ -163,6 +226,16 @@ class Ball:
 
 		self.v_x = self.v_x + (-((self.x-paddle.x-(paddle.width//2))//-5))
 		self.v_y = vy
+
+	def incr_vel(self):
+		if(self.v_x > 0):
+			self.v_x += 2
+		elif(self.v_x < 0):
+			self.v_x -= 2
+		if(self.v_y > 0):
+			self.v_y += 2
+		elif(self.v_y < 0):
+			self.v_y -= 2
 
 	def getArr(self, color, symbol, arr):
 		y = self.y
