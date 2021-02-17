@@ -25,7 +25,8 @@ class Brick:
 		w = self.width
 		x = self.x
 		for i in range(y, y+h):
-			arr[i] = arr[i][:x] + (self.colour +symbol + Back.RESET)*(w) + arr[i][x+w:]
+			for j in range(x,x+w):
+				arr[i][j] = (self.colour +symbol + Back.RESET)
 		return arr
 
 	def is_broken(self):

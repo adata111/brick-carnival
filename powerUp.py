@@ -22,11 +22,12 @@ class PowerUp:
 	def move(self):
 		paddle = globalVar.paddle
 		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # powerup is within x coordinates of paddle
-			if(self.y+self.height==paddle.y):
+			if(self.y+self.height>=paddle.y):
 				self.activate_power_up()
-		
 		elif(self.y+self.height>=BOTTOM):
 			self.visible = 0
+		elif(self.y+self.v+self.height>BOTTOM):
+			self.y=BOTTOM-self.height-self.v
 		self.y += self.v
 
 	def activate_power_up(self):
@@ -37,7 +38,7 @@ class PowerUp:
 	def set_visible(self):
 		self.visible = 1
 
-	def getArr(self, color, arr):
+	def getArr(self, colour, arr):
 		if(self.visible==0):
 			return arr
 		y = self.y
@@ -45,7 +46,9 @@ class PowerUp:
 		w = self.width
 		x = self.x
 		for i in range(y, y+h):
-			arr[i] = arr[i][:x] + color + Style.BRIGHT + self.symbol + Fore.RESET + Back.RESET + arr[i][x+w:]
+			# arr[i] = arr[i][:x] + color + Style.BRIGHT + self.symbol + Fore.RESET + Back.RESET + arr[i][x+w:]
+			for j in range(x,x+w):
+				arr[i][j] = (colour+ Style.BRIGHT +self.symbol + Style.RESET_ALL)
 		return arr
 
 class Thru_ball(PowerUp):

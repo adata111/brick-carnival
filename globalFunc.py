@@ -11,18 +11,18 @@ def setBricks():
     for j in range(0, 3):
         k=0
         y=TOP+j*4
-        for i in range(WIDTH-15-(10*(j%2)), 4+(j%2), -10):
+        for i in range(WIDTH-19-(13), 10, -13):
             #print(i,j)
             if((j+i)%7 ==0):
-                globalVar.obj_bricks.append(Brick(10,2,i,y))
+                globalVar.obj_bricks.append(Brick(13,4,i,y))
             else:
-                newPowerUp = Fast_ball( i+5, y)
+                newPowerUp = Expand_paddle( i+5, y)
                 globalVar.power_ups.append(newPowerUp)
-                globalVar.obj_bricks.append(Breakable(10,2,i,y, 1+((i+j)%3), newPowerUp))
+                globalVar.obj_bricks.append(Breakable(13,4,i,y, 1+((i+j)%3), newPowerUp))
             k+=1
 
 def create_ball():
-    newBall = Ball(1, 1, 20)
+    newBall = Ball(1, 1)
     globalVar.balls.append(newBall)
     return newBall
 

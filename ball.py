@@ -7,12 +7,14 @@ cols = WIDTH
 
 class Ball:
 	"""docstring for Paddle"""
-	def __init__(self, width, height, paddle_width):
+	def __init__(self, width, height):
 		super().__init__()
 		self.width = width
 		self.height = height
-		self.x = random.randint(1,paddle_width)
-		self.y = rows-2-height
+		self.x = random.randint(1, globalVar.paddle.width)
+		# self.x=RIGHT-14
+		self.y = globalVar.paddle.y-height
+		# self.y=TOP+5
 		self.v_x = 0
 		self.v_y = 0
 		self.moving = 0
@@ -20,7 +22,7 @@ class Ball:
 
 	def move(self,v=1):
 		paddle=globalVar.paddle
-		if(self.moving == 0):
+		if(self.moving == 0): # movement with paddle
 			if(paddle.x+paddle.width>=RIGHT and v>0):
 				v = 0
 			elif(paddle.x<2 and v<0):
@@ -87,7 +89,7 @@ class Ball:
 			# f=open("debug.txt","a")
 			# f.write(str(brick.x)+ " " + str(brick.y) + " " + str(self.x) + " " + str(self.y) +"\n")
 			# f.close()
-			if((self.x>=brick.getx() and self.x+self.width<=brick.getx()+brick.width) and (self.y==brick.gety()+brick.height or self.y+self.height==brick.gety()) ):
+			if((self.x>=brick.getx() and self.x+self.width<=brick.getx()+brick.width) and ((self.y<=brick.gety()+brick.height and self.y+self.height>=brick.gety() and self.v_y<0) or (self.y+self.height>=brick.gety() and self.y<=brick.gety()+brick.height and self.v_y>0)) ):
 				if(self.v_y==0): #not possible, but okay
 					continue
 				# collision with top or bottom brick surface 
@@ -203,7 +205,7 @@ class Ball:
 		self.x = random.randint(p.x, p.x+p.width-self.width)
 		self.y = p.y-self.height
 		self.moving = 0
-		self.v_y = -2
+		self.v_y = -1
 		self.v_x = 0
 		self.thru = 0
 		
@@ -217,8 +219,21 @@ class Ball:
 
 	def set_vel(self, vy=-2):
 		paddle = globalVar.paddle
-
-		self.v_x = self.v_x + (-((self.x-paddle.x-(paddle.width//2))//-5))
+		cen = paddle.width//2
+		p1 = cen//2
+		p3 = cen+p1
+		if(self.x - paddle.x<=p1):
+			self.v_x = self.v_x - 2
+		elif(self.x - paddle.x<cen):
+			self.v_x = self.v_x - 1
+		elif(self.x - paddle.x==cen):
+			self.v_x = self.v_x
+		elif(self.x - paddle.x<=p3):
+			self.v_x += 1
+		elif(self.x - paddle.x>p3):
+			self.v_x += 2
+		# self.v_x = self.v_x + (-((self.x-paddle.x-(paddle.width//2))//-5))
+		# self.v_x = 2
 		self.v_y = vy
 
 	def incr_vel(self):
@@ -228,17 +243,22 @@ class Ball:
 			self.v_x -= 1
 		if(self.v_y > 0):
 			self.v_y += 1
-		elif(self.v_y < 0):
+		elif(self.v_y < 0 or not (self.is_moving())):
 			self.v_y -= 1
 
-	def getArr(self, color, symbol, arr):
+	def getArr(self, colour, symbol, arr):
 		y = self.y
 		h = self.height
 		w = self.width
 		x = self.x
 		print(x,y,h,w)
 		for i in range(y, y+h):
-			arr[i] = arr[i][:x] + color + Style.BRIGHT + symbol*w + Fore.RESET + Back.RESET + arr[i][x+w:]
+			for j in range(x,x+w):
+				arr[i][j] = (colour +symbol + Back.RESET)
+			#arr[i] = arr[i][:x] + color + Style.BRIGHT + symbol + Fore.RESET + Back.RESET + arr[i][x+1:]
+		# arr1 = list(arr[y])
+		# arr1[x] = Back.CYAN+" "+Style.RESET_ALL
+		# arr[y] = ''.join(arr1)
 		return arr
 
 	def set_thru(self):

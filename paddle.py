@@ -11,7 +11,7 @@ class Paddle:
 		self.width = width
 		self.height = height
 		self.x = 1
-		self.y = rows-2
+		self.y = rows-1-height
 		self.v = 2
 		self.sticky = 0
 
@@ -28,7 +28,8 @@ class Paddle:
 		w = self.width
 		x = self.x
 		for i in range(y, y+h):
-			arr[i] = arr[i][:x] + color + Style.BRIGHT + symbol*w + Fore.RESET + Back.RESET + arr[i][x+w:]
+			for j in range(x, x+w):
+				arr[i][j] = color + Style.BRIGHT + symbol + Fore.RESET + Back.RESET
 		return arr
 
 	def shrink(self):

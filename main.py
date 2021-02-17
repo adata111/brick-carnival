@@ -13,13 +13,16 @@ fps = 25
 t = 1/fps
 
 blank_arr = []
-
+# blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 for i in range(HT):
-	blank_arr.append(' '*WIDTH + '\n')
+	temp=[]
+	for j in range(WIDTH):
+		temp.append(' ')
+	blank_arr.append(temp)
 
 board_arr = copy.deepcopy(blank_arr)
 newBoard = Board(board_arr)
-globalVar.paddle = Paddle(20, 1)
+globalVar.paddle = Paddle(20, 2)
 newBall = create_ball()
 setBricks()
 # for obj in obj_bricks:
@@ -53,10 +56,12 @@ while True:
 		newBall.check_paddle_collision()
 		newBall.check_brick_collision()
 		newBall.move(1)
-	display_arr = newBall.getArr(Fore.CYAN, '⚪', display_arr)
 	k=0
 	j=0
+	display_arr = newBall.getArr(Fore.WHITE, '●', display_arr)
 	for obj in globalVar.obj_bricks:
+		if(obj.is_broken()):
+			continue
 		display_arr = obj.getArr(' ',display_arr)
 	
 	for power_up in power_ups:
@@ -64,8 +69,15 @@ while True:
 			power_up.move()
 			display_arr = power_up.getArr(Fore.YELLOW, display_arr)
 
-	display_arr = ''.join(display_arr)
-	print(display_arr)
+	#display_arr = ''.join(display_arr)
+	# print(display_arr)
+	pr = []
+	for i in range(HT):
+		tem = []
+		for j in range(WIDTH):
+			tem.append(display_arr[i][j])
+		
+		print(''.join(tem))
 	
 	time.sleep(t)
 
