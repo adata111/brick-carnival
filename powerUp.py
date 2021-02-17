@@ -84,3 +84,12 @@ class Expand_paddle(PowerUp):
 	def activate_power_up(self):
 		super().activate_power_up()
 		globalVar.paddle.expand()
+
+class Paddle_grab(PowerUp):
+	def __init__(self, x, y):
+		super().__init__(x,y,globalVar.POWERS['grab'])
+
+	def activate_power_up(self):
+		super().activate_power_up()
+		globalVar.paddle.grab()		
+

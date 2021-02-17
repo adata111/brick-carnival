@@ -54,8 +54,9 @@ while True:
 	display_arr = globalVar.paddle.getArr(Back.BLUE, ' ', display_arr)
 	if(newBall.is_moving()):
 		newBall.check_paddle_collision()
-		newBall.check_brick_collision()
-		newBall.move(1)
+		if(newBall.is_moving()):
+			newBall.check_brick_collision()
+			newBall.move(1)
 	k=0
 	j=0
 	display_arr = newBall.getArr(Fore.WHITE, '●', display_arr)

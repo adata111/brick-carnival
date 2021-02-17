@@ -16,7 +16,7 @@ def setBricks():
             if((j+i)%7 ==0):
                 globalVar.obj_bricks.append(Brick(13,4,i,y))
             else:
-                newPowerUp = Expand_paddle( i+5, y)
+                newPowerUp = Paddle_grab( i+5, y)
                 globalVar.power_ups.append(newPowerUp)
                 globalVar.obj_bricks.append(Breakable(13,4,i,y, 1+((i+j)%3), newPowerUp))
             k+=1

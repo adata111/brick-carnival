@@ -66,6 +66,9 @@ class Ball:
 		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # ball is within x coordinates of paddle
 			if(self.y+self.height==paddle.y):
 				self.set_vel(- self.v_y)
+				if(paddle.is_sticky()):
+					self.moving = 0
+					
 				return
 		if(self.x+self.width<paddle.x+paddle.width and self.x+self.v_x+self.width>paddle.x and self.v_x>=0): # top-left collision possible
 			if(self.y+self.height<paddle.y and self.y+self.v_y+self.height>paddle.y):
@@ -205,9 +208,10 @@ class Ball:
 		self.x = random.randint(p.x, p.x+p.width-self.width)
 		self.y = p.y-self.height
 		self.moving = 0
-		self.v_y = -1
+		self.v_y = -2
 		self.v_x = 0
 		self.thru = 0
+		globalVar.paddle.unGrab()
 		
 
 
@@ -215,7 +219,8 @@ class Ball:
 		return self.moving
 	def set_moving(self):
 		self.moving = 1
-		self.set_vel()
+		if(not globalVar.paddle.is_sticky()):
+			self.set_vel()
 
 	def set_vel(self, vy=-2):
 		paddle = globalVar.paddle

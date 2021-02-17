@@ -43,5 +43,11 @@ class Paddle:
 			return
 		self.width += 2
 
-	def paddleGrab(self):
+	def grab(self):
 		self.sticky = 1
+
+	def unGrab(self):
+		self.sticky = 0
+
+	def is_sticky(self):
+		return self.sticky
