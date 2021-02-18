@@ -121,7 +121,11 @@ class Paddle_grab(PowerUp):
 
 	def activate_power_up(self):
 		super().activate_power_up()
-		globalVar.paddle.grab()		
+		globalVar.paddle.grab()	
+
+	def deactivate_power_up(self):
+		super().deactivate_power_up()
+		globalVar.paddle.unGrab()		
 
 class Ball_multiplier(PowerUp):
 	def __init__(self, x, y):
