@@ -26,7 +26,7 @@ class Board:
 		# grid[0] = '_'*WIDTH
 		# grid[HT-1] = '_'*WIDTH
 		for j in range(WIDTH):
-			grid[0][j] = Back.MAGENTA + Style.BRIGHT + '_' + Fore.RESET + Back.RESET
+			grid[1][j] = Back.MAGENTA + Style.BRIGHT + '_' + Fore.RESET + Back.RESET
 		border = ['\'',"-","'","-"]
 		for i in (TOP-1, HT-1):
 			for j in range(WIDTH):
@@ -39,8 +39,8 @@ class Board:
 		# 	else:
 		# 		grid[i] = '|' + grid[i][1:WIDTH-2] + '|\n'
 		# grid[2] = grid[2][:5]+ sc + grid[2][l_sc+5:WIDTH-30] + li + grid[2][WIDTH-30+l_li:] 
-		t = ''.join(grid[2])
+		t = ''.join(grid[3])
 		tem = t[:5]+ sc + t[l_sc+5:WIDTH-((WIDTH+l_ti)//2)] + ti + t[WIDTH-((WIDTH+l_ti)//2)+l_ti:WIDTH-30] + li + t[WIDTH-30+l_li:] 
-		grid[2] = list(tem)
+		grid[3] = list(tem)
 		
 		return grid

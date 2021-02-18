@@ -1,6 +1,6 @@
 
 from headers import *
-from globalVar import HT, WIDTH
+from globalVar import HT, WIDTH,BOTTOM, LEFT
 rows = HT
 cols = WIDTH
 
@@ -10,8 +10,8 @@ class Paddle:
 		super().__init__()
 		self.width = width
 		self.height = height
-		self.x = 1
-		self.y = rows-1-height
+		self.x = LEFT
+		self.y = BOTTOM-height
 		self.v = 2
 		self.sticky = 0
 

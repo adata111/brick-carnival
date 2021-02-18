@@ -6,14 +6,14 @@ from board import *
 from ball import *
 from powerUp import *
 import globalVar
-from globalVar import TOP, BOTTOM, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls
+from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls
 import globalFunc
 from globalFunc import setBricks, check_ball_death
 
 
 fps = 25
 t = 1/fps
-
+os.system('clear')
 blank_arr = []
 # blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 for i in range(HT):
@@ -25,7 +25,7 @@ for i in range(HT):
 board_arr = copy.deepcopy(blank_arr)
 newBoard = Board(board_arr)
 globalVar.paddle = Paddle(20, 2)
-newBall = Ball(random.randint(1, globalVar.paddle.width), globalVar.paddle.y-1,0,0,0)
+newBall = Ball(LEFT+random.randint(1, globalVar.paddle.width), globalVar.paddle.y-1,0,0,0)
 globalVar.balls.append(newBall)
 setBricks()
 # for obj in obj_bricks:
@@ -39,9 +39,9 @@ while True:
 		print("GAME OVER")
 		print("Score:",globalVar.SCORE)
 		break
-	print("\033[H\033[J", end="")
+	print("\033[%d;%dH" % (0, 0))
 	globalVar.GAME_TIME = int(time.time()-globalVar.START_TIME)
-	
+
 	power_ups_to_del = []
 	for power_up in globalVar.power_ups:
 		if(power_up.is_activated()):
@@ -101,6 +101,7 @@ while True:
 			tem.append(display_arr[i][j])
 		
 		print(''.join(tem))
+	
 	
 	time.sleep(t)
 

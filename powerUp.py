@@ -24,7 +24,7 @@ class PowerUp:
 
 	def update_active_time(self):
 		self.active_time = time.time()-self.start_time
-		print(self.active_time)
+		# print(self.active_time)
 		if(self.active_time>=self.max_time):
 			self.deactivate_power_up()
 

@@ -16,7 +16,7 @@ class Ball:
 		self.y = y
 		# self.y=TOP+5
 		self.v_x = vx
-		self.v_y = vy
+		self.v_y = -2
 		self.moving = m
 		self.thru = 0
 		self.dead = 0
