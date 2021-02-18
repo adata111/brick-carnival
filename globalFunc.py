@@ -1,5 +1,4 @@
 from brick import *
-from ball import *
 from powerUp import *
 import globalVar
 from globalVar import TOP, HT, WIDTH, x_bricks, obj_bricks, balls, power_ups
@@ -16,13 +15,9 @@ def setBricks():
             if((j+i)%7 ==0):
                 globalVar.obj_bricks.append(Brick(13,4,i,y))
             else:
-                newPowerUp = Paddle_grab( i+5, y)
+                newPowerUp = Ball_multiplier( i+5, y)
                 globalVar.power_ups.append(newPowerUp)
                 globalVar.obj_bricks.append(Breakable(13,4,i,y, 1+((i+j)%3), newPowerUp))
             k+=1
 
-def create_ball():
-    newBall = Ball(1, 1)
-    globalVar.balls.append(newBall)
-    return newBall
 

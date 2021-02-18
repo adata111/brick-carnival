@@ -21,4 +21,4 @@ GAMETIME=100
 LIVES = 5
 SCORE = 0
 
-POWERS = {'thru':'T', 'shrink':'S', 'expand':'E', 'fast':'F', 'grab':'G'}
+POWERS = {'thru':'T', 'shrink':'S', 'expand':'E', 'fast':'F', 'grab':'G', 'multiplier':'M'}

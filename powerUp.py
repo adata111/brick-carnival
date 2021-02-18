@@ -1,5 +1,7 @@
 
 from headers import *
+from ball import *
+import globalVar
 from globalVar import HT, WIDTH, BOTTOM, balls, paddle, POWERS
 rows = HT
 cols = WIDTH
@@ -57,7 +59,7 @@ class Thru_ball(PowerUp):
 
 	def activate_power_up(self):
 		super().activate_power_up()
-		for ball in balls:
+		for ball in globalVar.balls:
 			ball.set_thru()
 
 class Fast_ball(PowerUp):
@@ -66,7 +68,7 @@ class Fast_ball(PowerUp):
 
 	def activate_power_up(self):
 		super().activate_power_up()
-		for ball in balls:
+		for ball in globalVar.balls:
 			ball.incr_vel()
 
 class Shrink_paddle(PowerUp):
@@ -92,4 +94,22 @@ class Paddle_grab(PowerUp):
 	def activate_power_up(self):
 		super().activate_power_up()
 		globalVar.paddle.grab()		
+
+class Ball_multiplier(PowerUp):
+	def __init__(self, x, y):
+		super().__init__(x,y, globalVar.POWERS['multiplier'])
+
+	def activate_power_up(self):
+		super().activate_power_up()
+		temp = []
+		for ball in globalVar.balls:
+			v=-ball.v_x
+			if(v == 0):
+				v=2
+			newBall = Ball(ball.x,ball.y,v,ball.v_y,1)
+			temp.append(newBall)
+			# newBall.set_props(ball.x,ball.y,-ball.v_x,ball.v_y)
+		for newBall in temp:
+			globalVar.balls.append(newBall)
+
 

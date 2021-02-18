@@ -3,6 +3,7 @@ from headers import *
 from globalVar import HT, WIDTH
 from brick import *
 
+
 class Board:
 	def __init__(self, grid):
 		 self.grid = np.zeros((HT,WIDTH),dtype='<U20')

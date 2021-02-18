@@ -4,10 +4,13 @@ from headers import *
 from paddle import *
 from input import *
 from board import *
+from ball import *
+from powerUp import *
 import globalVar
-from globalVar import TOP, BOTTOM, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups
+from globalVar import TOP, BOTTOM, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls
 import globalFunc
-from globalFunc import setBricks, create_ball
+from globalFunc import setBricks
+
 
 fps = 25
 t = 1/fps
@@ -23,7 +26,8 @@ for i in range(HT):
 board_arr = copy.deepcopy(blank_arr)
 newBoard = Board(board_arr)
 globalVar.paddle = Paddle(20, 2)
-newBall = create_ball()
+newBall = Ball(random.randint(1, globalVar.paddle.width), globalVar.paddle.y-1,0,0,0)
+globalVar.balls.append(newBall)
 setBricks()
 # for obj in obj_bricks:
 	
@@ -39,27 +43,33 @@ while True:
 	print("\033[H\033[J", end="")
 
 	if(key=='d'):
-		if(newBall.is_moving()==0):
-			newBall.move(1)
+		for ball in globalVar.balls:
+			if(ball.is_moving()==0):
+				ball.move(1)
 		globalVar.paddle.move(1)
 	elif(key=="a"):
-		if(newBall.is_moving()==0):
-			newBall.move(-1)
+		for ball in globalVar.balls:
+			if(ball.is_moving()==0):
+				ball.move(-1)
 		globalVar.paddle.move(-1)
-	elif(key=="b" and newBall.is_moving()==0):
-		newBall.set_moving()
-		newBall.move(1)
+	elif(key=="b"):
+		for ball in globalVar.balls:
+			if(ball.is_moving()==0):
+				ball.set_moving()
+				ball.move(1)
 
 	display_arr = newBoard.getArr(str(globalVar.SCORE), str(globalVar.LIVES), display_arr)
 	display_arr = globalVar.paddle.getArr(Back.BLUE, ' ', display_arr)
-	if(newBall.is_moving()):
-		newBall.check_paddle_collision()
-		if(newBall.is_moving()):
-			newBall.check_brick_collision()
-			newBall.move(1)
+	for ball in globalVar.balls:
+		if(ball.is_moving()):
+			ball.check_paddle_collision()
+			if(ball.is_moving()):	# checking again because if paddle grab is activated, check_paddle_collision will set ball.moving to 0
+				ball.check_brick_collision()
+				ball.move(1)
 	k=0
 	j=0
-	display_arr = newBall.getArr(Fore.WHITE, '●', display_arr)
+	for ball in globalVar.balls:
+		display_arr = ball.getArr('●', display_arr)
 	for obj in globalVar.obj_bricks:
 		if(obj.is_broken()):
 			continue

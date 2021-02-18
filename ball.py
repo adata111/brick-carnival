@@ -7,17 +7,17 @@ cols = WIDTH
 
 class Ball:
 	"""docstring for Paddle"""
-	def __init__(self, width, height):
+	def __init__(self, x, y, vx, vy, m):
 		super().__init__()
-		self.width = width
-		self.height = height
-		self.x = random.randint(1, globalVar.paddle.width)
+		self.width = 1
+		self.height = 1
+		self.x = x
 		# self.x=RIGHT-14
-		self.y = globalVar.paddle.y-height
+		self.y = y
 		# self.y=TOP+5
-		self.v_x = 0
-		self.v_y = 0
-		self.moving = 0
+		self.v_x = vx
+		self.v_y = vy
+		self.moving = m
 		self.thru = 0
 
 	def move(self,v=1):
@@ -213,7 +213,11 @@ class Ball:
 		self.thru = 0
 		globalVar.paddle.unGrab()
 		
-
+	def set_props(self, x, y, vx, vy):
+		self.x = x
+		self.y = y
+		self.v_x = vx
+		self.v_y = vy
 
 	def is_moving(self):
 		return self.moving
@@ -259,7 +263,7 @@ class Ball:
 		print(x,y,h,w)
 		for i in range(y, y+h):
 			for j in range(x,x+w):
-				arr[i][j] = (colour +symbol + Back.RESET)
+				arr[i][j] = (colour +symbol + Style.RESET_ALL)
 			#arr[i] = arr[i][:x] + color + Style.BRIGHT + symbol + Fore.RESET + Back.RESET + arr[i][x+1:]
 		# arr1 = list(arr[y])
 		# arr1[x] = Back.CYAN+" "+Style.RESET_ALL
