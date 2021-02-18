@@ -41,6 +41,18 @@ while True:
 		break
 	print("\033[H\033[J", end="")
 	globalVar.GAME_TIME = int(time.time()-globalVar.START_TIME)
+	
+	power_ups_to_del = []
+	for power_up in globalVar.power_ups:
+		if(power_up.is_activated()):
+			power_up.update_active_time()
+		elif(power_up.active_time>power_up.max_time):
+			power_ups_to_del.append(power_up)
+
+	for to_del in power_ups_to_del:
+		globalVar.power_ups.remove(to_del)
+
+
 	if(key=='d'):
 		for ball in globalVar.balls:
 			if(ball.is_moving()==0):

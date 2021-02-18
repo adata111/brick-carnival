@@ -35,13 +35,13 @@ class Paddle:
 	def shrink(self):
 		if (self.width<=4):
 			return
-		self.width -= 2
+		self.width -= 10
 
 
 	def expand(self):
 		if (self.width>=36):
 			return
-		self.width += 2
+		self.width += 10
 
 	def grab(self):
 		self.sticky = 1

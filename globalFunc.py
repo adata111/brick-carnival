@@ -15,10 +15,11 @@ def setBricks():
             if((j+i)%7 ==0):
                 globalVar.obj_bricks.append(Brick(13,4,i,y))
             else:
-                newPowerUp = Ball_multiplier( i+5, y)
+                newPowerUp = Thru_ball( i+5, y)
                 globalVar.power_ups.append(newPowerUp)
                 globalVar.obj_bricks.append(Breakable(13,4,i,y, 1+((i+j)%3), newPowerUp))
             k+=1
+
 def check_ball_death():
     to_del = []
     for ball in globalVar.balls:

@@ -18,8 +18,15 @@ class PowerUp:
 		self.symbol = sym
 		self.visible = 0
 		self.max_time = 10
-		self.time_active = 0
+		self.start_time = time.time()
+		self.active_time = 0
 		self.activated = 0
+
+	def update_active_time(self):
+		self.active_time = time.time()-self.start_time
+		print(self.active_time)
+		if(self.active_time>=self.max_time):
+			self.deactivate_power_up()
 
 	def move(self):
 		paddle = globalVar.paddle
@@ -32,10 +39,18 @@ class PowerUp:
 			self.y=BOTTOM-self.height-self.v
 		self.y += self.v
 
+	def is_activated(self):
+		return self.activated
+
 	def activate_power_up(self):
 		# this will be over-ridden for every power up. Polymorphism here :)
 		self.activated = 1
+		self.start_time = time.time()
 		self.visible = 0
+
+	def deactivate_power_up(self):
+		# this will be over-ridden for every power up. Polymorphism here :)
+		self.activated = 0
 
 	def set_visible(self):
 		self.visible = 1
@@ -62,6 +77,11 @@ class Thru_ball(PowerUp):
 		for ball in globalVar.balls:
 			ball.set_thru()
 
+	def deactivate_power_up(self):
+		super().deactivate_power_up()
+		for ball in globalVar.balls:
+			ball.unset_thru()
+
 class Fast_ball(PowerUp):
 	def __init__(self, x, y):
 		super().__init__(x,y, globalVar.POWERS['fast'])
@@ -79,6 +99,10 @@ class Shrink_paddle(PowerUp):
 		super().activate_power_up()
 		globalVar.paddle.shrink()
 
+	def deactivate_power_up(self):
+		super().deactivate_power_up()
+		globalVar.paddle.expand()
+
 class Expand_paddle(PowerUp):
 	def __init__(self, x, y):
 		super().__init__(x,y,globalVar.POWERS['expand'])
@@ -86,6 +110,10 @@ class Expand_paddle(PowerUp):
 	def activate_power_up(self):
 		super().activate_power_up()
 		globalVar.paddle.expand()
+
+	def deactivate_power_up(self):
+		super().deactivate_power_up()
+		globalVar.paddle.shrink()
 
 class Paddle_grab(PowerUp):
 	def __init__(self, x, y):
