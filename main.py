@@ -41,7 +41,6 @@ while True:
 		break
 	print("\033[H\033[J", end="")
 	globalVar.GAME_TIME = int(time.time()-globalVar.START_TIME)
-	print(globalVar.GAME_TIME)
 	if(key=='d'):
 		for ball in globalVar.balls:
 			if(ball.is_moving()==0):
@@ -58,7 +57,7 @@ while True:
 				ball.set_moving()
 				ball.move(1)
 
-	display_arr = newBoard.getArr(str(globalVar.SCORE), str(globalVar.LIVES), display_arr)
+	display_arr = newBoard.getArr(str(globalVar.SCORE), str(globalVar.GAME_TIME), str(globalVar.LIVES), display_arr)
 	display_arr = globalVar.paddle.getArr(Back.BLUE, ' ', display_arr)
 	for ball in globalVar.balls:
 		if(ball.is_moving()):

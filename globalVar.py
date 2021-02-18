@@ -9,7 +9,7 @@ INPUT_CHAR=''
 TOP = 5
 BOTTOM = HT-1
 LEFT = 1
-RIGHT = WIDTH-1
+RIGHT = WIDTH-2
 
 obj_bricks=[]
 x_bricks = []

@@ -265,7 +265,6 @@ class Ball:
 		h = self.height
 		w = self.width
 		x = self.x
-		print(x,y,h,w)
 		for i in range(y, y+h):
 			for j in range(x,x+w):
 				arr[i][j] = (colour +symbol + Style.RESET_ALL)
