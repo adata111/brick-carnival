@@ -1,5 +1,4 @@
-import colorama, sys, os, math, time, copy
-from colorama import Fore, Back, Style
+import time, copy
 from headers import *
 from paddle import *
 from input import *
@@ -9,7 +8,7 @@ from powerUp import *
 import globalVar
 from globalVar import TOP, BOTTOM, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls
 import globalFunc
-from globalFunc import setBricks
+from globalFunc import setBricks, check_ball_death
 
 
 fps = 25
@@ -32,7 +31,7 @@ setBricks()
 # for obj in obj_bricks:
 	
 # 	print(obj.getx(),obj.gety())
-
+globalVar.START_TIME = time.time()
 while True:
 	key = input_to()
 	display_arr = copy.deepcopy(blank_arr)
@@ -41,7 +40,8 @@ while True:
 		print("Score:",globalVar.SCORE)
 		break
 	print("\033[H\033[J", end="")
-
+	globalVar.GAME_TIME = int(time.time()-globalVar.START_TIME)
+	print(globalVar.GAME_TIME)
 	if(key=='d'):
 		for ball in globalVar.balls:
 			if(ball.is_moving()==0):
@@ -66,10 +66,11 @@ while True:
 			if(ball.is_moving()):	# checking again because if paddle grab is activated, check_paddle_collision will set ball.moving to 0
 				ball.check_brick_collision()
 				ball.move(1)
+	check_ball_death()
 	k=0
 	j=0
 	for ball in globalVar.balls:
-		display_arr = ball.getArr('●', display_arr)
+		display_arr = ball.getArr(Fore.WHITE,'●', display_arr)
 	for obj in globalVar.obj_bricks:
 		if(obj.is_broken()):
 			continue

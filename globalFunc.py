@@ -19,5 +19,11 @@ def setBricks():
                 globalVar.power_ups.append(newPowerUp)
                 globalVar.obj_bricks.append(Breakable(13,4,i,y, 1+((i+j)%3), newPowerUp))
             k+=1
+def check_ball_death():
+    to_del = []
+    for ball in globalVar.balls:
+        if(ball.dead):
+            to_del.append(ball)
 
-
+    for it in to_del:
+        globalVar.balls.remove(it)

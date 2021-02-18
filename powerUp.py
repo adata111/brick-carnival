@@ -2,12 +2,12 @@
 from headers import *
 from ball import *
 import globalVar
-from globalVar import HT, WIDTH, BOTTOM, balls, paddle, POWERS
+from globalVar import HT, WIDTH, BOTTOM, balls, paddle, POWERS, ALT_LIVES
 rows = HT
 cols = WIDTH
 
 class PowerUp:
-	"""docstring for Paddle"""
+	"""docstring for Power Up"""
 	def __init__(self, x, y, sym):
 		super().__init__()
 		self.width = len(sym)
@@ -111,5 +111,6 @@ class Ball_multiplier(PowerUp):
 			# newBall.set_props(ball.x,ball.y,-ball.v_x,ball.v_y)
 		for newBall in temp:
 			globalVar.balls.append(newBall)
+			globalVar.ALT_LIVES += 1
 
 

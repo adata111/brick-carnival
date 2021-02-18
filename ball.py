@@ -1,12 +1,12 @@
 
 from headers import *
 import globalVar
-from globalVar import TOP, BOTTOM, LIVES, HT, WIDTH, LEFT, RIGHT, obj_bricks, paddle
+from globalVar import TOP, BOTTOM, LIVES, HT, WIDTH, LEFT, RIGHT, obj_bricks, paddle, ALT_LIVES
 rows = HT
 cols = WIDTH
 
 class Ball:
-	"""docstring for Paddle"""
+	"""docstring for Ball"""
 	def __init__(self, x, y, vx, vy, m):
 		super().__init__()
 		self.width = 1
@@ -19,6 +19,7 @@ class Ball:
 		self.v_y = vy
 		self.moving = m
 		self.thru = 0
+		self.dead = 0
 
 	def move(self,v=1):
 		paddle=globalVar.paddle
@@ -203,15 +204,19 @@ class Ball:
 		p = globalVar.paddle
 		if(p==None):
 			return
-		l = globalVar.LIVES
-		globalVar.LIVES = l-1
-		self.x = random.randint(p.x, p.x+p.width-self.width)
-		self.y = p.y-self.height
-		self.moving = 0
-		self.v_y = -2
-		self.v_x = 0
-		self.thru = 0
-		globalVar.paddle.unGrab()
+		if(globalVar.ALT_LIVES>0):
+			globalVar.ALT_LIVES -= 1
+			self.dead = 1
+		else:
+			l = globalVar.LIVES
+			globalVar.LIVES = l-1
+			self.x = random.randint(p.x, p.x+p.width-self.width)
+			self.y = p.y-self.height
+			self.moving = 0
+			self.v_y = -2
+			self.v_x = 0
+			self.thru = 0
+			globalVar.paddle.unGrab()
 		
 	def set_props(self, x, y, vx, vy):
 		self.x = x
