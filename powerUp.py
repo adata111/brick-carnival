@@ -91,6 +91,11 @@ class Fast_ball(PowerUp):
 		for ball in globalVar.balls:
 			ball.incr_vel()
 
+	def deactivate_power_up(self):
+		super().deactivate_power_up()
+		for ball in globalVar.balls:
+			ball.decr_vel()
+
 class Shrink_paddle(PowerUp):
 	def __init__(self, x, y):
 		super().__init__(x,y,globalVar.POWERS['shrink'])

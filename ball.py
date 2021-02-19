@@ -20,6 +20,7 @@ class Ball:
 		self.moving = m
 		self.thru = 0
 		self.dead = 0
+		self.fast = 0
 
 	def move(self,v=1):
 		paddle=globalVar.paddle
@@ -216,6 +217,7 @@ class Ball:
 			self.v_y = -2
 			self.v_x = 0
 			self.thru = 0
+			self.fast = 0
 			globalVar.paddle.unGrab()
 		
 	def set_props(self, x, y, vx, vy):
@@ -251,14 +253,19 @@ class Ball:
 		self.v_y = vy
 
 	def incr_vel(self):
-		if(self.v_x > 0):
-			self.v_x += 1
-		elif(self.v_x < 0):
-			self.v_x -= 1
+		self.fast = 1
 		if(self.v_y > 0):
 			self.v_y += 1
 		elif(self.v_y < 0 or not (self.is_moving())):
 			self.v_y -= 1
+
+	def decr_vel(self):
+		if(self.fast):
+			self.fast =0
+			if(self.v_y > 0):
+				self.v_y -= 1
+			elif(self.v_y < 0):
+				self.v_y += 1
 
 	def getArr(self, colour, symbol, arr):
 		y = self.y
