@@ -12,7 +12,9 @@ def setBricks():
         y=TOP+j*4
         for i in range(WIDTH-19-(13), 10, -13):
             #print(i,j)
-            if((j+i)%7 ==0):
+            if(j==1 and k>=3 and k<10):
+                globalVar.obj_bricks.append(Exploding(13,4,i,y, None))
+            elif((j+i)%7 ==0):
                 globalVar.obj_bricks.append(Brick(13,4,i,y))
             else:
                 newPowerUp = Fast_ball( i+5, y)

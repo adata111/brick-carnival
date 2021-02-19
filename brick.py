@@ -1,7 +1,7 @@
 
 from headers import *
 import globalVar
-from globalVar import SCORE
+from globalVar import SCORE, obj_bricks
 from colorama import init, Fore, Back, Style
 
 colours = [Back.GREEN, Back.YELLOW, Back.RED ]
@@ -54,9 +54,67 @@ class Breakable(Brick):
 
 	def reduce_strength(self):
 		self.strength -= 1
-		globalVar.SCORE += 5*(4-self.strength)
 		if (self.strength == 0):
 			self.break_it()
 			return
+		globalVar.SCORE += 5*(4-self.strength)
 		self.colour = colours[self.strength-1]
 
+class Exploding(Brick):
+	def __init__(self, width, height, x,y,pu):
+		Brick.__init__(self,width, height, x,y, pu)
+		self.strength = 100
+		self.colour = Back.MAGENTA
+
+	def reduce_strength(self):
+		self.break_it()
+		for brick in globalVar.obj_bricks:
+			if(brick.is_broken()):
+				continue
+			if(brick.getx()+brick.width==self.getx() and brick.gety()==self.gety()): #left
+				if(brick.strength == 100):
+					brick.reduce_strength()
+				else:
+					brick.break_it()
+
+			elif(brick.getx()+brick.width==self.getx() and brick.gety()+brick.height==self.gety()): #top-left
+				if(brick.strength == 100):
+					brick.reduce_strength()
+				else:
+					brick.break_it()
+
+			elif(brick.getx()+brick.width==self.getx() and brick.gety()==self.gety()+self.height): #bottom-left
+				if(brick.strength == 100):
+					brick.reduce_strength()
+				else:
+					brick.break_it()
+
+			elif(brick.getx()==self.getx() and brick.gety()+brick.height==self.gety()): #top
+				if(brick.strength == 100):
+					brick.reduce_strength()
+				else:
+					brick.break_it()
+
+			elif(brick.getx()==self.getx() and brick.gety()==self.gety()+self.height): #bottom
+				if(brick.strength == 100):
+					brick.reduce_strength()
+				else:
+					brick.break_it()
+
+			elif(brick.getx()==self.getx()+self.width and brick.gety()==self.gety()): #right
+				if(brick.strength == 100):
+					brick.reduce_strength()
+				else:
+					brick.break_it()
+
+			elif(brick.getx()==self.getx()+self.width and brick.gety()+brick.height==self.gety()): #top-right
+				if(brick.strength == 100):
+					brick.reduce_strength()
+				else:
+					brick.break_it()
+
+			elif(brick.getx()==self.getx()+self.width and brick.gety()==self.gety()+self.height): #bottom-right
+				if(brick.strength == 100):
+					brick.reduce_strength()
+				else:
+					brick.break_it()

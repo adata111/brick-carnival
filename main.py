@@ -25,7 +25,7 @@ for i in range(HT):
 board_arr = copy.deepcopy(blank_arr)
 newBoard = Board(board_arr)
 globalVar.paddle = Paddle(20, 2)
-newBall = Ball(LEFT+random.randint(1, globalVar.paddle.width), globalVar.paddle.y-1,0,0,0)
+newBall = Ball(LEFT+random.randint(0, globalVar.paddle.width-1), globalVar.paddle.y-1,0,0,0)
 globalVar.balls.append(newBall)
 setBricks()
 # for obj in obj_bricks:
