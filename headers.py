@@ -4,7 +4,6 @@ import signal
 import os
 import sys
 from colorama import init, Fore, Back, Style
-from brick import *
 init()
 import random
 

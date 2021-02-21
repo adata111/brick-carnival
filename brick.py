@@ -33,7 +33,10 @@ class Brick:
 		return self.broken
 
 	def break_it(self):
-		globalVar.SCORE += 5*(4-self.strength)
+		if(self.strength != 100):
+			globalVar.SCORE += 5*(4-self.strength)
+		else:
+			globalVar.SCORE += 20
 		self.broken=1
 		self.colour = Back.RESET
 		if(self.power_up):

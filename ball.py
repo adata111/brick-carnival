@@ -112,6 +112,9 @@ class Ball:
 					self.v_y = v_y
 					self.v_x = v_x
 				else:
+					if(brick.strength == 100):
+						brick.reduce_strength()
+						break
 					brick.break_it()
 					break
 				if(brick.strength != -1):
@@ -150,6 +153,9 @@ class Ball:
 					self.v_y = v_y
 					self.v_x = v_x
 				else:
+					if(brick.strength == 100):
+						brick.reduce_strength()
+						break
 					brick.break_it()
 					break
 				if(brick.strength != -1):
@@ -193,6 +199,9 @@ class Ball:
 					self.v_y = v_y
 					self.v_x = v_x
 				else:
+					if(brick.strength == 100):
+						brick.reduce_strength()
+						break
 					brick.break_it()
 					break
 				if(brick.strength != -1):
@@ -211,6 +220,9 @@ class Ball:
 		else:
 			l = globalVar.LIVES
 			globalVar.LIVES = l-1
+			for power_up in globalVar.power_ups:
+				if(power_up.is_activated()):
+					power_up.deactivate_power_up()
 			self.x = random.randint(p.x, p.x+p.width-self.width)
 			self.y = p.y-self.height
 			self.moving = 0
@@ -218,7 +230,6 @@ class Ball:
 			self.v_x = 0
 			self.thru = 0
 			self.fast = 0
-			globalVar.paddle.unGrab()
 		
 	def set_props(self, x, y, vx, vy):
 		self.x = x

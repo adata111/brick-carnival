@@ -8,7 +8,7 @@ from powerUp import *
 import globalVar
 from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls
 import globalFunc
-from globalFunc import setBricks, check_ball_death
+from globalFunc import setBricks, check_ball_death, init_power_ups, game_over
 
 
 fps = 25
@@ -27,6 +27,7 @@ newBoard = Board(board_arr)
 globalVar.paddle = Paddle(20, 2)
 newBall = Ball(LEFT+random.randint(0, globalVar.paddle.width-1), globalVar.paddle.y-1,0,0,0)
 globalVar.balls.append(newBall)
+init_power_ups()
 setBricks()
 # for obj in obj_bricks:
 	
@@ -34,9 +35,21 @@ setBricks()
 globalVar.START_TIME = time.time()
 while True:
 	key = input_to()
-	display_arr = copy.deepcopy(blank_arr)
+	grid = copy.deepcopy(blank_arr)
 	if(globalVar.LIVES<=0):
-		print("GAME OVER")
+
+		os.system('clear')
+		game_over()
+		print("Score:",globalVar.SCORE)
+		break
+	flag = 0
+	for brick in globalVar.obj_bricks:
+		if(not brick.is_broken() and brick.strength!=-1):
+			flag = 1
+	if(flag == 0):
+		os.system('clear')
+		game_over()
+		print("Yay")
 		print("Score:",globalVar.SCORE)
 		break
 	print("\033[%d;%dH" % (0, 0))
@@ -53,24 +66,26 @@ while True:
 		globalVar.power_ups.remove(to_del)
 
 
-	if(key=='d'):
+	if(key=='d' or key =='D'):
 		for ball in globalVar.balls:
 			if(ball.is_moving()==0):
 				ball.move(1)
 		globalVar.paddle.move(1)
-	elif(key=="a"):
+	elif(key=="a" or key=="A"):
 		for ball in globalVar.balls:
 			if(ball.is_moving()==0):
 				ball.move(-1)
 		globalVar.paddle.move(-1)
-	elif(key=="b"):
+	elif(key==" "):
 		for ball in globalVar.balls:
 			if(ball.is_moving()==0):
 				ball.set_moving()
 				ball.move(1)
+	elif(key=='q' or key=='Q'):
+		break
 
-	display_arr = newBoard.getArr(str(globalVar.SCORE), str(globalVar.GAME_TIME), str(globalVar.LIVES), display_arr)
-	display_arr = globalVar.paddle.getArr(Back.BLUE, ' ', display_arr)
+	grid = newBoard.getArr(str(globalVar.SCORE), str(globalVar.GAME_TIME), str(globalVar.LIVES), grid)
+	grid = globalVar.paddle.getArr(Back.BLUE, ' ', grid)
 	for ball in globalVar.balls:
 		if(ball.is_moving()):
 			ball.check_paddle_collision()
@@ -81,24 +96,24 @@ while True:
 	k=0
 	j=0
 	for ball in globalVar.balls:
-		display_arr = ball.getArr(Fore.WHITE,'●', display_arr)
+		grid = ball.getArr(Fore.WHITE,'●', grid)
 	for obj in globalVar.obj_bricks:
 		if(obj.is_broken()):
 			continue
-		display_arr = obj.getArr(' ',display_arr)
+		grid = obj.getArr(' ',grid)
 	
 	for power_up in power_ups:
 		if(power_up.visible):
 			power_up.move()
-			display_arr = power_up.getArr(Fore.YELLOW, display_arr)
+			grid = power_up.getArr(Fore.YELLOW, grid)
 
-	#display_arr = ''.join(display_arr)
-	# print(display_arr)
+	#grid = ''.join(grid)
+	# print(grid)
 	pr = []
 	for i in range(HT):
 		tem = []
 		for j in range(WIDTH):
-			tem.append(display_arr[i][j])
+			tem.append(grid[i][j])
 		
 		print(''.join(tem))
 	

@@ -43,14 +43,14 @@ class PowerUp:
 		return self.activated
 
 	def activate_power_up(self):
-		# this will be over-ridden for every power up. Polymorphism here :)
+		# Polymorphism here :)
 		self.activated = 1
 		self.start_time = time.time()
 		self.visible = 0
 
 	def deactivate_power_up(self):
 		# this will be over-ridden for every power up. Polymorphism here :)
-		self.activated = 0
+		pass
 
 	def set_visible(self):
 		self.visible = 1
@@ -78,7 +78,7 @@ class Thru_ball(PowerUp):
 			ball.set_thru()
 
 	def deactivate_power_up(self):
-		super().deactivate_power_up()
+		self.activated = 0
 		for ball in globalVar.balls:
 			ball.unset_thru()
 
@@ -92,7 +92,7 @@ class Fast_ball(PowerUp):
 			ball.incr_vel()
 
 	def deactivate_power_up(self):
-		super().deactivate_power_up()
+		self.activated = 0
 		for ball in globalVar.balls:
 			ball.decr_vel()
 
@@ -105,7 +105,7 @@ class Shrink_paddle(PowerUp):
 		globalVar.paddle.shrink()
 
 	def deactivate_power_up(self):
-		super().deactivate_power_up()
+		self.activated = 0
 		globalVar.paddle.expand()
 
 class Expand_paddle(PowerUp):
@@ -117,7 +117,7 @@ class Expand_paddle(PowerUp):
 		globalVar.paddle.expand()
 
 	def deactivate_power_up(self):
-		super().deactivate_power_up()
+		self.activated = 0
 		globalVar.paddle.shrink()
 
 class Paddle_grab(PowerUp):
@@ -129,7 +129,7 @@ class Paddle_grab(PowerUp):
 		globalVar.paddle.grab()	
 
 	def deactivate_power_up(self):
-		super().deactivate_power_up()
+		self.activated = 0
 		globalVar.paddle.unGrab()		
 
 class Ball_multiplier(PowerUp):

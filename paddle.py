@@ -33,7 +33,7 @@ class Paddle:
 		return arr
 
 	def shrink(self):
-		if (self.width<=4):
+		if (self.width<=10):
 			return
 		self.width -= 10
 
