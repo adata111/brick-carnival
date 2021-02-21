@@ -67,7 +67,10 @@ class Exploding(Brick):
 	def __init__(self, width, height, x,y,pu):
 		Brick.__init__(self,width, height, x,y, pu)
 		self.strength = 100
-		self.colour = Back.MAGENTA
+		if((x+y)%2):
+			self.colour = Back.LIGHTMAGENTA_EX
+		else:
+			self.colour = Back.MAGENTA
 
 	def reduce_strength(self):
 		self.break_it()

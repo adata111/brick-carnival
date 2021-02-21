@@ -1,1 +1,68 @@
-# brick-carnival
+## Brick Carnival
+### * Basic simulator of the classic brick breaker game*
+
+### Overview
+This a terminal-based arcade game in Python3, inspired by the classic brick-breaker game. The player will be using a paddle with a bouncing ball to smash a
+wall of bricks and make high scores! The objective of the game is to break all the bricks as fast as possible and beat the highest score! You lose a life when the ball touches the ground below the paddle.
+
+### Controls
+> - To move the paddle right or left use 'd'/'D' or 'a'/'A' keys respectively
+> - To release the ball from paddle, use spacebar
+> - To quit the game, press 'q'/'Q' keys
+
+### Details
+> - The direction of movement of the ball after collision with the paddle will depend on the distance from the center of the paddle and the collision point, i.e further the ball hits from the center, more the deflection 
+> - If the ball hits the  bottom wall(or the floor), it dies and a ball life is lost
+> - The player gets 5 ball lives after which game ends
+> - The bricks are of 3 strengths:
+	- `RED` -> strength=3
+	- `YELLOW` -> strength = 2
+	- `GREEN` -> strength = 1
+	Hitting a RED brick will reduce strength to 2 and change its colour to YELLOW. Similarly on hitting a YELLOW brick, the strength reduces to 1 and brick colour changes to GREEN. On hitting a GREEN brick, the brick breaks. Thus RED bricks require 3 hits to get broken, YELLOW bricks require 2 and GREEN just 1. 
+> - There are unbreakable bricks that can't be broken by the ball(unless it's a thru-ball, we shall talk about power-ups later). These bricks are `WHITE`
+> - There are exploding bricks which on breaking with the ball would explode resulting in the destruction of all the bricks adjacent to it(diagonally, vertically and horizontally). These bricks are not found individually and are placed in linear group of size 6 and contact with either one of them would lead to a chain reaction among this group. These bricks are `MAGENTA` or `LIGHT MAGENTA`
+> - On breaking any breakable brick (exploding or the RED/YELLOW/GREEN ones), a power may randomly drop down. These power ups can be collected by the paddle when they collide with the paddle
+
+### Power-ups
+All power-ups (except ball multiplier) are are present only for a fixed amount of time(10 seconds) and lost at loss of a life. Power ups are displayed as yellow coloured letters
+1. Expand Paddle(E): Increases the size of the paddle by a certain amount (10 units). The size can't increase beyond 50 units
+2. Shrink Paddle(S): Reduce the size of the paddle by a certain amount (10 units) but not completely.
+3. Ball Multiplier(M): Each of the balls which are present will be further divided into two.
+4. Fast Ball(F): Increases the speed of the ball.
+5. Thru-ball(T): This enables the ball to destroy and go through any brick it touches, irrespective of the strength of the wall.(Even the unbreakable ones which you couldn’t previously destroy)
+6. Paddle Grab(G):Allows the paddle to grab the ball on contact and relaunch the ball at will. The ball will follow the same expected trajectory after release, similar to the movement expected without the grab.
+
+### Scores and time
+Score and time are displayed on top of the screen throughout the game
+> - On hitting a GREEN brick or on destroying any brick, you get 20 points
+> - On hitting a RED brick, you get 10 points
+> - On hitting a YELLOW brick, you get 15 points
+
+## Code details
+### Classes created
+
+1. **Brick**
+Has subclasses `Breakable` for creating RED, YELLOW and GREEN breakable bricks and `Exploding` for creating the exploding bricks
+2. **Ball**
+3. **PowerUp**
+Has one sublass for each power up. Therefore there are 6 subclasses as follows: Expand_paddle, Shrink_paddle, Ball_multiplier, Fast_ball, Thru_ball and Paddle_grab
+4. **Board**
+5. **Paddle**
+
+
+### OOPS concepts
+
+#### Inheritance
+Common attributes of the parent class inherited by the child classes. (Helps in avoiding redundant code)
+Here, a base class `Brick` has been declared from which multiple subclasses(`Breakable` and `Exploding`) inherit properties
+Also, a base class `PowerUp` has been declared from which multiple subclasses(`Expand_paddle`, `Shrink_paddle`, `Ball_multiplier`, `Fast_ball`, `Thru_ball` and `Paddle_grab`) inherit properties
+
+#### Polymorphism
+Utililizing the same function of a parent class for different functionalites of child classes
+Ex: `deactivate_power_up()` function in parent class `PowerUp` has been over-ridden by function of the same name in the different subclasses of `PowerUp`
+
+#### Encapsulation
+It is the idea of wrapping data and the methods that work on data within one unit. Prevents accidental modification of data. Class and object based approach for all the functionality implemented.
+
+#### Abstraction
+Abstraction means hiding the complexity. Intuitive functions like move(), break_it(), kill_ball(), etc, used to hide inner details from the end user.

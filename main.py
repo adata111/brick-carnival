@@ -1,4 +1,4 @@
-import time, copy
+import copy
 from headers import *
 from paddle import *
 from input import *
@@ -82,6 +82,9 @@ while True:
 				ball.set_moving()
 				ball.move(1)
 	elif(key=='q' or key=='Q'):
+		os.system('clear')
+		print("You quit")
+		print("Your Score:",globalVar.SCORE)
 		break
 
 	grid = newBoard.getArr(str(globalVar.SCORE), str(globalVar.GAME_TIME), str(globalVar.LIVES), grid)
