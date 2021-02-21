@@ -1,9 +1,13 @@
 ## Brick Carnival
-### * Basic simulator of the classic brick breaker game*
+### *Basic simulator of the classic brick breaker game*
 
 ### Overview
 This a terminal-based arcade game in Python3, inspired by the classic brick-breaker game. The player will be using a paddle with a bouncing ball to smash a
 wall of bricks and make high scores! The objective of the game is to break all the bricks as fast as possible and beat the highest score! You lose a life when the ball touches the ground below the paddle.
+
+### To start the game
+- Open the terminal in full screen
+- `python3 main.py`
 
 ### Controls
 > - To move the paddle right or left use 'd'/'D' or 'a'/'A' keys respectively
@@ -11,17 +15,17 @@ wall of bricks and make high scores! The objective of the game is to break all t
 > - To quit the game, press 'q'/'Q' keys
 
 ### Details
-> - The direction of movement of the ball after collision with the paddle will depend on the distance from the center of the paddle and the collision point, i.e further the ball hits from the center, more the deflection 
-> - If the ball hits the  bottom wall(or the floor), it dies and a ball life is lost
-> - The player gets 5 ball lives after which game ends
-> - The bricks are of 3 strengths:
-	- `RED` -> strength=3
-	- `YELLOW` -> strength = 2
-	- `GREEN` -> strength = 1
+- The direction of movement of the ball after collision with the paddle will depend on the distance from the center of the paddle and the collision point, i.e further the ball hits from the center, more the deflection 
+- If the ball hits the  bottom wall(or the floor), it dies and a ball life is lost
+- The player gets 5 ball lives after which game ends
+- The bricks are of 3 strengths:
+	* `RED` -> strength=3
+	* `YELLOW` -> strength = 2
+	* `GREEN` -> strength = 1
 	Hitting a RED brick will reduce strength to 2 and change its colour to YELLOW. Similarly on hitting a YELLOW brick, the strength reduces to 1 and brick colour changes to GREEN. On hitting a GREEN brick, the brick breaks. Thus RED bricks require 3 hits to get broken, YELLOW bricks require 2 and GREEN just 1. 
-> - There are unbreakable bricks that can't be broken by the ball(unless it's a thru-ball, we shall talk about power-ups later). These bricks are `WHITE`
-> - There are exploding bricks which on breaking with the ball would explode resulting in the destruction of all the bricks adjacent to it(diagonally, vertically and horizontally). These bricks are not found individually and are placed in linear group of size 6 and contact with either one of them would lead to a chain reaction among this group. These bricks are `MAGENTA` or `LIGHT MAGENTA`
-> - On breaking any breakable brick (exploding or the RED/YELLOW/GREEN ones), a power may randomly drop down. These power ups can be collected by the paddle when they collide with the paddle
+- There are unbreakable bricks that can't be broken by the ball(unless it's a thru-ball, we shall talk about power-ups later). These bricks are `WHITE`
+- There are exploding bricks which on breaking with the ball would explode resulting in the destruction of all the bricks adjacent to it(diagonally, vertically and horizontally). These bricks are not found individually and are placed in linear group of size 6 and contact with either one of them would lead to a chain reaction among this group. These bricks are `MAGENTA` or `LIGHT MAGENTA`
+- On breaking any breakable brick (exploding or the RED/YELLOW/GREEN ones), a power may randomly drop down. These power ups can be collected by the paddle when they collide with the paddle
 
 ### Power-ups
 All power-ups (except ball multiplier) are are present only for a fixed amount of time(10 seconds) and lost at loss of a life. Power ups are displayed as yellow coloured letters
