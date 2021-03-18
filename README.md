@@ -22,7 +22,7 @@ wall of bricks and make high scores! The objective of the game is to break all t
 	* `RED` -> strength=3
 	* `YELLOW` -> strength = 2
 	* `GREEN` -> strength = 1
-	Hitting a RED brick will reduce strength to 2 and change its colour to YELLOW. Similarly on hitting a YELLOW brick, the strength reduces to 1 and brick colour changes to GREEN. On hitting a GREEN brick, the brick breaks. Thus RED bricks require 3 hits to get broken, YELLOW bricks require 2 and GREEN just 1. 
+Hitting a RED brick will reduce strength to 2 and change its colour to YELLOW. Similarly on hitting a YELLOW brick, the strength reduces to 1 and brick colour changes to GREEN. On hitting a GREEN brick, the brick breaks. Thus RED bricks require 3 hits to get broken, YELLOW bricks require 2 and GREEN just 1. 
 - There are unbreakable bricks that can't be broken by the ball(unless it's a thru-ball, we shall talk about power-ups later). These bricks are `WHITE`
 - There are exploding bricks which on breaking with the ball would explode resulting in the destruction of all the bricks adjacent to it(diagonally, vertically and horizontally). These bricks are not found individually and are placed in linear group of size 6 and contact with either one of them would lead to a chain reaction among this group. These bricks are `MAGENTA` or `LIGHT MAGENTA`
 - On breaking any breakable brick (exploding or the RED/YELLOW/GREEN ones), a power may randomly drop down. These power ups can be collected by the paddle when they collide with the paddle
