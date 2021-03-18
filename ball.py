@@ -24,6 +24,8 @@ class Ball:
 
 	def move(self,v=1):
 		paddle=globalVar.paddle
+		self.x += self.v_x
+		
 		if(self.moving == 0): # movement with paddle
 			if(paddle.x+paddle.width>=RIGHT and v>0):
 				v = 0
@@ -41,7 +43,6 @@ class Ball:
 		elif(self.x+self.v_x<LEFT):
 			self.x = LEFT-self.v_x
 
-		self.x += self.v_x
 
 		
 		if(self.y+self.height>=BOTTOM and self.v_y>0):	# v_y>0 means it will go down
@@ -113,12 +114,12 @@ class Ball:
 					self.v_x = v_x
 				else:
 					if(brick.strength == 100):
-						brick.reduce_strength()
+						brick.reduce_strength(self.v_x, self.v_y)
 						break
-					brick.break_it()
+					brick.break_it(self.v_x, self.v_y)
 					break
 				if(brick.strength != -1):
-					brick.reduce_strength()
+					brick.reduce_strength(self.v_x, self.v_y)
 				break
 		if(check):
 			return
@@ -154,12 +155,12 @@ class Ball:
 					self.v_x = v_x
 				else:
 					if(brick.strength == 100):
-						brick.reduce_strength()
+						brick.reduce_strength(self.v_x, self.v_y)
 						break
-					brick.break_it()
+					brick.break_it(self.v_x, self.v_y)
 					break
 				if(brick.strength != -1):
-					brick.reduce_strength()
+					brick.reduce_strength(self.v_x, self.v_y)
 				break
 		if(check):
 			return
@@ -200,12 +201,12 @@ class Ball:
 					self.v_x = v_x
 				else:
 					if(brick.strength == 100):
-						brick.reduce_strength()
+						brick.reduce_strength(self.v_x, self.v_y)
 						break
-					brick.break_it()
+					brick.break_it(self.v_x, self.v_y)
 					break
 				if(brick.strength != -1):
-					brick.reduce_strength()
+					brick.reduce_strength(self.v_x, self.v_y)
 				break
 
 			

@@ -17,6 +17,8 @@ paddle = None
 balls = []
 power_ups = []
 all_power_ups = []
+levels = 0
+gravity = 1
 
 START_TIME = 0
 GAME_TIME=100

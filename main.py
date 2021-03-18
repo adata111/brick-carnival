@@ -11,7 +11,7 @@ import globalFunc
 from globalFunc import setBricks, check_ball_death, init_power_ups, game_over
 
 
-fps = 25
+fps = 20
 t = 1/fps
 os.system('clear')
 blank_arr = []
@@ -89,12 +89,7 @@ while True:
 
 	grid = newBoard.getArr(str(globalVar.SCORE), str(globalVar.GAME_TIME), str(globalVar.LIVES), grid)
 	grid = globalVar.paddle.getArr(Back.BLUE, ' ', grid)
-	for ball in globalVar.balls:
-		if(ball.is_moving()):
-			ball.check_paddle_collision()
-			if(ball.is_moving()):	# checking again because if paddle grab is activated, check_paddle_collision will set ball.moving to 0
-				ball.check_brick_collision()
-				ball.move(1)
+	
 	check_ball_death()
 	k=0
 	j=0
@@ -104,11 +99,18 @@ while True:
 		if(obj.is_broken()):
 			continue
 		grid = obj.getArr(' ',grid)
+
+	for ball in globalVar.balls:
+		if(ball.is_moving()):
+			ball.check_paddle_collision()
+			if(ball.is_moving()):	# checking again because if paddle grab is activated, check_paddle_collision will set ball.moving to 0
+				ball.check_brick_collision()
+				ball.move(1)
 	
 	for power_up in power_ups:
 		if(power_up.visible):
-			power_up.move()
 			grid = power_up.getArr(Fore.YELLOW, grid)
+			power_up.move()
 
 	#grid = ''.join(grid)
 	# print(grid)

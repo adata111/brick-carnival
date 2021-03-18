@@ -48,7 +48,8 @@ def setBricks():
             elif((j+i)%7 ==0):
                 globalVar.obj_bricks.append(Brick(13,4,i,y))
             else:
-                ind = random.randint(0,len(globalVar.all_power_ups)-1)
+                # ind = random.randint(0,len(globalVar.all_power_ups)-1)
+                ind = 0
                 globalVar.obj_bricks.append(Breakable(13,4,i,y, 1+((i+j)%3), get_power_up(ind, i+5,y)))
             k+=1
 

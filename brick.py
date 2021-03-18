@@ -32,15 +32,15 @@ class Brick:
 	def is_broken(self):
 		return self.broken
 
-	def break_it(self):
-		if(self.strength != 100):
+	def break_it(self, v_x, v_y):
+		if(self.strength != 100):	# exploding brick strength
 			globalVar.SCORE += 5*(4-self.strength)
 		else:
 			globalVar.SCORE += 20
 		self.broken=1
 		self.colour = Back.RESET
 		if(self.power_up):
-			self.power_up.set_visible()
+			self.power_up.set_visible(v_x, v_y)
 
 	def getx(self):
 		return self.x
@@ -55,10 +55,10 @@ class Breakable(Brick):
 		self.strength = st
 		self.colour = colours[st-1]
 
-	def reduce_strength(self):
+	def reduce_strength(self, v_x, v_y):
 		self.strength -= 1
 		if (self.strength == 0):
-			self.break_it()
+			self.break_it(v_x, v_y)
 			return
 		globalVar.SCORE += 5*(4-self.strength)
 		self.colour = colours[self.strength-1]
@@ -72,55 +72,55 @@ class Exploding(Brick):
 		else:
 			self.colour = Back.MAGENTA
 
-	def reduce_strength(self):
-		self.break_it()
+	def reduce_strength(self, v_x, v_y):
+		self.break_it(v_x, v_y)
 		for brick in globalVar.obj_bricks:
 			if(brick.is_broken()):
 				continue
 			if(brick.getx()+brick.width==self.getx() and brick.gety()==self.gety()): #left
 				if(brick.strength == 100):
-					brick.reduce_strength()
+					brick.reduce_strength(v_x, v_y)
 				else:
-					brick.break_it()
+					brick.break_it(v_x, v_y)
 
 			elif(brick.getx()+brick.width==self.getx() and brick.gety()+brick.height==self.gety()): #top-left
 				if(brick.strength == 100):
-					brick.reduce_strength()
+					brick.reduce_strength(v_x, v_y)
 				else:
-					brick.break_it()
+					brick.break_it(v_x, v_y)
 
 			elif(brick.getx()+brick.width==self.getx() and brick.gety()==self.gety()+self.height): #bottom-left
 				if(brick.strength == 100):
-					brick.reduce_strength()
+					brick.reduce_strength(v_x, v_y)
 				else:
-					brick.break_it()
+					brick.break_it(v_x, v_y)
 
 			elif(brick.getx()==self.getx() and brick.gety()+brick.height==self.gety()): #top
 				if(brick.strength == 100):
-					brick.reduce_strength()
+					brick.reduce_strength(v_x, v_y)
 				else:
-					brick.break_it()
+					brick.break_it(v_x, v_y)
 
 			elif(brick.getx()==self.getx() and brick.gety()==self.gety()+self.height): #bottom
 				if(brick.strength == 100):
-					brick.reduce_strength()
+					brick.reduce_strength(v_x, v_y)
 				else:
-					brick.break_it()
+					brick.break_it(v_x, v_y)
 
 			elif(brick.getx()==self.getx()+self.width and brick.gety()==self.gety()): #right
 				if(brick.strength == 100):
-					brick.reduce_strength()
+					brick.reduce_strength(v_x, v_y)
 				else:
-					brick.break_it()
+					brick.break_it(v_x, v_y)
 
 			elif(brick.getx()==self.getx()+self.width and brick.gety()+brick.height==self.gety()): #top-right
 				if(brick.strength == 100):
-					brick.reduce_strength()
+					brick.reduce_strength(v_x, v_y)
 				else:
-					brick.break_it()
+					brick.break_it(v_x, v_y)
 
 			elif(brick.getx()==self.getx()+self.width and brick.gety()==self.gety()+self.height): #bottom-right
 				if(brick.strength == 100):
-					brick.reduce_strength()
+					brick.reduce_strength(v_x, v_y)
 				else:
-					brick.break_it()
+					brick.break_it(v_x, v_y)

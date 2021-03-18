@@ -2,7 +2,7 @@
 from headers import *
 from ball import *
 import globalVar
-from globalVar import HT, WIDTH, BOTTOM, balls, paddle, POWERS, ALT_LIVES
+from globalVar import HT, WIDTH, BOTTOM, LEFT, RIGHT, balls, paddle, POWERS, ALT_LIVES, gravity
 rows = HT
 cols = WIDTH
 
@@ -14,7 +14,8 @@ class PowerUp:
 		self.height = 1
 		self.x = x
 		self.y = y
-		self.v = 2
+		self.v_x = 2
+		self.v_y = 2
 		self.symbol = sym
 		self.visible = 0
 		self.max_time = 10
@@ -30,14 +31,34 @@ class PowerUp:
 
 	def move(self):
 		paddle = globalVar.paddle
-		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # powerup is within x coordinates of paddle
+		self.y += self.v_y
+		self.x += self.v_x
+		
+		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # powerup is within x coordinates of paddle in this frame
 			if(self.y+self.height>=paddle.y):
 				self.activate_power_up()
-		elif(self.y+self.height>=BOTTOM):
+		elif(self.x+self.width+self.v_x > paddle.x and self.x+self.v_x<paddle.x+paddle.width): # powerup is within x coordinates of paddle in next frame
+			if(self.y+self.height+self.v_y>paddle.y):
+				self.y= paddle.y-self.height-self.v_y
+		elif(self.y+self.height>=BOTTOM and self.v_y>0):
 			self.visible = 0
-		elif(self.y+self.v+self.height>BOTTOM):
-			self.y=BOTTOM-self.height-self.v
-		self.y += self.v
+		elif(self.y+self.v_y+self.height>BOTTOM):
+			self.y=BOTTOM-self.height-self.v_y
+
+		elif(self.y <= TOP and self.v_y<0):
+			self.v_y = -self.v_y
+		elif(self.y+self.v_y < TOP):	# will go out of top boundary in next iteration
+			self.y = TOP - self.v_y		#so that it hits TOP in this time instant and then in the next instant, the previous elif will be executed
+
+		elif((self.x<=LEFT and self.v_x<0) or (self.x + self.width>= RIGHT and self.v_x>0)):	# left or right wall collision
+			self.v_x = -self.v_x
+
+		elif(self.x + self.v_x <LEFT):	#will go out of left boundary in next iteration
+			self.x = LEFT - self.v_x
+		elif(self.x + self.v_x + self.width > RIGHT):
+			self.x = RIGHT - self.v_x - self.width
+
+		self.v_y += gravity
 
 	def is_activated(self):
 		return self.activated
@@ -52,12 +73,17 @@ class PowerUp:
 		# this will be over-ridden for every power up. Polymorphism here :)
 		pass
 
-	def set_visible(self):
+	def set_visible(self, v_x, v_y):
 		self.visible = 1
+		self.v_x = v_x
+		self.v_y = v_y
 
 	def getArr(self, colour, arr):
 		if(self.visible==0):
 			return arr
+		f = open("debug.txt", "a")
+		f.write(str(self.x)+" "+str(self.y)+"\n")
+		f.close()
 		y = self.y
 		h = self.height
 		w = self.width
@@ -149,4 +175,5 @@ class Ball_multiplier(PowerUp):
 		for newBall in temp:
 			globalVar.balls.append(newBall)
 			globalVar.ALT_LIVES += 1
+
 
