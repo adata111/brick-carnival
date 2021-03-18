@@ -264,6 +264,8 @@ class Ball:
 		self.v_y = vy
 
 	def incr_vel(self):
+		# if(self.v_y>=5): 
+		# 	return
 		self.fast = 1
 		if(self.v_y > 0):
 			self.v_y += 1

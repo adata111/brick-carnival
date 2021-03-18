@@ -1,6 +1,7 @@
 
 from headers import *
-from globalVar import HT, WIDTH,BOTTOM, LEFT
+import globalVar
+from globalVar import HT, WIDTH,BOTTOM, LEFT, balls
 rows = HT
 cols = WIDTH
 
@@ -35,6 +36,10 @@ class Paddle:
 	def shrink(self):
 		if (self.width<=10):
 			return
+		for ball in globalVar.balls:
+			if(not ball.is_moving()):
+				if(ball.x>self.x+self.width-10):
+					ball.x = self.x+self.width-10
 		self.width -= 10
 
 

@@ -150,4 +150,3 @@ class Ball_multiplier(PowerUp):
 			globalVar.balls.append(newBall)
 			globalVar.ALT_LIVES += 1
 
-
