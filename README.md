@@ -12,6 +12,7 @@ wall of bricks and make high scores! The objective of the game is to break all t
 ### Controls
 > - To move the paddle right or left use 'd'/'D' or 'a'/'A' keys respectively
 > - To release the ball from paddle, use 'p'/'P'
+> - To shoot bullets, use `spacebar`
 > - To quit the game, press 'q'/'Q' keys
 
 ### Details
@@ -26,21 +27,35 @@ Hitting a RED brick will reduce strength to 2 and change its colour to YELLOW. S
 - There are unbreakable bricks that can't be broken by the ball(unless it's a thru-ball, we shall talk about power-ups later). These bricks are `WHITE`
 - There are exploding bricks which on breaking with the ball would explode resulting in the destruction of all the bricks adjacent to it(diagonally, vertically and horizontally). These bricks are not found individually and are placed in linear group of size 6 and contact with either one of them would lead to a chain reaction among this group. These bricks are `MAGENTA` or `LIGHT MAGENTA`
 - On breaking any breakable brick (exploding or the RED/YELLOW/GREEN ones), a power may randomly drop down. These power ups can be collected by the paddle when they collide with the paddle
+- Rainbow bricks change colour in every frame until it hit by the ball
 
 ### Power-ups
 All power-ups (except ball multiplier) are are present only for a fixed amount of time(10 seconds) and lost at loss of a life. Power ups are displayed as yellow coloured letters
+The power ups have gravity effect and take the velocity of the ball when the ball hits the brick
 1. Expand Paddle(E): Increases the size of the paddle by a certain amount (10 units). The size can't increase beyond 50 units
 2. Shrink Paddle(S): Reduce the size of the paddle by a certain amount (10 units) but not completely.
 3. Ball Multiplier(M): Each of the balls which are present will be further divided into two.
 4. Fast Ball(F): Increases the speed of the ball.
 5. Thru-ball(T): This enables the ball to destroy and go through any brick it touches, irrespective of the strength of the wall.(Even the unbreakable ones which you couldn’t previously destroy)
 6. Paddle Grab(G):Allows the paddle to grab the ball on contact and relaunch the ball at will. The ball will follow the same expected trajectory after release, similar to the movement expected without the grab.
+7. Paddle Shooter(B):Canons appear at the ends of the paddle and pressing spacebar lets you release lasers to destroy the bricks. The cooldown time between laser shoots is 1 second
 
 ### Scores and time
 Score and time are displayed on top of the screen throughout the game
 > - On hitting a GREEN brick or on destroying any brick, you get 20 points
 > - On hitting a RED brick, you get 10 points
 > - On hitting a YELLOW brick, you get 15 points
+> - On hitting UFO you get 10 points
+
+### Levels
+There are 3 levels in the game. Rainbow bricks are introduced in level 2 and the UFO in level 3.
+Level 3 has no power ups.
+
+### UFO Enemy
+Cyan coloured brick that drops bombs(@) every 5 seconds. It also moves along with the paddle. The health of the UFO is 5 initially and the strength reduces by 1 everytime the ball hits the UFO. The bombs cause the paddle to lose a life. The UFO spawns a layer of GREEN bricks below it when its health becomes 3 and again when its health becomes 1 
+
+### Time attack
+After 10 seconds in Level 1, 15 seconds in level 2 and 30 seconds in level 3, the brick layout moves down by a unit everytime the ball hits the paddle. 
 
 ## Code details
 ### Classes created
@@ -52,6 +67,7 @@ Has subclasses `Breakable` for creating RED, YELLOW and GREEN breakable bricks a
 Has one sublass for each power up. Therefore there are 6 subclasses as follows: Expand_paddle, Shrink_paddle, Ball_multiplier, Fast_ball, Thru_ball and Paddle_grab
 4. **Board**
 5. **Paddle**
+6. **Laser**
 
 
 ### OOPS concepts

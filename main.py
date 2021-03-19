@@ -64,7 +64,7 @@ def shoot(x,y, paddle_width):
 # for obj in obj_bricks:
 	
 # 	print(obj.getx(),obj.gety())
-time_limit = [0, 10,15,3]
+time_limit = [0, 10,15,30]
 blank_arr = []
 # blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 for i in range(HT):

@@ -163,7 +163,7 @@ class Paddle_grab(PowerUp):
 
 	def activate_power_up(self):
 		super().activate_power_up()
-		if(globalVar.paddle.grab==0):
+		if(globalVar.paddle.sticky==0):
 			globalVar.paddle.grab()	
 		else:
 			self.active_time=self.max_time+1	# so that it gets deleted in next frame
@@ -210,9 +210,9 @@ class Paddle_shooter(PowerUp):
 			for powerup in globalVar.power_ups:
 				if(isinstance(powerup,Paddle_shooter) and powerup.is_activated()):
 					powerup.max_time += self.max_time
-					f=open("debug.txt","a")
-					f.write(str(powerup.max_time)+"\n")
-					f.close()
+					# f=open("debug.txt","a")
+					# f.write(str(powerup.max_time)+"\n")
+					# f.close()
 					break
 
 	def deactivate_power_up(self):

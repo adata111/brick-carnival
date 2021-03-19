@@ -71,7 +71,7 @@ class Brick:
 		self.colour = Back.RESET
 
 		ind = random.randint(0,len(globalVar.all_power_ups)-1)
-		ind=6
+		# ind=5
 		self.power_up = get_power_up(ind,self.x+5,self.y)
 		if(self.power_up):
 			self.power_up.set_visible(v_x, v_y)
@@ -220,16 +220,16 @@ class UFO(Brick):
 		globalVar.ufo_strength = self.strength
 		globalVar.SCORE += 10
 		if(self.strength==3):
-			self.shields_up()
+			self.shields_up(1)
 		if(self.strength==1):
-			self.shields_up()
+			self.shields_up(1)
 		
 		if (self.strength == 0):
 			self.break_it(v_x,v_y)
 
-	def shields_up(self):
+	def shields_up(self,m):
 		for i in range(LEFT, WIDTH-self.width, self.width):
-			globalVar.obj_bricks.append(Defense(self.width,self.height,i,self.y+self.height))	#bottom
+			globalVar.obj_bricks.append(Defense(self.width,self.height,i,self.y+(m*self.height)))	#bottom
 
 class Defense(Brick):
 	"""docstring for Defense"""
@@ -248,6 +248,9 @@ class Defense(Brick):
 		globalVar.SCORE += 20
 		self.broken=1
 		self.colour = Back.RESET
+
+	def move(self, paddle_y):
+		pass
 		
 
 		

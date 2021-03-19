@@ -62,7 +62,7 @@ def setBricks3():
         y=TOP+j*4
         for i in range(LEFT+1, WIDTH-20, 13):
             #print(i,j)
-            if(((k==1 or k==12) and j==2) or ((k==0 or k==13) and j==1)  or (k==7 and j==1)):
+            if(((k==3 or k==10) and j==2) or ((k==0 or k==13) and j==2)  or (k==7 and j==2)):
                 globalVar.obj_bricks.append(Brick(13,4,i,y))
             elif(j==0 and k == 5):
                 # ind = random.randint(0,len(globalVar.all_power_ups)-1)

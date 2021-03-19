@@ -93,7 +93,7 @@ class Ball:
 				self.y = paddle.y-self.height - self.v_y
 				check=1
 		if(check==1):
-			os.system('aplay -q ./sounds/ball_paddle.mwav&')
+			os.system('aplay -q ./sounds/ball_paddle.wav&')
 		return check
 
 
@@ -231,33 +231,33 @@ class Ball:
 				if(brick.strength != -1):
 					brick.reduce_strength(self.v_x, self.v_y)
 				break
-		if(check):
-			return
-		check = 0
-		for brick in globalVar.obj_bricks:
-			if(brick.is_broken()):
-				continue
-			if(self.y>=brick.gety() and self.y<brick.gety()+brick.height):
-				if(self.x+self.v_x+self.width>brick.getx() and self.x<brick.getx()):	#left
-					self.v_x =-v_x
-					check=1
-				elif(self.x>brick.getx()+brick.width and self.x+self.v_x<brick.getx()+brick.width):	#right
-					self.v_x = -v_x
-					check=1
-			if(check):
-				os.system('aplay -q ./sounds/ball_brick.wav&')
-				if(self.thru==0):
-					self.v_y = v_y
-					self.v_x = v_x
-				else:
-					if(brick.strength == 100):
-						brick.reduce_strength(self.v_x, self.v_y)
-						break
-					brick.break_it(self.v_x, self.v_y)
-					break
-				if(brick.strength != -1):
-					brick.reduce_strength(self.v_x, self.v_y)
-				break
+		# if(check):
+		# 	return
+		# check = 0
+		# for brick in globalVar.obj_bricks:
+		# 	if(brick.is_broken()):
+		# 		continue
+		# 	if(self.y>=brick.gety() and self.y<brick.gety()+brick.height):
+		# 		if(self.x+self.v_x+self.width>brick.getx() and self.x<brick.getx()):	#left
+		# 			self.v_x =-v_x
+		# 			check=1
+		# 		elif(self.x>brick.getx()+brick.width and self.x+self.v_x<brick.getx()+brick.width):	#right
+		# 			self.v_x = -v_x
+		# 			check=1
+		# 	if(check):
+		# 		os.system('aplay -q ./sounds/ball_brick.wav&')
+		# 		if(self.thru==0):
+		# 			self.v_y = v_y
+		# 			self.v_x = v_x
+		# 		else:
+		# 			if(brick.strength == 100):
+		# 				brick.reduce_strength(self.v_x, self.v_y)
+		# 				break
+		# 			brick.break_it(self.v_x, self.v_y)
+		# 			break
+		# 		if(brick.strength != -1):
+		# 			brick.reduce_strength(self.v_x, self.v_y)
+		# 		break
 
 
 			
