@@ -1,4 +1,3 @@
-
 from headers import *
 import globalVar
 from globalVar import TOP, BOTTOM, LIVES, HT, WIDTH, LEFT, RIGHT, obj_bricks, paddle, ALT_LIVES
@@ -105,7 +104,7 @@ class Ball:
 				# collision with top or bottom brick surface 
 				v_y = -self.v_y
 				check = 1
-			elif((self.x+self.width==brick.getx() or self.x==brick.getx()+brick.width) and (self.y+self.height<=brick.gety()+brick.height and self.y>=brick.gety())):
+			elif(((self.x+self.width==brick.getx() and self.v_x>0) or (self.x==brick.getx()+brick.width and self.v_x<0)) and (self.y+self.height<=brick.gety()+brick.height and self.y>=brick.gety())):
 				if(self.v_x==0):
 					continue
 				# collision with left or right edge of brick

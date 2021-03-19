@@ -99,7 +99,15 @@ class Thru_ball(PowerUp):
 	def activate_power_up(self):
 		super().activate_power_up()
 		for ball in globalVar.balls:
-			ball.set_thru()
+			if(ball.thru==0):
+				ball.set_thru()
+			else:
+				self.active_time=self.max_time+1	# so that it gets deleted in next frame
+				self.activated = 0		# so that it doesn't update active_time in next frame
+				for powerup in globalVar.power_ups:
+					if(isinstance(powerup,Thru_ball)):
+						powerup.max_time += self.max_time
+						break
 
 	def deactivate_power_up(self):
 		self.activated = 0
@@ -123,26 +131,30 @@ class Fast_ball(PowerUp):
 class Shrink_paddle(PowerUp):
 	def __init__(self, x, y):
 		super().__init__(x,y,globalVar.POWERS['shrink'])
+		did_shrink=0
 
 	def activate_power_up(self):
 		super().activate_power_up()
-		globalVar.paddle.shrink()
+		self.did_shrink = globalVar.paddle.shrink()
 
 	def deactivate_power_up(self):
 		self.activated = 0
-		globalVar.paddle.expand()
+		if(self.did_shrink):
+			globalVar.paddle.expand()
 
 class Expand_paddle(PowerUp):
 	def __init__(self, x, y):
 		super().__init__(x,y,globalVar.POWERS['expand'])
+		did_expand = 0
 
 	def activate_power_up(self):
 		super().activate_power_up()
-		globalVar.paddle.expand()
+		self.did_expand = globalVar.paddle.expand()
 
 	def deactivate_power_up(self):
 		self.activated = 0
-		globalVar.paddle.shrink()
+		if(self.did_expand):
+			globalVar.paddle.shrink()
 
 class Paddle_grab(PowerUp):
 	def __init__(self, x, y):
@@ -150,7 +162,15 @@ class Paddle_grab(PowerUp):
 
 	def activate_power_up(self):
 		super().activate_power_up()
-		globalVar.paddle.grab()	
+		if(globalVar.paddle.grab==0):
+			globalVar.paddle.grab()	
+		else:
+			self.active_time=self.max_time+1	# so that it gets deleted in next frame
+			self.activated = 0		# so that it doesn't update active_time in next frame
+			for powerup in globalVar.power_ups:
+				if(isinstance(powerup,Paddle_grab)):
+					powerup.max_time += self.max_time
+					break
 
 	def deactivate_power_up(self):
 		self.activated = 0
@@ -175,3 +195,25 @@ class Ball_multiplier(PowerUp):
 			globalVar.ALT_LIVES += 1
 
 
+class Paddle_shooter(PowerUp):
+	def __init__(self, x, y):
+		super().__init__(x,y,globalVar.POWERS['shooter'])
+
+	def activate_power_up(self):
+		super().activate_power_up()
+		if(globalVar.paddle.shooter==0):
+			globalVar.paddle.gunsOut()	
+		else:
+			self.active_time=self.max_time+1	# so that it gets deleted in next frame
+			self.activated = 0		# so that it doesn't update active_time in next frame
+			for powerup in globalVar.power_ups:
+				if(isinstance(powerup,Paddle_shooter)):
+					powerup.max_time += self.max_time
+					f=open("debug.txt","a")
+					f.write(str(powerup.max_time)+"\n")
+					f.close()
+					break
+
+	def deactivate_power_up(self):
+		self.activated = 0
+		globalVar.paddle.killGuns()		

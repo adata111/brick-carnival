@@ -6,7 +6,7 @@ from globalVar import TOP, HT, WIDTH, LEFT, x_bricks, obj_bricks, balls, power_u
 
 def init_power_ups():
     globalVar.all_power_ups = []
-    globalVar.all_power_ups.extend(['expand','shrink','fast', 'thru', 'multi', 'grab'])
+    globalVar.all_power_ups.extend(['expand','shrink','fast', 'thru', 'multi', 'grab','shooter'])
     for i in range(20):
         globalVar.all_power_ups.append(None)
 

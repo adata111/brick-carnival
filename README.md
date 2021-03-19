@@ -11,7 +11,7 @@ wall of bricks and make high scores! The objective of the game is to break all t
 
 ### Controls
 > - To move the paddle right or left use 'd'/'D' or 'a'/'A' keys respectively
-> - To release the ball from paddle, use spacebar
+> - To release the ball from paddle, use 'p'/'P'
 > - To quit the game, press 'q'/'Q' keys
 
 ### Details

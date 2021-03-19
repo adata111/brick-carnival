@@ -15,6 +15,7 @@ class Paddle:
 		self.y = BOTTOM-height
 		self.v = 2
 		self.sticky = 0
+		self.shooter = 0
 
 	def move(self,v):
 		if(self.x+self.width>=cols-1 and v>0):
@@ -29,24 +30,30 @@ class Paddle:
 		w = self.width
 		x = self.x
 		for i in range(y, y+h):
+
 			for j in range(x, x+w):
-				arr[i][j] = color + Style.BRIGHT + symbol + Fore.RESET + Back.RESET
+				if((j==x or j==x+w-1) and self.shooter):
+					arr[i][j] = Back.GREEN + Style.BRIGHT + symbol + Style.RESET_ALL
+				else:
+					arr[i][j] = color + Style.BRIGHT + symbol + Fore.RESET + Back.RESET
 		return arr
 
 	def shrink(self):
 		if (self.width<=10):
-			return
+			return 0
 		for ball in globalVar.balls:
 			if(not ball.is_moving()):
 				if(ball.x>self.x+self.width-10):
 					ball.x = self.x+self.width-10
 		self.width -= 10
+		return 1
 
 
 	def expand(self):
 		if (self.width>=50):
-			return
+			return 0
 		self.width += 10
+		return 1
 
 	def grab(self):
 		self.sticky = 1
@@ -56,3 +63,12 @@ class Paddle:
 
 	def is_sticky(self):
 		return self.sticky
+
+	def gunsOut(self):
+		self.shooter = 1
+
+	def killGuns(self):
+		self.shooter = 0
+
+	def areGunsOut(self):
+		return self.shooter

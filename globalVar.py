@@ -15,6 +15,7 @@ obj_bricks=[]
 x_bricks = []
 paddle = None
 balls = []
+bullets = []
 power_ups = []
 all_power_ups = []
 level = 0
@@ -28,4 +29,4 @@ LIVES = 5
 ALT_LIVES=0
 SCORE = 0
 
-POWERS = {'thru':'T', 'shrink':'S', 'expand':'E', 'fast':'F', 'grab':'G', 'multiplier':'M'}
+POWERS = {'thru':'T', 'shrink':'S', 'expand':'E', 'fast':'F', 'grab':'G', 'multiplier':'M', 'shooter':'B'}

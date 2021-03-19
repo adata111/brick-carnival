@@ -5,8 +5,9 @@ from input import *
 from board import *
 from ball import *
 from powerUp import *
+from bullet import *
 import globalVar
-from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls, level
+from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls, level, bullets
 import globalFunc
 from globalFunc import setBricks1, setBricks2, check_ball_death, init_power_ups, game_over
 
@@ -16,9 +17,10 @@ t = 1/fps
 
 def setup():
 	os.system('clear')
-	globalVar.balls=[]
+	globalVar.balls.clear()
 	globalVar.power_ups.clear()
-	globalVar.obj_bricks=[]
+	globalVar.obj_bricks.clear()
+	globalVar.bullets.clear()
 	blank_arr = []
 	# blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 	for i in range(HT):
@@ -50,11 +52,15 @@ def setup():
 		print("Score:",globalVar.SCORE)
 	return newBoard
 
+def shoot(x,y, paddle_width):
+	# print("hi")
+	globalVar.bullets.append(Bullet(x,y-1))
+	globalVar.bullets.append(Bullet(x+paddle_width-1,y-1))
 	
 # for obj in obj_bricks:
 	
 # 	print(obj.getx(),obj.gety())
-time_limit = [0, 5,15,30]
+time_limit = [0, 10,15,30]
 blank_arr = []
 # blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 for i in range(HT):
@@ -79,11 +85,14 @@ while True:
 		if(not brick.is_broken() and brick.strength!=-1):
 			flag = 1
 	if(flag == 0):
-		os.system('clear')
-		game_over()
-		print("Yay")
-		print("Score:",globalVar.SCORE)
-		break
+		if(globalVar.level==3):
+			os.system('clear')
+			game_over()
+			print("Yay")
+			print("Score:",globalVar.SCORE)
+			break
+		else:
+			setup()
 	print("\033[%d;%dH" % (0, 0))
 	globalVar.GAME_TIME = int(time.time()-globalVar.START_TIME)
 
@@ -91,11 +100,20 @@ while True:
 	for power_up in globalVar.power_ups:
 		if(power_up.is_activated()):
 			power_up.update_active_time()
-		elif(power_up.active_time>power_up.max_time):
+		elif(power_up.active_time>=power_up.max_time):
 			power_ups_to_del.append(power_up)
 
 	for to_del in power_ups_to_del:
 		globalVar.power_ups.remove(to_del)
+
+
+	bullets_to_del = []
+	for bullet in globalVar.bullets:
+		if(bullet.dead):
+			bullets_to_del.append(bullet)
+
+	for to_del in bullets_to_del:
+		globalVar.bullets.remove(to_del)
 
 
 	if(key=='d' or key =='D'):
@@ -108,11 +126,14 @@ while True:
 			if(ball.is_moving()==0):
 				ball.move(-1)
 		globalVar.paddle.move(-1)
-	elif(key==" "):
+	elif(key=="p" or key=="P"):
 		for ball in globalVar.balls:
 			if(ball.is_moving()==0):
 				ball.set_moving()
 				ball.move(1)
+	elif(key==" "):
+		if(globalVar.paddle.areGunsOut()):
+			shoot(globalVar.paddle.x, globalVar.paddle.y, globalVar.paddle.width)
 	elif(key=='q' or key=='Q'):
 		os.system('clear')
 		print("You quit")
@@ -174,6 +195,12 @@ while True:
 		if(power_up.visible):
 			grid = power_up.getArr(Fore.YELLOW, grid)
 			power_up.move()
+
+	for bullet in globalVar.bullets:
+		if(bullet.visible):
+			bullet.check_brick_collision()
+			bullet.move()
+			grid = bullet.getArr(Fore.RED, '^', grid)
 
 	#grid = ''.join(grid)
 	# print(grid)

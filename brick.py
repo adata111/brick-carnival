@@ -28,6 +28,9 @@ def get_power_up(ind,x,y):
     elif(pu=='grab'):
         pu = Paddle_grab(x,y)
         globalVar.power_ups.append(pu)
+    elif(pu=='shooter'):
+        pu = Paddle_shooter(x,y)
+        globalVar.power_ups.append(pu)
     # globalVar.all_power_ups.pop(ind)
     return pu
 
@@ -66,6 +69,7 @@ class Brick:
 		self.broken=1
 		self.colour = Back.RESET
 		ind = random.randint(0,len(globalVar.all_power_ups)-1)
+		ind=6
 		self.power_up = get_power_up(ind,self.x+5,self.y)
 		if(self.power_up):
 			self.power_up.set_visible(v_x, v_y)
