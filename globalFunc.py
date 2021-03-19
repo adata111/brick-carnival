@@ -2,7 +2,7 @@ import random
 from brick import *
 # from powerUp import *
 import globalVar
-from globalVar import TOP, HT, WIDTH, LEFT, x_bricks, obj_bricks, balls, power_ups, all_power_ups, level
+from globalVar import TOP, HT, WIDTH, LEFT, x_bricks, obj_bricks, balls, power_ups, all_power_ups, level, paddle
 
 def init_power_ups():
     globalVar.all_power_ups = []
@@ -39,12 +39,12 @@ def setBricks2():
         brick_width = 10
         y= TOP + j*4
         for i in range(LEFT,WIDTH-brick_width, brick_width ):
-            if(k%5==0):
+            if((k+j)%5==0):
                 globalVar.obj_bricks.append(Brick(brick_width,4,i,y))
-            elif(k%5==4):
+            elif((k+j)%5==4):
                 ind = random.randint(0,len(globalVar.all_power_ups)-1)
                 globalVar.obj_bricks.append(Exploding(brick_width,4,i,y))
-            elif(k%5==2):
+            elif((k==2 and j==1) or (k==5 and j==1) or (k==10 and j==1) or (k==16 and j==1)):
                 ind = random.randint(0,len(globalVar.all_power_ups)-1)
                 globalVar.obj_bricks.append(Rainbow(brick_width,4,i,y))
             else:
@@ -60,14 +60,14 @@ def setBricks3():
     for j in range(0, 3):
         k=0
         y=TOP+j*4
-        for i in range(LEFT+1, WIDTH-20, 20):
+        for i in range(LEFT+1, WIDTH-20, 13):
             #print(i,j)
-            if((k==0 or k==8) and j==2 ):
-                globalVar.obj_bricks.append(Brick(20,4,i,y))
+            if(((k==1 or k==12) and j==2) or ((k==0 or k==13) and j==1)  or (k==7 and j==1)):
+                globalVar.obj_bricks.append(Brick(13,4,i,y))
             elif(j==0 and k == 5):
                 # ind = random.randint(0,len(globalVar.all_power_ups)-1)
                 # ind = 0
-                globalVar.obj_bricks.append(UFO(20,4,i,y))
+                globalVar.obj_bricks.append(UFO(20,4,globalVar.paddle.x,y))
             k+=1
 
 
@@ -84,6 +84,7 @@ def check_ball_death():
 
 def game_over():
     globalVar.level = -1
+    os.system('aplay -q ./sounds/game_over.wav&')
     print(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+ "                                                     ".center(WIDTH))                 
     print(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+ "  _____                         ____                 ".center(WIDTH))                 
     print(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+ " / ____|                       / __ \                ".center(WIDTH))              

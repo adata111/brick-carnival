@@ -27,6 +27,7 @@ class Bomb:
 		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # bomb is within x coordinates of paddle in this frame
 			if(self.y+self.height>=paddle.y):
 				globalVar.LIVES -= 1
+				os.system('aplay -q ./sounds/lose_life.wav&')
 				self.visible = 0
 			elif(self.y+self.height+self.v_y>paddle.y):
 				self.y= paddle.y-self.height-self.v_y		

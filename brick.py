@@ -200,6 +200,7 @@ class UFO(Brick):
 		# self.actual_x = xx
 		self.colour = Back.CYAN
 		globalVar.ufo_strength = self.strength
+		os.system('aplay -q ./sounds/ufo.wav&')
 
 	def move(self,paddle_x):
 		self.x = paddle_x

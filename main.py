@@ -5,9 +5,9 @@ from input import *
 from board import *
 from ball import *
 from powerUp import *
-from bullet import *
+from laser import *
 import globalVar
-from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, SHOOT_COOLDOWN, obj_bricks, paddle, power_ups, balls, level, bullets, last_shoot
+from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, SHOOT_COOLDOWN, obj_bricks, paddle, power_ups, balls, level, lasers, last_shoot
 import globalFunc
 from globalFunc import setBricks1, setBricks2, setBricks3, check_ball_death, init_power_ups, game_over
 
@@ -20,7 +20,7 @@ def setup():
 	globalVar.balls.clear()
 	globalVar.power_ups.clear()
 	globalVar.obj_bricks.clear()
-	globalVar.bullets.clear()
+	globalVar.lasers.clear()
 	blank_arr = []
 	# blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 	for i in range(HT):
@@ -55,8 +55,10 @@ def setup():
 def shoot(x,y, paddle_width):
 	# print("hi")
 	if(int(time.time() - globalVar.last_shoot)>=SHOOT_COOLDOWN):
-		globalVar.bullets.append(Bullet(x,y-1))
-		globalVar.bullets.append(Bullet(x+paddle_width-1,y-1))
+
+		os.system('aplay -q ./sounds/laser.wav&')
+		globalVar.lasers.append(Laser(x,y-1))
+		globalVar.lasers.append(Laser(x+paddle_width-1,y-1))
 		globalVar.last_shoot = time.time()
 	
 # for obj in obj_bricks:
@@ -94,6 +96,7 @@ while True:
 			game_over()
 			print("Yay")
 			print("Score:",globalVar.SCORE)
+			os.system('aplay -q ./sounds/win.wav&')
 			break
 		else:
 			setup()
@@ -111,13 +114,13 @@ while True:
 		globalVar.power_ups.remove(to_del)
 
 
-	bullets_to_del = []
-	for bullet in globalVar.bullets:
-		if(bullet.dead):
-			bullets_to_del.append(bullet)
+	lasers_to_del = []
+	for laser in globalVar.lasers:
+		if(laser.dead):
+			lasers_to_del.append(laser)
 
-	for to_del in bullets_to_del:
-		globalVar.bullets.remove(to_del)
+	for to_del in lasers_to_del:
+		globalVar.lasers.remove(to_del)
 
 	bombs_to_del = []
 	for bomb in globalVar.bombs:
@@ -223,11 +226,11 @@ while True:
 			grid = power_up.getArr(Fore.YELLOW, grid)
 			power_up.move()
 
-	for bullet in globalVar.bullets:
-		if(bullet.visible):
-			bullet.check_brick_collision()
-			bullet.move()
-			grid = bullet.getArr(Fore.RED, '^', grid)
+	for laser in globalVar.lasers:
+		if(laser.visible):
+			laser.check_brick_collision()
+			laser.move()
+			grid = laser.getArr(Fore.RED, '^', grid)
 
 	for bomb in globalVar.bombs:
 		if(bomb.visible):

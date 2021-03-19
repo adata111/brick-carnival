@@ -24,6 +24,7 @@ class Ball:
 	def move(self,v=1):
 		paddle=globalVar.paddle
 		self.x += self.v_x
+		temp = self.v_x
 
 		if(self.moving == 0): # movement with paddle
 			if(paddle.x+paddle.width>=RIGHT and v>0):
@@ -42,8 +43,12 @@ class Ball:
 		elif(self.x+self.v_x<LEFT):
 			self.x = LEFT-self.v_x
 
+		if(self.v_x!=temp):
+			os.system('aplay -q ./sounds/ball_wall.wav&')
 
-		
+
+		self.y += self.v_y
+		temp = self.v_y
 		if(self.y+self.height>=BOTTOM and self.v_y>0):	# v_y>0 means it will go down
 			# f=open("debug.txt","a")
 			# f.write(str(self.y) + " " + str(self.height) + " " + str(HT) + "\n")
@@ -60,7 +65,9 @@ class Ball:
 		elif(self.y+self.v_y<TOP):
 			# self.v_y = -self.v_y
 			self.y = TOP-self.v_y
-		self.y += self.v_y
+
+		if(self.v_y!=temp):
+			os.system('aplay -q ./sounds/ball_wall.wav&')
 
 
 	def check_paddle_collision(self):
@@ -71,7 +78,7 @@ class Ball:
 				self.set_vel(- self.v_y)
 				if(paddle.is_sticky()):
 					self.moving = 0
-					
+				os.system('aplay -q ./sounds/ball_paddle.wav&')
 				return 1
 		if(self.x+self.width<paddle.x+paddle.width and self.x+self.v_x+self.width>paddle.x and self.v_x>=0): # top-left collision possible
 			if(self.y+self.height<paddle.y and self.y+self.v_y+self.height>paddle.y):
@@ -85,6 +92,8 @@ class Ball:
 				# self.set_vel(-self.v_y)
 				self.y = paddle.y-self.height - self.v_y
 				check=1
+		if(check==1):
+			os.system('aplay -q ./sounds/ball_paddle.mwav&')
 		return check
 
 
@@ -125,6 +134,8 @@ class Ball:
 					brick.reduce_strength(self.v_x, self.v_y)
 				break
 		if(check):
+
+			os.system('aplay -q ./sounds/ball_brick.wav&')
 			return
 		check=0
 		for brick in globalVar.obj_bricks:
@@ -157,6 +168,7 @@ class Ball:
 					v_y = -self.v_y
 					check = 1
 			if(check):
+				os.system('aplay -q ./sounds/ball_brick.wav&')
 				if(self.thru==0):
 					self.v_y = v_y
 					self.v_x = v_x
@@ -206,6 +218,7 @@ class Ball:
 					self.x = brick.getx()+brick.width
 					check = 1
 			if(check):
+				os.system('aplay -q ./sounds/ball_brick.wav&')
 				if(self.thru==0):
 					self.v_y = v_y
 					self.v_x = v_x
@@ -232,6 +245,7 @@ class Ball:
 					self.v_x = -v_x
 					check=1
 			if(check):
+				os.system('aplay -q ./sounds/ball_brick.wav&')
 				if(self.thru==0):
 					self.v_y = v_y
 					self.v_x = v_x
@@ -252,6 +266,7 @@ class Ball:
 		p = globalVar.paddle
 		if(p==None):
 			return
+		os.system('aplay -q ./sounds/lose_life.wav&')
 		if(globalVar.ALT_LIVES>0):
 			globalVar.ALT_LIVES -= 1
 			self.dead = 1

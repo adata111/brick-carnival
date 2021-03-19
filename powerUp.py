@@ -66,6 +66,7 @@ class PowerUp:
 	def activate_power_up(self):
 		# Polymorphism here :)
 		self.activated = 1
+		os.system('aplay -q ./sounds/power_up.wav&')
 		self.start_time = time.time()
 		self.visible = 0
 

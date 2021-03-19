@@ -5,7 +5,7 @@ from globalVar import TOP, BOTTOM, LIVES, HT, WIDTH, LEFT, RIGHT, obj_bricks, pa
 rows = HT
 cols = WIDTH
 
-class Bullet:
+class Laser:
 	"""docstring for Ball"""
 	def __init__(self, x, y):
 		super().__init__()
@@ -44,6 +44,7 @@ class Bullet:
 				self.y=brick.gety()+brick.height-self.v_y
 			
 			if(check):
+				os.system('aplay -q ./sounds/ball_brick.wav&')
 				self.visible=0
 				self.dead=1
 				if(brick.strength != -1):
