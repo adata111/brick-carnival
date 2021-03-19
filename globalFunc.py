@@ -1,38 +1,18 @@
 import random
 from brick import *
-from powerUp import *
+# from powerUp import *
 import globalVar
-from globalVar import TOP, HT, WIDTH, x_bricks, obj_bricks, balls, power_ups, all_power_ups
+from globalVar import TOP, HT, WIDTH, LEFT, x_bricks, obj_bricks, balls, power_ups, all_power_ups, level
 
 def init_power_ups():
+    globalVar.all_power_ups = []
     globalVar.all_power_ups.extend(['expand','shrink','fast', 'thru', 'multi', 'grab'])
     for i in range(20):
         globalVar.all_power_ups.append(None)
 
-def get_power_up(ind,x,y):
-    pu = globalVar.all_power_ups[ind]
-    if(pu=='expand'):
-        pu = Expand_paddle(x,y)
-        globalVar.power_ups.append(pu)
-    elif(pu=='shrink'):
-        pu = Shrink_paddle(x,y)
-        globalVar.power_ups.append(pu)
-    elif(pu=='fast'):
-        pu = Fast_ball(x,y)
-        globalVar.power_ups.append(pu)
-    elif(pu=='thru'):
-        pu = Thru_ball(x,y)
-        globalVar.power_ups.append(pu)
-    elif(pu=='multi'):
-        pu = Ball_multiplier(x,y)
-        globalVar.power_ups.append(pu)
-    elif(pu=='grab'):
-        pu = Paddle_grab(x,y)
-        globalVar.power_ups.append(pu)
-    # globalVar.all_power_ups.pop(ind)
-    return pu
 
-def setBricks():
+
+def setBricks1():
     for i in range(WIDTH-18, 2, -10):
         globalVar.x_bricks.append(i)
     k=0
@@ -44,14 +24,36 @@ def setBricks():
             if(j==1 and k>=3 and k<10):
                 ind = random.randint(0,len(globalVar.all_power_ups)-1)
                 
-                globalVar.obj_bricks.append(Exploding(13,4,i,y, get_power_up(ind, i+5,y)))
+                globalVar.obj_bricks.append(Exploding(13,4,i,y))
             elif((j+i)%7 ==0):
                 globalVar.obj_bricks.append(Brick(13,4,i,y))
             else:
-                # ind = random.randint(0,len(globalVar.all_power_ups)-1)
-                ind = 0
-                globalVar.obj_bricks.append(Breakable(13,4,i,y, 1+((i+j)%3), get_power_up(ind, i+5,y)))
+                ind = random.randint(0,len(globalVar.all_power_ups)-1)
+                # ind = 0
+                globalVar.obj_bricks.append(Breakable(13,4,i,y, 1+((i+j)%3)))
             k+=1
+
+
+def setBricks2():
+    for i in range(WIDTH-18, 2, -10):
+        globalVar.x_bricks.append(i)
+    k=0
+    for j in range(0, 3):
+        k=0
+        brick_width = 10
+        y= TOP + j*4
+        for i in range(LEFT,WIDTH-brick_width, brick_width ):
+            if(k%5==0):
+                globalVar.obj_bricks.append(Brick(brick_width,4,i,y))
+            elif(k%5==4):
+                ind = random.randint(0,len(globalVar.all_power_ups)-1)
+                globalVar.obj_bricks.append(Exploding(brick_width,4,i,y))
+            else:
+                ind = random.randint(0,len(globalVar.all_power_ups)-1)
+                # ind = 0
+                globalVar.obj_bricks.append(Breakable(brick_width,4,i,y, 1+((i+j)%3)))
+            k+=1
+
 
 def check_ball_death():
     to_del = []
@@ -64,6 +66,7 @@ def check_ball_death():
 
 
 def game_over():
+    globalVar.level = -1
     print(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+ "                                                     ".center(WIDTH))                 
     print(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+ "  _____                         ____                 ".center(WIDTH))                 
     print(Fore.LIGHTMAGENTA_EX + Style.BRIGHT+ " / ____|                       / __ \                ".center(WIDTH))              

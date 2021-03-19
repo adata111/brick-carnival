@@ -6,14 +6,53 @@ from board import *
 from ball import *
 from powerUp import *
 import globalVar
-from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls
+from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls, level
 import globalFunc
-from globalFunc import setBricks, check_ball_death, init_power_ups, game_over
+from globalFunc import setBricks1, setBricks2, check_ball_death, init_power_ups, game_over
 
 
 fps = 20
 t = 1/fps
-os.system('clear')
+
+def setup():
+	os.system('clear')
+	globalVar.balls=[]
+	globalVar.power_ups.clear()
+	globalVar.obj_bricks=[]
+	blank_arr = []
+	# blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
+	for i in range(HT):
+		temp=[]
+		for j in range(WIDTH):
+			temp.append(' ')
+		blank_arr.append(temp)
+
+	board_arr = copy.deepcopy(blank_arr)
+	newBoard = Board(board_arr)
+	globalVar.paddle = Paddle(20, 2)
+	newBall = Ball(LEFT+random.randint(0, globalVar.paddle.width-1), globalVar.paddle.y-1,0,0,0)
+	globalVar.balls.append(newBall)
+	init_power_ups()
+	if(globalVar.level==0):
+		setBricks1()
+		globalVar.level=1
+	elif(globalVar.level==1):
+		# globalVar.power_ups.clear()
+		setBricks2()
+		globalVar.level=2
+	elif(globalVar.level==2):
+		# globalVar.power_ups = []
+		setBricks1()
+		globalVar.level=3
+	else:
+		game_over()
+		print("Score:",globalVar.SCORE)
+	return newBoard
+
+	
+# for obj in obj_bricks:
+	
+# 	print(obj.getx(),obj.gety())
 blank_arr = []
 # blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 for i in range(HT):
@@ -22,16 +61,7 @@ for i in range(HT):
 		temp.append(' ')
 	blank_arr.append(temp)
 
-board_arr = copy.deepcopy(blank_arr)
-newBoard = Board(board_arr)
-globalVar.paddle = Paddle(20, 2)
-newBall = Ball(LEFT+random.randint(0, globalVar.paddle.width-1), globalVar.paddle.y-1,0,0,0)
-globalVar.balls.append(newBall)
-init_power_ups()
-setBricks()
-# for obj in obj_bricks:
-	
-# 	print(obj.getx(),obj.gety())
+newBoard = setup()
 globalVar.START_TIME = time.time()
 while True:
 	key = input_to()
@@ -86,6 +116,11 @@ while True:
 		print("You quit")
 		print("Your Score:",globalVar.SCORE)
 		break
+	elif(key=='l' or key=='L'):
+		newBoard = setup()
+		if(globalVar.level==-1):
+			break
+
 
 	grid = newBoard.getArr(str(globalVar.SCORE), str(globalVar.GAME_TIME), str(globalVar.LIVES), grid)
 	grid = globalVar.paddle.getArr(Back.BLUE, ' ', grid)
@@ -108,6 +143,9 @@ while True:
 				ball.move(1)
 	
 	for power_up in power_ups:
+		f = open("debug.txt", "a")
+		f.write(str(power_up.x)+" "+str(power_up.y)+"\n")
+		f.close()
 		if(power_up.visible):
 			grid = power_up.getArr(Fore.YELLOW, grid)
 			power_up.move()

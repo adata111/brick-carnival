@@ -33,7 +33,7 @@ class PowerUp:
 		paddle = globalVar.paddle
 		self.y += self.v_y
 		self.x += self.v_x
-		
+
 		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # powerup is within x coordinates of paddle in this frame
 			if(self.y+self.height>=paddle.y):
 				self.activate_power_up()
@@ -79,11 +79,11 @@ class PowerUp:
 		self.v_y = v_y
 
 	def getArr(self, colour, arr):
-		if(self.visible==0):
-			return arr
 		f = open("debug.txt", "a")
 		f.write(str(self.x)+" "+str(self.y)+"\n")
 		f.close()
+		if(self.visible==0):
+			return arr
 		y = self.y
 		h = self.height
 		w = self.width

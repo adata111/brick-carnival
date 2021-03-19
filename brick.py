@@ -1,10 +1,35 @@
 
 from headers import *
+from powerUp import *
 import globalVar
 from globalVar import SCORE, obj_bricks
 from colorama import init, Fore, Back, Style
 
 colours = [Back.GREEN, Back.YELLOW, Back.RED ]
+
+
+def get_power_up(ind,x,y):
+    pu = globalVar.all_power_ups[ind]
+    if(pu=='expand'):
+        pu = Expand_paddle(x,y)
+        globalVar.power_ups.append(pu)
+    elif(pu=='shrink'):
+        pu = Shrink_paddle(x,y)
+        globalVar.power_ups.append(pu)
+    elif(pu=='fast'):
+        pu = Fast_ball(x,y)
+        globalVar.power_ups.append(pu)
+    elif(pu=='thru'):
+        pu = Thru_ball(x,y)
+        globalVar.power_ups.append(pu)
+    elif(pu=='multi'):
+        pu = Ball_multiplier(x,y)
+        globalVar.power_ups.append(pu)
+    elif(pu=='grab'):
+        pu = Paddle_grab(x,y)
+        globalVar.power_ups.append(pu)
+    # globalVar.all_power_ups.pop(ind)
+    return pu
 
 class Brick:
 	def __init__(self, width, height, x,y, pu=None):
@@ -39,6 +64,8 @@ class Brick:
 			globalVar.SCORE += 20
 		self.broken=1
 		self.colour = Back.RESET
+		ind = random.randint(0,len(globalVar.all_power_ups)-1)
+		self.power_up = get_power_up(ind,self.x+5,self.y)
 		if(self.power_up):
 			self.power_up.set_visible(v_x, v_y)
 
@@ -50,8 +77,8 @@ class Brick:
 
 
 class Breakable(Brick):
-	def __init__(self, width, height, x,y,st, pu):
-		Brick.__init__(self,width, height, x,y, pu)
+	def __init__(self, width, height, x,y,st):
+		Brick.__init__(self,width, height, x,y)
 		self.strength = st
 		self.colour = colours[st-1]
 
@@ -64,8 +91,8 @@ class Breakable(Brick):
 		self.colour = colours[self.strength-1]
 
 class Exploding(Brick):
-	def __init__(self, width, height, x,y,pu):
-		Brick.__init__(self,width, height, x,y, pu)
+	def __init__(self, width, height, x,y):
+		Brick.__init__(self,width, height, x,y)
 		self.strength = 100
 		if((x+y)%2):
 			self.colour = Back.LIGHTMAGENTA_EX
