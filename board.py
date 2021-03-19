@@ -1,6 +1,6 @@
 from headers import *
 
-from globalVar import HT, WIDTH, TOP, BOTTOM, RIGHT,LEFT
+from globalVar import HT, WIDTH, TOP, BOTTOM, RIGHT,LEFT, level
 from brick import *
 
 
@@ -19,6 +19,8 @@ class Board:
 		sc = 'Score: '+score
 		li = 'Lives: '+lives
 		ti = 'Time: '+tim
+		lev = 'Level: '+ str(globalVar.level)
+		l_lev = len(lev)
 		l_sc = len(sc)
 		l_li = len(li)
 		l_ti = len(ti)
@@ -40,7 +42,7 @@ class Board:
 		# 		grid[i] = '|' + grid[i][1:WIDTH-2] + '|\n'
 		# grid[2] = grid[2][:5]+ sc + grid[2][l_sc+5:WIDTH-30] + li + grid[2][WIDTH-30+l_li:] 
 		t = ''.join(grid[3])
-		tem = t[:5]+ sc + t[l_sc+5:WIDTH-((WIDTH+l_ti)//2)] + ti + t[WIDTH-((WIDTH+l_ti)//2)+l_ti:WIDTH-30] + li + t[WIDTH-30+l_li:] 
+		tem = t[:5]+ sc + t[l_sc+5:WIDTH-((WIDTH+l_ti)//2)] + ti + t[WIDTH-((WIDTH+l_ti)//2)+l_ti:WIDTH-50] + lev + t[WIDTH-50+l_lev :WIDTH-30] + li + t[WIDTH-30+l_li:] 
 		grid[3] = list(tem)
 		
 		return grid
