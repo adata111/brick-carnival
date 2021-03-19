@@ -14,7 +14,7 @@ class Board:
 		# self.grid[:,WIDTH-1] = '|'
 
 
-	def getArr(self, score, tim, lives, grid):
+	def getArr(self, score, tim, lives, shooter_time, grid):
 		
 		sc = 'Score: '+score
 		li = 'Lives: '+lives
@@ -24,6 +24,8 @@ class Board:
 		l_sc = len(sc)
 		l_li = len(li)
 		l_ti = len(ti)
+		shoo = 'Shooter time left: '+str(shooter_time)
+		l_shoo = len(shoo)
 		
 		# grid[0] = '_'*WIDTH
 		# grid[HT-1] = '_'*WIDTH
@@ -41,8 +43,12 @@ class Board:
 		# 	else:
 		# 		grid[i] = '|' + grid[i][1:WIDTH-2] + '|\n'
 		# grid[2] = grid[2][:5]+ sc + grid[2][l_sc+5:WIDTH-30] + li + grid[2][WIDTH-30+l_li:] 
-		t = ''.join(grid[3])
-		tem = t[:5]+ sc + t[l_sc+5:WIDTH-((WIDTH+l_ti)//2)] + ti + t[WIDTH-((WIDTH+l_ti)//2)+l_ti:WIDTH-50] + lev + t[WIDTH-50+l_lev :WIDTH-30] + li + t[WIDTH-30+l_li:] 
-		grid[3] = list(tem)
+		t = ''.join(grid[3])		
+		if(shooter_time!=0):
+			tem = t[:5]+ sc + t[l_sc+5:WIDTH-((WIDTH+l_ti)//2)-20] +  shoo + t[WIDTH-((WIDTH+l_ti)//2)-20+l_shoo:WIDTH-((WIDTH+l_ti)//2)+5] + ti + t[WIDTH-((WIDTH+l_ti)//2)+5+l_ti:WIDTH-50] + lev + t[WIDTH-50+l_lev :WIDTH-30] + li + t[WIDTH-30+l_li:]
+			grid[3] = list(tem)
+		else:
+			tem = t[:5]+ sc + t[l_sc+5:WIDTH-((WIDTH+l_ti)//2)] + ti + t[WIDTH-((WIDTH+l_ti)//2)+l_ti:WIDTH-50] + lev + t[WIDTH-50+l_lev :WIDTH-30] + li + t[WIDTH-30+l_li:] 
+			grid[3] = list(tem)
 		
 		return grid

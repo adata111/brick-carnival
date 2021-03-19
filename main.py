@@ -144,8 +144,13 @@ while True:
 		if(globalVar.level==-1):
 			break
 
+	shooter_time = 0
+	for power_up in globalVar.power_ups:
+		if(isinstance(power_up,Paddle_shooter) and power_up.is_activated()):
+			shooter_time = int(power_up.max_time - power_up.active_time)
+			break
 
-	grid = newBoard.getArr(str(globalVar.SCORE), str(globalVar.GAME_TIME), str(globalVar.LIVES), grid)
+	grid = newBoard.getArr(str(globalVar.SCORE), str(globalVar.GAME_TIME), str(globalVar.LIVES), shooter_time, grid)
 	grid = globalVar.paddle.getArr(Back.BLUE, ' ', grid)
 	
 	check_ball_death()

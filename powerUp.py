@@ -105,7 +105,7 @@ class Thru_ball(PowerUp):
 				self.active_time=self.max_time+1	# so that it gets deleted in next frame
 				self.activated = 0		# so that it doesn't update active_time in next frame
 				for powerup in globalVar.power_ups:
-					if(isinstance(powerup,Thru_ball)):
+					if(isinstance(powerup,Thru_ball) and powerup.is_activated()):
 						powerup.max_time += self.max_time
 						break
 
@@ -168,7 +168,7 @@ class Paddle_grab(PowerUp):
 			self.active_time=self.max_time+1	# so that it gets deleted in next frame
 			self.activated = 0		# so that it doesn't update active_time in next frame
 			for powerup in globalVar.power_ups:
-				if(isinstance(powerup,Paddle_grab)):
+				if(isinstance(powerup,Paddle_grab) and powerup.is_activated()):
 					powerup.max_time += self.max_time
 					break
 
@@ -207,7 +207,7 @@ class Paddle_shooter(PowerUp):
 			self.active_time=self.max_time+1	# so that it gets deleted in next frame
 			self.activated = 0		# so that it doesn't update active_time in next frame
 			for powerup in globalVar.power_ups:
-				if(isinstance(powerup,Paddle_shooter)):
+				if(isinstance(powerup,Paddle_shooter) and powerup.is_activated()):
 					powerup.max_time += self.max_time
 					f=open("debug.txt","a")
 					f.write(str(powerup.max_time)+"\n")
