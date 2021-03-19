@@ -32,7 +32,7 @@ def get_power_up(ind,x,y):
     return pu
 
 class Brick:
-	def __init__(self, width, height, x,y, pu=None):
+	def __init__(self, width, height, x,y, touch=1):
 		super().__init__()
 		self.width = width
 		self.height = height
@@ -40,7 +40,8 @@ class Brick:
 		self.y = y
 		self.broken = 0
 		self.strength = -1
-		self.power_up = pu
+		self.power_up = None
+		self.touch = touch
 		# self.actual_x = xx
 		self.colour = Back.WHITE
 
@@ -151,3 +152,27 @@ class Exploding(Brick):
 					brick.reduce_strength(v_x, v_y)
 				else:
 					brick.break_it(v_x, v_y)
+
+class Rainbow(Brick):
+	def __init__(self, width, height, x,y):
+		Brick.__init__(self,width, height, x,y,0)
+		self.strength = 3
+		self.colour = colours[self.strength-1]
+
+	def change_colour(self):
+		self.strength-=1
+		if(self.strength==0):
+			self.strength=3
+		self.colour = colours[self.strength-1]
+		f = open("debug.txt", "a")
+		f.write(str(self.colour)+" "+str(self.strength)+"\n")
+		f.close()
+
+	def reduce_strength(self, v_x, v_y):
+		self.strength -= 1
+		self.touch = 1
+		if (self.strength == 0):
+			self.break_it(v_x, v_y)
+			return
+		globalVar.SCORE += 5*(4-self.strength)
+		self.colour = colours[self.strength-1]

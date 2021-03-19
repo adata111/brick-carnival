@@ -48,6 +48,9 @@ def setBricks2():
             elif(k%5==4):
                 ind = random.randint(0,len(globalVar.all_power_ups)-1)
                 globalVar.obj_bricks.append(Exploding(brick_width,4,i,y))
+            elif(k%5==2):
+                ind = random.randint(0,len(globalVar.all_power_ups)-1)
+                globalVar.obj_bricks.append(Rainbow(brick_width,4,i,y))
             else:
                 ind = random.randint(0,len(globalVar.all_power_ups)-1)
                 # ind = 0

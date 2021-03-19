@@ -79,9 +79,7 @@ class PowerUp:
 		self.v_y = v_y
 
 	def getArr(self, colour, arr):
-		f = open("debug.txt", "a")
-		f.write(str(self.x)+" "+str(self.y)+"\n")
-		f.close()
+		
 		if(self.visible==0):
 			return arr
 		y = self.y

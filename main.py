@@ -133,6 +133,8 @@ while True:
 	for obj in globalVar.obj_bricks:
 		if(obj.is_broken()):
 			continue
+		if(obj.touch==0):
+			obj.change_colour()
 		grid = obj.getArr(' ',grid)
 
 	for ball in globalVar.balls:
