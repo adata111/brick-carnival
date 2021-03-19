@@ -1,8 +1,9 @@
 
 from headers import *
 from powerUp import *
+from bomb import *
 import globalVar
-from globalVar import SCORE, obj_bricks
+from globalVar import SCORE, obj_bricks, ufo_dead, bombs
 from colorama import init, Fore, Back, Style
 
 colours = [Back.GREEN, Back.YELLOW, Back.RED ]
@@ -68,6 +69,7 @@ class Brick:
 			globalVar.SCORE += 20
 		self.broken=1
 		self.colour = Back.RESET
+
 		ind = random.randint(0,len(globalVar.all_power_ups)-1)
 		ind=6
 		self.power_up = get_power_up(ind,self.x+5,self.y)
@@ -174,9 +176,9 @@ class Rainbow(Brick):
 		if(self.strength==0):
 			self.strength=3
 		self.colour = colours[self.strength-1]
-		f = open("debug.txt", "a")
-		f.write(str(self.colour)+" "+str(self.strength)+"\n")
-		f.close()
+		# f = open("debug.txt", "a")
+		# f.write(str(self.colour)+" "+str(self.strength)+"\n")
+		# f.close()
 
 	def reduce_strength(self, v_x, v_y):
 		self.strength -= 1
@@ -186,3 +188,65 @@ class Rainbow(Brick):
 			return
 		globalVar.SCORE += 5*(4-self.strength)
 		self.colour = colours[self.strength-1]
+
+
+
+class UFO(Brick):
+	def __init__(self, width, height, x,y):
+		Brick.__init__(self,width, height, x,y)
+		self.strength = 5
+		self.bomb_rate = 5
+		self.last_bomb = time.time()-2
+		# self.actual_x = xx
+		self.colour = Back.CYAN
+		globalVar.ufo_strength = self.strength
+
+	def move(self,paddle_x):
+		self.x = paddle_x
+		if(int(time.time()-self.last_bomb)>=self.bomb_rate):
+			self.last_bomb = time.time()
+			self.drop_bomb()
+
+	def break_it(self,v_x,v_y):
+		super().break_it(v_x, v_y)
+		globalVar.ufo_dead = 1
+
+	def drop_bomb(self):
+		globalVar.bombs.append(Bomb(self.x+9, self.y+self.height))
+
+	def reduce_strength(self,v_x,v_y):
+		self.strength -= 1
+		globalVar.ufo_strength = self.strength
+		globalVar.SCORE += 10
+		if(self.strength==3):
+			self.shields_up()
+		if(self.strength==1):
+			self.shields_up()
+		
+		if (self.strength == 0):
+			self.break_it(v_x,v_y)
+
+	def shields_up(self):
+		for i in range(LEFT, WIDTH-self.width, self.width):
+			globalVar.obj_bricks.append(Defense(self.width,self.height,i,self.y+self.height))	#bottom
+
+class Defense(Brick):
+	"""docstring for Defense"""
+	def __init__(self, width, height, x,y):
+		Brick.__init__(self,width,height,x,y)
+		self.strength = 1
+		self.colour = Back.GREEN
+		
+	def reduce_strength(self,v_x,v_y):
+		self.strength -= 1
+		if (self.strength == 0):
+			self.break_it(v_x, v_y)
+			return
+
+	def break_it(self, v_x, v_y):
+		globalVar.SCORE += 20
+		self.broken=1
+		self.colour = Back.RESET
+		
+
+		

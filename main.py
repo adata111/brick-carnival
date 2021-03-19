@@ -9,7 +9,7 @@ from bullet import *
 import globalVar
 from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, SHOOT_COOLDOWN, obj_bricks, paddle, power_ups, balls, level, bullets, last_shoot
 import globalFunc
-from globalFunc import setBricks1, setBricks2, check_ball_death, init_power_ups, game_over
+from globalFunc import setBricks1, setBricks2, setBricks3, check_ball_death, init_power_ups, game_over
 
 
 fps = 20
@@ -45,7 +45,7 @@ def setup():
 		globalVar.level=2
 	elif(globalVar.level==2):
 		# globalVar.power_ups = []
-		setBricks1()
+		setBricks3()
 		globalVar.level=3
 	else:
 		game_over()
@@ -62,7 +62,7 @@ def shoot(x,y, paddle_width):
 # for obj in obj_bricks:
 	
 # 	print(obj.getx(),obj.gety())
-time_limit = [0, 10,15,30]
+time_limit = [0, 10,15,3]
 blank_arr = []
 # blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 for i in range(HT):
@@ -86,8 +86,10 @@ while True:
 	for brick in globalVar.obj_bricks:
 		if(not brick.is_broken() and brick.strength!=-1):
 			flag = 1
+	if(globalVar.ufo_dead):
+		flag=0
 	if(flag == 0):
-		if(globalVar.level==3):
+		if(globalVar.ufo_dead):
 			os.system('clear')
 			game_over()
 			print("Yay")
@@ -116,6 +118,14 @@ while True:
 
 	for to_del in bullets_to_del:
 		globalVar.bullets.remove(to_del)
+
+	bombs_to_del = []
+	for bomb in globalVar.bombs:
+		if(bomb.visible==0):
+			bombs_to_del.append(bomb)
+
+	for to_del in bombs_to_del:
+		globalVar.bombs.remove(to_del)
 
 
 	if(key=='d' or key =='D'):
@@ -175,9 +185,16 @@ while True:
 	for obj in globalVar.obj_bricks:
 		if(obj.is_broken()):
 			continue
-		if(obj.touch==0):
+		if(obj.touch==0 and isinstance(obj, Rainbow)):
 			obj.change_colour()
 		grid = obj.getArr(' ',grid)
+
+	for obj in globalVar.obj_bricks:
+		if(obj.is_broken()):
+			continue
+		if(isinstance(obj,UFO)):
+			obj.move(globalVar.paddle.x)
+			break
 
 	if(int(time.time()-globalVar.LEVEL_START_TIME)>time_limit[globalVar.level]):
 		over = 0
@@ -185,7 +202,10 @@ while True:
 			for obj in globalVar.obj_bricks:
 				if(obj.is_broken()):
 					continue
-				ret = obj.move(globalVar.paddle.y)
+				if(isinstance(obj, UFO)):
+					continue
+				else:
+					ret = obj.move(globalVar.paddle.y)
 				if(ret):
 					over = 1
 					break
@@ -209,6 +229,11 @@ while True:
 			bullet.move()
 			grid = bullet.getArr(Fore.RED, '^', grid)
 
+	for bomb in globalVar.bombs:
+		if(bomb.visible):
+			bomb.check_paddle_collision()
+			bomb.move()
+			grid = bomb.getArr(Back.RED, '@', grid)
 	#grid = ''.join(grid)
 	# print(grid)
 	pr = []

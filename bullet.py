@@ -51,13 +51,6 @@ class Bullet:
 				break
 		
 
-	def is_moving(self):
-		return self.moving
-	def set_moving(self):
-		self.moving = 1
-		if(not globalVar.paddle.is_sticky()):
-			self.set_vel()
-
 	def getArr(self, colour, symbol, arr):
 		y = self.y
 		h = self.height

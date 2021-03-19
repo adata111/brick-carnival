@@ -26,6 +26,9 @@ class Board:
 		l_ti = len(ti)
 		shoo = 'Shooter time left: '+str(shooter_time)
 		l_shoo = len(shoo)
+
+		ufo = 'UFO health: '+str(globalVar.ufo_strength)
+		l_ufo = len(ufo)
 		
 		# grid[0] = '_'*WIDTH
 		# grid[HT-1] = '_'*WIDTH
@@ -46,6 +49,12 @@ class Board:
 		t = ''.join(grid[3])		
 		if(shooter_time!=0):
 			tem = t[:5]+ sc + t[l_sc+5:WIDTH-((WIDTH+l_ti)//2)-20] +  shoo + t[WIDTH-((WIDTH+l_ti)//2)-20+l_shoo:WIDTH-((WIDTH+l_ti)//2)+5] + ti + t[WIDTH-((WIDTH+l_ti)//2)+5+l_ti:WIDTH-50] + lev + t[WIDTH-50+l_lev :WIDTH-30] + li + t[WIDTH-30+l_li:]
+			grid[3] = list(tem)
+		elif(globalVar.ufo_strength!=-1):
+			tem = t[:5]+ sc + t[l_sc+5:l_sc+5+10] + ufo + t[l_sc+15+l_ufo:WIDTH-((WIDTH+l_ti)//2)-20] + ti + t[WIDTH-((WIDTH+l_ti)//2)-20+l_ti:WIDTH-50] + lev + t[WIDTH-50+l_lev :WIDTH-30] + li + t[WIDTH-30+l_li:]
+			grid[3] = list(tem)
+		elif(globalVar.ufo_strength!=-1 and shooter_time!=0):
+			tem = t[:5]+ sc + t[l_sc+5:l_sc+5+10] + ufo + t[l_sc+15+l_ufo:WIDTH-((WIDTH+l_ti)//2)-20] +  shoo + t[WIDTH-((WIDTH+l_ti)//2)-20+l_shoo:WIDTH-((WIDTH+l_ti)//2)+5] + ti + t[WIDTH-((WIDTH+l_ti)//2)+5+l_ti:WIDTH-50] + lev + t[WIDTH-50+l_lev :WIDTH-30] + li + t[WIDTH-30+l_li:]
 			grid[3] = list(tem)
 		else:
 			tem = t[:5]+ sc + t[l_sc+5:WIDTH-((WIDTH+l_ti)//2)] + ti + t[WIDTH-((WIDTH+l_ti)//2)+l_ti:WIDTH-50] + lev + t[WIDTH-50+l_lev :WIDTH-30] + li + t[WIDTH-30+l_li:] 

@@ -20,9 +20,13 @@ power_ups = []
 all_power_ups = []
 level = 0
 gravity = 1
+bombs = []
 
 SHOOT_COOLDOWN = 1
 last_shoot = -SHOOT_COOLDOWN
+
+ufo_dead = 0
+ufo_strength = -1
 
 START_TIME = 0
 LEVEL_START_TIME = 0

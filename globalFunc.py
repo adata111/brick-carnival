@@ -13,8 +13,6 @@ def init_power_ups():
 
 
 def setBricks1():
-    for i in range(WIDTH-18, 2, -10):
-        globalVar.x_bricks.append(i)
     k=0
     for j in range(0, 3):
         k=0
@@ -35,8 +33,6 @@ def setBricks1():
 
 
 def setBricks2():
-    for i in range(WIDTH-18, 2, -10):
-        globalVar.x_bricks.append(i)
     k=0
     for j in range(0, 3):
         k=0
@@ -56,6 +52,24 @@ def setBricks2():
                 # ind = 0
                 globalVar.obj_bricks.append(Breakable(brick_width,4,i,y, 1+((i+j)%3)))
             k+=1
+
+
+
+def setBricks3():
+    k=0
+    for j in range(0, 3):
+        k=0
+        y=TOP+j*4
+        for i in range(LEFT+1, WIDTH-20, 20):
+            #print(i,j)
+            if((k==0 or k==8) and j==2 ):
+                globalVar.obj_bricks.append(Brick(20,4,i,y))
+            elif(j==0 and k == 5):
+                # ind = random.randint(0,len(globalVar.all_power_ups)-1)
+                # ind = 0
+                globalVar.obj_bricks.append(UFO(20,4,i,y))
+            k+=1
+
 
 
 def check_ball_death():
