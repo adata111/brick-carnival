@@ -21,6 +21,7 @@ level = 0
 gravity = 1
 
 START_TIME = 0
+LEVEL_START_TIME = 0
 GAME_TIME=100
 
 LIVES = 5

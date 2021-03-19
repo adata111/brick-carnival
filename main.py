@@ -33,6 +33,7 @@ def setup():
 	newBall = Ball(LEFT+random.randint(0, globalVar.paddle.width-1), globalVar.paddle.y-1,0,0,0)
 	globalVar.balls.append(newBall)
 	init_power_ups()
+	globalVar.LEVEL_START_TIME = time.time()
 	if(globalVar.level==0):
 		setBricks1()
 		globalVar.level=1
@@ -53,6 +54,7 @@ def setup():
 # for obj in obj_bricks:
 	
 # 	print(obj.getx(),obj.gety())
+time_limit = [0, 5,15,30]
 blank_arr = []
 # blank_arr = np.array([[" " for i in range(WIDTH)] for j in range(HT)])
 for i in range(HT):
@@ -130,6 +132,18 @@ while True:
 	j=0
 	for ball in globalVar.balls:
 		grid = ball.getArr(Fore.WHITE,'●', grid)
+
+	paddle_ball = 0		# =1 if paddle and ball collided
+	for ball in globalVar.balls:
+		if(ball.is_moving()):
+			ret = ball.check_paddle_collision()
+			if(ret):
+				paddle_ball = 1
+			if(ball.is_moving()):	# checking again because if paddle grab is activated, check_paddle_collision will set ball.moving to 0
+				ball.check_brick_collision()
+				ball.move(1)
+		
+
 	for obj in globalVar.obj_bricks:
 		if(obj.is_broken()):
 			continue
@@ -137,17 +151,26 @@ while True:
 			obj.change_colour()
 		grid = obj.getArr(' ',grid)
 
-	for ball in globalVar.balls:
-		if(ball.is_moving()):
-			ball.check_paddle_collision()
-			if(ball.is_moving()):	# checking again because if paddle grab is activated, check_paddle_collision will set ball.moving to 0
-				ball.check_brick_collision()
-				ball.move(1)
+	if(int(time.time()-globalVar.LEVEL_START_TIME)>time_limit[globalVar.level]):
+		over = 0
+		if(paddle_ball):
+			for obj in globalVar.obj_bricks:
+				if(obj.is_broken()):
+					continue
+				ret = obj.move(globalVar.paddle.y)
+				if(ret):
+					over = 1
+					break
+			if(over):
+				os.system('clear')
+				game_over()
+				print("Score:",globalVar.SCORE)
+				break
 	
 	for power_up in power_ups:
-		f = open("debug.txt", "a")
-		f.write(str(power_up.x)+" "+str(power_up.y)+"\n")
-		f.close()
+		# f = open("debug.txt", "a")
+		# f.write(str(power_up.x)+" "+str(power_up.y)+"\n")
+		# f.close()
 		if(power_up.visible):
 			grid = power_up.getArr(Fore.YELLOW, grid)
 			power_up.move()

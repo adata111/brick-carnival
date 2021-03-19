@@ -76,6 +76,12 @@ class Brick:
 	def gety(self):
 		return self.y
 
+	def move(self,paddle_y):
+		self.y+=1
+		if(self.y+self.height>paddle_y):
+			return 1
+		return 0
+
 
 class Breakable(Brick):
 	def __init__(self, width, height, x,y,st):

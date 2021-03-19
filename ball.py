@@ -16,7 +16,7 @@ class Ball:
 		self.y = y
 		# self.y=TOP+5
 		self.v_x = vx
-		self.v_y = -2
+		self.v_y = -1
 		self.moving = m
 		self.thru = 0
 		self.dead = 0
@@ -25,7 +25,7 @@ class Ball:
 	def move(self,v=1):
 		paddle=globalVar.paddle
 		self.x += self.v_x
-		
+
 		if(self.moving == 0): # movement with paddle
 			if(paddle.x+paddle.width>=RIGHT and v>0):
 				v = 0
@@ -66,23 +66,27 @@ class Ball:
 
 	def check_paddle_collision(self):
 		paddle = globalVar.paddle
+		check =0
 		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # ball is within x coordinates of paddle
 			if(self.y+self.height==paddle.y):
 				self.set_vel(- self.v_y)
 				if(paddle.is_sticky()):
 					self.moving = 0
 					
-				return
+				return 1
 		if(self.x+self.width<paddle.x+paddle.width and self.x+self.v_x+self.width>paddle.x and self.v_x>=0): # top-left collision possible
 			if(self.y+self.height<paddle.y and self.y+self.v_y+self.height>paddle.y):
 				# top-left collision 
 				# self.set_vel(-self.v_y)
 				self.y = paddle.y-self.height - self.v_y
+				check=1
 		elif(self.x>(paddle.x) and self.x+self.v_x<paddle.width+paddle.x and self.v_x<=0): # top-right collision possible
 			if(self.y+self.height<paddle.y and self.v_y+self.y+self.height>paddle.y):
 				# top-right collision 
 				# self.set_vel(-self.v_y)
 				self.y = paddle.y-self.height - self.v_y
+				check=1
+		return check
 
 
 	def check_brick_collision(self):
@@ -245,7 +249,7 @@ class Ball:
 		if(not globalVar.paddle.is_sticky()):
 			self.set_vel()
 
-	def set_vel(self, vy=-2):
+	def set_vel(self, vy=-1):
 		paddle = globalVar.paddle
 		cen = paddle.width//2
 		p1 = cen//2
