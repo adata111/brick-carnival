@@ -134,23 +134,27 @@ class Ball:
 				if(self.y==brick.gety()+brick.height and self.v_y<0): 
 					# bottom-left collision
 					v_y = -self.v_y
+					v_x = -self.v_x
 					# self.v_x = -self.v_x
 					check = 1
 				elif(self.y+self.height==brick.gety() and self.v_y>0):
 					# top-left collision 
 					# self.v_y = -self.v_y
 					v_x = -self.v_x
+					v_y = -self.v_y
 					check = 1
 			elif(self.x==(brick.getx()+brick.width) and self.v_x<0): # top-right or bottom-right collision possible
 				if(self.y==brick.gety()+brick.height and self.v_y<0): 
 					# bottom-right collision
 					v_y = -self.v_y
+					v_x = -self.v_x
 					# self.v_x = -self.v_x
 					check = 1
 				elif(self.y+self.height==brick.gety() and self.v_y>0):
 					# top-right collision 
 					# self.v_y = -self.v_y
 					v_x = -self.v_x
+					v_y = -self.v_y
 					check = 1
 			if(check):
 				if(self.thru==0):
@@ -183,12 +187,14 @@ class Ball:
 					# top-left collision 
 					# self.v_y = -self.v_y
 					v_x = -self.v_x
+					v_y = -self.v_y
 					self.x = brick.getx()+brick.width
 					check = 1
 			elif(self.x>(brick.getx()) and self.x+self.v_x<brick.width+brick.getx() and self.v_x<=0): # top-right or bottom-right collision possible
 				if(self.y>brick.gety()+brick.height and self.v_y+self.y<brick.gety()+brick.height): 
 					# bottom-right collision
 					v_y = -self.v_y
+					v_x = -self.v_x
 					self.y = brick.gety()+brick.height
 					# self.v_x = -self.v_x
 					check = 1
@@ -196,6 +202,7 @@ class Ball:
 					# top-right collision 
 					# self.v_y = -self.v_y
 					v_x = -self.v_x
+					v_y = -self.v_y
 					self.x = brick.getx()+brick.width
 					check = 1
 			if(check):

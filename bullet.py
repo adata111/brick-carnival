@@ -32,7 +32,7 @@ class Bullet:
 
 	def check_brick_collision(self):
 		check = 0
-		for brick in reversed(globalVar.obj_bricks):
+		for brick in (globalVar.obj_bricks):
 			if(brick.is_broken()):
 				continue
 			# f=open("debug.txt","a")

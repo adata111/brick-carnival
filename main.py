@@ -7,7 +7,7 @@ from ball import *
 from powerUp import *
 from bullet import *
 import globalVar
-from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, obj_bricks, paddle, power_ups, balls, level, bullets
+from globalVar import TOP, BOTTOM, LEFT, LIVES, SCORE, WIDTH, HT, SHOOT_COOLDOWN, obj_bricks, paddle, power_ups, balls, level, bullets, last_shoot
 import globalFunc
 from globalFunc import setBricks1, setBricks2, check_ball_death, init_power_ups, game_over
 
@@ -54,8 +54,10 @@ def setup():
 
 def shoot(x,y, paddle_width):
 	# print("hi")
-	globalVar.bullets.append(Bullet(x,y-1))
-	globalVar.bullets.append(Bullet(x+paddle_width-1,y-1))
+	if(int(time.time() - globalVar.last_shoot)>=SHOOT_COOLDOWN):
+		globalVar.bullets.append(Bullet(x,y-1))
+		globalVar.bullets.append(Bullet(x+paddle_width-1,y-1))
+		globalVar.last_shoot = time.time()
 	
 # for obj in obj_bricks:
 	

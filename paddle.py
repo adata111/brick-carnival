@@ -1,7 +1,7 @@
 
 from headers import *
 import globalVar
-from globalVar import HT, WIDTH,BOTTOM, LEFT, balls
+from globalVar import HT, WIDTH,BOTTOM, LEFT, SHOOT_COOLDOWN, balls, last_shoot
 rows = HT
 cols = WIDTH
 
@@ -66,6 +66,7 @@ class Paddle:
 
 	def gunsOut(self):
 		self.shooter = 1
+		last_shoot = -SHOOT_COOLDOWN
 
 	def killGuns(self):
 		self.shooter = 0

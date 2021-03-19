@@ -21,6 +21,9 @@ all_power_ups = []
 level = 0
 gravity = 1
 
+SHOOT_COOLDOWN = 1
+last_shoot = -SHOOT_COOLDOWN
+
 START_TIME = 0
 LEVEL_START_TIME = 0
 GAME_TIME=100
