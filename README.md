@@ -3,7 +3,7 @@
 
 ### Overview
 This a terminal-based arcade game in Python3, inspired by the classic brick-breaker game. The player will be using a paddle with a bouncing ball to smash a
-wall of bricks and make high scores! The objective of the game is to break all the bricks as fast as possible and beat the highest score! You lose a life when the ball touches the ground below the paddle.
+wall of bricks and make high scores! The objective of the game is to break all the bricks as fast as possible and beat the highest score! You lose a life when the ball touches the ground below the paddle. Different sounds are played when different events (like life lost, brick collision, wall collision, laser shoot, etc.) occur.
 
 ### To start the game
 - Open the terminal in full screen
@@ -39,6 +39,7 @@ The power ups have gravity effect and take the velocity of the ball when the bal
 5. Thru-ball(T): This enables the ball to destroy and go through any brick it touches, irrespective of the strength of the wall.(Even the unbreakable ones which you couldn’t previously destroy)
 6. Paddle Grab(G):Allows the paddle to grab the ball on contact and relaunch the ball at will. The ball will follow the same expected trajectory after release, similar to the movement expected without the grab.
 7. Paddle Shooter(B):Canons appear at the ends of the paddle and pressing spacebar lets you release lasers to destroy the bricks. The cooldown time between laser shoots is 1 second
+8. Fireball (R): This amazing power up causes an effect similar to exploding bricks on hitting a brick. It can destroy unbreakable bricks too!
 
 ### Scores and time
 Score and time are displayed on top of the screen throughout the game
@@ -52,7 +53,7 @@ There are 3 levels in the game. Rainbow bricks are introduced in level 2 and the
 Level 3 has no power ups.
 
 ### UFO Enemy
-Cyan coloured brick that drops bombs(@) every 5 seconds. It also moves along with the paddle. The health of the UFO is 5 initially and the strength reduces by 1 everytime the ball hits the UFO. The bombs cause the paddle to lose a life. The UFO spawns a layer of GREEN bricks below it when its health becomes 3 and again when its health becomes 1 
+Cyan coloured brick that drops bombs(@) every 5 seconds. It also moves along with the paddle. The health of the UFO is 5 initially and the strength reduces by 1 everytime the ball hits the UFO. The bombs cause the paddle to lose a life. The UFO spawns a layer of GREEN bricks below it when its health becomes 4 and again when its health becomes 2
 
 ### Time attack
 After 10 seconds in Level 1, 15 seconds in level 2 and 30 seconds in level 3, the brick layout moves down by a unit everytime the ball hits the paddle. 

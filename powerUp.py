@@ -115,6 +115,28 @@ class Thru_ball(PowerUp):
 		for ball in globalVar.balls:
 			ball.unset_thru()
 
+class Fire_ball(PowerUp):
+	def __init__(self, x, y):
+		super().__init__(x,y, globalVar.POWERS['fire'])
+
+	def activate_power_up(self):
+		super().activate_power_up()
+		for ball in globalVar.balls:
+			if(ball.fire==0):
+				ball.set_fire()
+			else:
+				self.active_time=self.max_time+1	# so that it gets deleted in next frame
+				self.activated = 0		# so that it doesn't update active_time in next frame
+				for powerup in globalVar.power_ups:
+					if(isinstance(powerup, Fire_ball) and powerup.is_activated()):
+						powerup.max_time += self.max_time
+						break
+
+	def deactivate_power_up(self):
+		self.activated = 0
+		for ball in globalVar.balls:
+			ball.unset_fire()
+
 class Fast_ball(PowerUp):
 	def __init__(self, x, y):
 		super().__init__(x,y, globalVar.POWERS['fast'])

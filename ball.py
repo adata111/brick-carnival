@@ -20,10 +20,10 @@ class Ball:
 		self.thru = 0
 		self.dead = 0
 		self.fast = 0
+		self.fire = 0
 
 	def move(self,v=1):
 		paddle=globalVar.paddle
-		self.x += self.v_x
 		temp = self.v_x
 
 		if(self.moving == 0): # movement with paddle
@@ -33,6 +33,7 @@ class Ball:
 				v = 0
 			self.x += v*paddle.v
 			return
+		self.x += self.v_x
 
 		if(self.x+self.width>=RIGHT and self.v_x>0):
 			self.v_x = -self.v_x
@@ -92,8 +93,8 @@ class Ball:
 				# self.set_vel(-self.v_y)
 				self.y = paddle.y-self.height - self.v_y
 				check=1
-		if(check==1):
-			os.system('aplay -q ./sounds/ball_paddle.wav&')
+		# if(check==1):
+		# 	os.system('aplay -q ./sounds/ball_paddle.wav&')
 		return check
 
 
@@ -125,13 +126,22 @@ class Ball:
 					self.v_y = v_y
 					self.v_x = v_x
 				else:
-					if(brick.strength == 100):
+					if(brick.strength == 100):	# exploding
 						brick.reduce_strength(self.v_x, self.v_y)
 						break
-					brick.break_it(self.v_x, self.v_y)
+					if(self.fire==0):
+						brick.break_it(self.v_x, self.v_y)
+					else:
+						brick.fire(self.v_x, self.v_y)
 					break
 				if(brick.strength != -1):
-					brick.reduce_strength(self.v_x, self.v_y)
+					if(self.fire):
+						brick.fire(self.v_x, self.v_y)
+					else:
+						brick.reduce_strength(self.v_x, self.v_y)
+				else:
+					if(self.fire):
+						brick.fire(self.v_x, self.v_y)
 				break
 		if(check):
 
@@ -176,10 +186,19 @@ class Ball:
 					if(brick.strength == 100):
 						brick.reduce_strength(self.v_x, self.v_y)
 						break
-					brick.break_it(self.v_x, self.v_y)
+					if(self.fire==0):
+						brick.break_it(self.v_x, self.v_y)
+					else:
+						brick.fire(self.v_x, self.v_y)
 					break
 				if(brick.strength != -1):
-					brick.reduce_strength(self.v_x, self.v_y)
+					if(self.fire):
+						brick.fire(self.v_x, self.v_y)
+					else:
+						brick.reduce_strength(self.v_x, self.v_y)
+				else:
+					if(self.fire):
+						brick.fire(self.v_x, self.v_y)
 				break
 		if(check):
 			return
@@ -188,77 +207,77 @@ class Ball:
 			if(brick.is_broken()):
 				continue
 
-			if((self.x+self.width)<brick.getx()+brick.width and self.x+self.v_x+self.width>brick.getx() and self.v_x>=0): # top-left or bottom-left collision possible
-				if(self.y>brick.gety()+brick.height and self.y+self.v_y<brick.gety()+brick.height): 
-					# bottom-left collision
-					v_y = -self.v_y
-					self.y = brick.gety()+brick.height
-					# self.v_x = -self.v_x
-					check = 1
-				elif(self.y+self.height<brick.gety() and self.y+self.v_y+self.height>brick.gety()):
-					# top-left collision 
-					# self.v_y = -self.v_y
-					v_x = -self.v_x
-					v_y = -self.v_y
-					self.x = brick.getx()+brick.width
-					check = 1
-			elif(self.x>(brick.getx()) and self.x+self.v_x<brick.width+brick.getx() and self.v_x<=0): # top-right or bottom-right collision possible
-				if(self.y>brick.gety()+brick.height and self.v_y+self.y<brick.gety()+brick.height): 
-					# bottom-right collision
-					v_y = -self.v_y
-					v_x = -self.v_x
-					self.y = brick.gety()+brick.height
-					# self.v_x = -self.v_x
-					check = 1
-				elif(self.y+self.height<brick.gety() and self.v_y+self.y+self.height>brick.gety()):
-					# top-right collision 
-					# self.v_y = -self.v_y
-					v_x = -self.v_x
-					v_y = -self.v_y
-					self.x = brick.getx()+brick.width
-					check = 1
-			if(check):
-				os.system('aplay -q ./sounds/ball_brick.wav&')
-				if(self.thru==0):
-					self.v_y = v_y
-					self.v_x = v_x
-				else:
-					if(brick.strength == 100):
-						brick.reduce_strength(self.v_x, self.v_y)
-						break
-					brick.break_it(self.v_x, self.v_y)
-					break
-				if(brick.strength != -1):
-					brick.reduce_strength(self.v_x, self.v_y)
-				break
-		# if(check):
-		# 	return
-		# check = 0
-		# for brick in globalVar.obj_bricks:
-		# 	if(brick.is_broken()):
-		# 		continue
-		# 	if(self.y>=brick.gety() and self.y<brick.gety()+brick.height):
-		# 		if(self.x+self.v_x+self.width>brick.getx() and self.x<brick.getx()):	#left
-		# 			self.v_x =-v_x
-		# 			check=1
-		# 		elif(self.x>brick.getx()+brick.width and self.x+self.v_x<brick.getx()+brick.width):	#right
-		# 			self.v_x = -v_x
-		# 			check=1
-		# 	if(check):
-		# 		os.system('aplay -q ./sounds/ball_brick.wav&')
-		# 		if(self.thru==0):
-		# 			self.v_y = v_y
-		# 			self.v_x = v_x
-		# 		else:
-		# 			if(brick.strength == 100):
-		# 				brick.reduce_strength(self.v_x, self.v_y)
-		# 				break
-		# 			brick.break_it(self.v_x, self.v_y)
-		# 			break
-		# 		if(brick.strength != -1):
-		# 			brick.reduce_strength(self.v_x, self.v_y)
-		# 		break
+			if(self.x+self.width<brick.getx() or self.x>brick.getx()+brick.width or self.y+self.height<brick.gety() or self.y>brick.gety()+brick.height):
 
+				x = self.x+self.v_x
+				y = self.y + self.v_y
+				for b_x in range(brick.getx(),brick.getx()+brick.width):
+					for b_y in range(brick.gety(),brick.gety()+brick.height):
+						if(x==b_x and y==b_y):
+							if(self.v_x>0 and self.v_y>0):	# approaching from north west
+								if(x-brick.getx()<y-brick.gety()):
+									v_x = -self.v_x
+								elif(x-brick.getx()==y-brick.gety()):
+									v_x = -self.v_x
+									v_y = -self.v_y
+								else:
+									v_y = -self.v_y
+							elif(self.v_x<0 and self.v_y>0):	# approaching from north east
+								if(brick.getx()+brick.width-x<y-brick.gety()):
+									v_x = -self.v_x
+								elif(brick.getx()+brick.width-x==y-brick.gety()):
+									v_x = -self.v_x
+									v_y = -self.v_y
+								else:
+									v_y = -self.v_y
+							elif(self.v_x>0 and self.v_y<0):	# approaching from south west
+								if(x-brick.getx()<brick.gety()+brick.height-y):
+									v_x = -self.v_x
+								elif(x-brick.getx()==brick.gety()+brick.height-y):
+									v_x = -self.v_x
+									v_y = -self.v_y
+								else:
+									v_y = -self.v_y
+							elif(self.v_x<0 and self.v_y<0):	# approaching from south east
+								if(brick.getx()+brick.width-x<brick.gety()+brick.height-y):
+									v_x = -self.v_x
+								elif(brick.getx()+brick.width-x==brick.gety()+brick.height-y):
+									v_x = -self.v_x
+									v_y = -self.v_y
+								else:
+									v_y = -self.v_y
+							
+							
+							check = 1
+							break
+					if(check==1):
+						break
+				if(check):
+					os.system('aplay -q ./sounds/ball_brick.wav&')
+					if(self.thru==0):
+						self.x += self.v_x
+						self.y += self.v_y
+						self.v_y = v_y
+						self.v_x = v_x
+					else:
+						if(brick.strength == 100):
+							brick.reduce_strength(self.v_x, self.v_y)
+							break
+						if(self.fire==0):
+							brick.break_it(self.v_x, self.v_y)
+						else:
+							brick.fire(self.v_x, self.v_y)
+						break
+					if(brick.strength != -1):
+						if(self.fire):
+							brick.fire(self.v_x, self.v_y)
+						else:
+							brick.reduce_strength(self.v_x, self.v_y)
+					else:
+						if(self.fire):
+							brick.fire(self.v_x, self.v_y)
+							
+					break
 
 			
 
@@ -283,6 +302,7 @@ class Ball:
 			self.v_x = 0
 			self.thru = 0
 			self.fast = 0
+			self.fire = 0
 		
 	def set_props(self, x, y, vx, vy):
 		self.x = x
@@ -319,6 +339,8 @@ class Ball:
 	def incr_vel(self):
 		# if(self.v_y>=5): 
 		# 	return
+		if(self.fast):
+			return
 		self.fast = 1
 		if(self.v_y > 0):
 			self.v_y += 1
@@ -352,3 +374,8 @@ class Ball:
 
 	def unset_thru(self):
 		self.thru = 0
+
+	def set_fire(self):
+		self.fire = 1
+	def unset_fire(self):
+		self.fire = 0

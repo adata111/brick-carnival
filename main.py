@@ -228,14 +228,14 @@ while True:
 
 	for laser in globalVar.lasers:
 		if(laser.visible):
-			laser.check_brick_collision()
 			laser.move()
+			laser.check_brick_collision()
 			grid = laser.getArr(Fore.RED, '^', grid)
 
 	for bomb in globalVar.bombs:
 		if(bomb.visible):
-			bomb.check_paddle_collision()
 			bomb.move()
+			bomb.check_paddle_collision()
 			grid = bomb.getArr(Back.RED, '@', grid)
 	#grid = ''.join(grid)
 	# print(grid)

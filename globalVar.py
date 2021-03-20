@@ -36,4 +36,4 @@ LIVES = 5
 ALT_LIVES=0
 SCORE = 0
 
-POWERS = {'thru':'T', 'shrink':'S', 'expand':'E', 'fast':'F', 'grab':'G', 'multiplier':'M', 'shooter':'B'}
+POWERS = {'thru':'T', 'shrink':'S', 'expand':'E', 'fast':'F', 'grab':'G', 'multiplier':'M', 'shooter':'B', 'fire':'R'}

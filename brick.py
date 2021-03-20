@@ -8,6 +8,12 @@ from colorama import init, Fore, Back, Style
 
 colours = [Back.GREEN, Back.YELLOW, Back.RED ]
 
+ufo = [
+[" "," "," "," "," "," "," "," ","_","_","_"," "," "," "," "," "," "," "," "],
+[" "," "," "," ","_","_","_","/"," "," "," ","\\","_","_","_"," "," "," "," "], 
+[" "," "," ","/"," "," "," ","'","-","-","-","'"," "," "," ","\\"," "," "," "],
+[" "," "," ","'","-","-","_","_","_","_","_","_","_","-","-","'"," "," "," "]]
+
 
 def get_power_up(ind,x,y):
     pu = globalVar.all_power_ups[ind]
@@ -31,6 +37,9 @@ def get_power_up(ind,x,y):
         globalVar.power_ups.append(pu)
     elif(pu=='shooter'):
         pu = Paddle_shooter(x,y)
+        globalVar.power_ups.append(pu)
+    elif(pu=='fire'):
+        pu = Fire_ball(x,y)
         globalVar.power_ups.append(pu)
     # globalVar.all_power_ups.pop(ind)
     return pu
@@ -88,31 +97,7 @@ class Brick:
 			return 1
 		return 0
 
-
-class Breakable(Brick):
-	def __init__(self, width, height, x,y,st):
-		Brick.__init__(self,width, height, x,y)
-		self.strength = st
-		self.colour = colours[st-1]
-
-	def reduce_strength(self, v_x, v_y):
-		self.strength -= 1
-		if (self.strength == 0):
-			self.break_it(v_x, v_y)
-			return
-		globalVar.SCORE += 5*(4-self.strength)
-		self.colour = colours[self.strength-1]
-
-class Exploding(Brick):
-	def __init__(self, width, height, x,y):
-		Brick.__init__(self,width, height, x,y)
-		self.strength = 100
-		if((x+y)%2):
-			self.colour = Back.LIGHTMAGENTA_EX
-		else:
-			self.colour = Back.MAGENTA
-
-	def reduce_strength(self, v_x, v_y):
+	def fire(self, v_x, v_y):
 		self.break_it(v_x, v_y)
 		for brick in globalVar.obj_bricks:
 			if(brick.is_broken()):
@@ -165,10 +150,37 @@ class Exploding(Brick):
 				else:
 					brick.break_it(v_x, v_y)
 
-class Rainbow(Brick):
+
+class Breakable(Brick):
+	def __init__(self, width, height, x,y,st):
+		Brick.__init__(self,width, height, x,y)
+		self.strength = st
+		self.colour = colours[st-1]
+
+	def reduce_strength(self, v_x, v_y):
+		self.strength -= 1
+		if (self.strength == 0):
+			self.break_it(v_x, v_y)
+			return
+		globalVar.SCORE += 5*(4-self.strength)
+		self.colour = colours[self.strength-1]
+
+class Exploding(Brick):
 	def __init__(self, width, height, x,y):
+		Brick.__init__(self,width, height, x,y)
+		self.strength = 100
+		if((x+y)%2):
+			self.colour = Back.LIGHTMAGENTA_EX
+		else:
+			self.colour = Back.MAGENTA
+
+	def reduce_strength(self, v_x, v_y):
+		self.fire(v_x,v_y)
+
+class Rainbow(Brick):
+	def __init__(self, width, height, x,y, st):
 		Brick.__init__(self,width, height, x,y,0)
-		self.strength = 3
+		self.strength = st
 		self.colour = colours[self.strength-1]
 
 	def change_colour(self):
@@ -215,13 +227,23 @@ class UFO(Brick):
 	def drop_bomb(self):
 		globalVar.bombs.append(Bomb(self.x+9, self.y+self.height))
 
+	def getArr(self, symbol, arr):
+		y = self.y
+		h = self.height
+		w = self.width
+		x = self.x
+		for i in range(y, y+h):
+			for j in range(x,x+w):
+				arr[i][j] = (self.colour + ufo[i-y][j-x] + Back.RESET)
+		return arr
+
 	def reduce_strength(self,v_x,v_y):
 		self.strength -= 1
 		globalVar.ufo_strength = self.strength
 		globalVar.SCORE += 10
-		if(self.strength==3):
+		if(self.strength==4):
 			self.shields_up(1)
-		if(self.strength==1):
+		if(self.strength==2):
 			self.shields_up(1)
 		
 		if (self.strength == 0):
