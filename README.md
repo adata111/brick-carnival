@@ -10,10 +10,10 @@ wall of bricks and make high scores! The objective of the game is to break all t
 - `python3 main.py`
 
 ### Controls
-> - To move the paddle right or left use <kbd>D</kbd> or <kbd>A</kbd> respectively
-> - To release the ball from paddle, use <kbd>P</kbd>
-> - To shoot bullets, use <kbd>spacebar</kbd>
-> - To quit the game, press <kbd>Q</kbd>
+- To move the paddle right or left use <kbd>D</kbd> or <kbd>A</kbd> respectively
+- To release the ball from paddle, use <kbd>P</kbd>
+- To shoot bullets, use <kbd>spacebar</kbd>
+- To quit the game, press <kbd>Q</kbd>
 
 ### Details
 - The direction of movement of the ball after collision with the paddle will depend on the distance from the center of the paddle and the collision point, i.e further the ball hits from the center, more the deflection 
@@ -43,10 +43,10 @@ The power ups have gravity effect and take the velocity of the ball when the bal
 
 ### Scores and time
 Score and time are displayed on top of the screen throughout the game
-> - On hitting a GREEN brick or on destroying any brick, you get 20 points
-> - On hitting a RED brick, you get 10 points
-> - On hitting a YELLOW brick, you get 15 points
-> - On hitting UFO you get 10 points
+ - On hitting a GREEN brick or on destroying any brick, you get 20 points
+ - On hitting a RED brick, you get 10 points
+ - On hitting a YELLOW brick, you get 15 points
+ - On hitting UFO you get 10 points
 
 ### Levels
 There are 3 levels in the game. Rainbow bricks are introduced in level 2 and the UFO in level 3.
