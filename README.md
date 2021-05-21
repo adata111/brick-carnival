@@ -10,10 +10,10 @@ wall of bricks and make high scores! The objective of the game is to break all t
 - `python3 main.py`
 
 ### Controls
-> - To move the paddle right or left use 'd'/'D' or 'a'/'A' keys respectively
-> - To release the ball from paddle, use 'p'/'P'
-> - To shoot bullets, use `spacebar`
-> - To quit the game, press 'q'/'Q' keys
+> - To move the paddle right or left use <kbd>D</kbd> or <kbd>A</kbd> respectively
+> - To release the ball from paddle, use <kbd>P</kbd>
+> - To shoot bullets, use <kbd>spacebar</kbd>
+> - To quit the game, press <kbd>Q</kbd>
 
 ### Details
 - The direction of movement of the ball after collision with the paddle will depend on the distance from the center of the paddle and the collision point, i.e further the ball hits from the center, more the deflection 
