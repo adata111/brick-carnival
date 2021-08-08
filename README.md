@@ -51,15 +51,15 @@ Score and time are displayed on top of the screen throughout the game
 ### Levels
 There are 3 levels in the game. 
 Level 1:
-![Level 1 image](https://github.com/adata111/brick-carnival/tree/main/screenshots/level1.png)
+<img src="/screenshots/level1.png">
 
 Level 2: 
 Rainbow bricks are introduced
-![Level 2 image](https://github.com/adata111/brick-carnival/tree/main/screenshots/level2.png)
+<img src="/screenshots/level2.png">
 
 Level 3:
 The UFO is introduced. This level has no power ups.
-![Level 3 image](https://github.com/adata111/brick-carnival/tree/main/screenshots/level3.png)
+<img src="/screenshots/level3.png">
 
 ### UFO Enemy
 Cyan coloured brick that drops bombs(@) every 5 seconds. It also moves along with the paddle. The health of the UFO is 5 initially and the strength reduces by 1 everytime the ball hits the UFO. The bombs cause the paddle to lose a life. The UFO spawns a layer of GREEN bricks below it when its health becomes 4 and again when its health becomes 2
