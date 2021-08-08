@@ -10,10 +10,10 @@ wall of bricks and make high scores! The objective of the game is to break all t
 - `python3 main.py`
 
 ### Controls
-> - To move the paddle right or left use 'd'/'D' or 'a'/'A' keys respectively
-> - To release the ball from paddle, use 'p'/'P'
-> - To shoot bullets, use `spacebar`
-> - To quit the game, press 'q'/'Q' keys
+- To move the paddle right or left use <kbd>D</kbd> or <kbd>A</kbd> respectively
+- To release the ball from paddle, use <kbd>P</kbd>
+- To shoot bullets, use <kbd>spacebar</kbd>
+- To quit the game, press <kbd>Q</kbd>
 
 ### Details
 - The direction of movement of the ball after collision with the paddle will depend on the distance from the center of the paddle and the collision point, i.e further the ball hits from the center, more the deflection 
@@ -43,14 +43,23 @@ The power ups have gravity effect and take the velocity of the ball when the bal
 
 ### Scores and time
 Score and time are displayed on top of the screen throughout the game
-> - On hitting a GREEN brick or on destroying any brick, you get 20 points
-> - On hitting a RED brick, you get 10 points
-> - On hitting a YELLOW brick, you get 15 points
-> - On hitting UFO you get 10 points
+ - On hitting a GREEN brick or on destroying any brick, you get 20 points
+ - On hitting a RED brick, you get 10 points
+ - On hitting a YELLOW brick, you get 15 points
+ - On hitting UFO you get 10 points
 
 ### Levels
-There are 3 levels in the game. Rainbow bricks are introduced in level 2 and the UFO in level 3.
-Level 3 has no power ups.
+There are 3 levels in the game. 
+Level 1:
+![Level 1 image](https://github.com/adata111/brick-carnival/screenshots/level1.png)
+
+Level 2: 
+Rainbow bricks are introduced
+![Level 2 image](https://github.com/adata111/brick-carnival/screenshots/level2.png)
+
+Level 3:
+The UFO is introduced. This level has no power ups.
+![Level 3 image](https://github.com/adata111/brick-carnival/screenshots/level3.png)
 
 ### UFO Enemy
 Cyan coloured brick that drops bombs(@) every 5 seconds. It also moves along with the paddle. The health of the UFO is 5 initially and the strength reduces by 1 everytime the ball hits the UFO. The bombs cause the paddle to lose a life. The UFO spawns a layer of GREEN bricks below it when its health becomes 4 and again when its health becomes 2
