@@ -17,10 +17,19 @@ class Paddle:
 		self.sticky = 0
 		self.shooter = 0
 
+	def getx(self):
+		return self.x
+
+	def gety(self):
+		return self.y
+
+	def getwidth(self):
+		return self.width
+
 	def move(self,v):
 		if(self.x+self.width>=cols-1 and v>0):
 			v = 0
-		elif(self.x<2 and v<0):
+		elif(self.x<=LEFT and v<0):
 			v = 0
 		self.x += v*self.v
 

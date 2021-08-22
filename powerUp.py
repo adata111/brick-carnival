@@ -212,7 +212,6 @@ class Ball_multiplier(PowerUp):
 				v=2
 			newBall = Ball(ball.x,ball.y,v,ball.v_y,1)
 			temp.append(newBall)
-			# newBall.set_props(ball.x,ball.y,-ball.v_x,ball.v_y)
 		for newBall in temp:
 			globalVar.balls.append(newBall)
 			globalVar.ALT_LIVES += 1
@@ -232,9 +231,6 @@ class Paddle_shooter(PowerUp):
 			for powerup in globalVar.power_ups:
 				if(isinstance(powerup,Paddle_shooter) and powerup.is_activated()):
 					powerup.max_time += self.max_time
-					# f=open("debug.txt","a")
-					# f.write(str(powerup.max_time)+"\n")
-					# f.close()
 					break
 
 	def deactivate_power_up(self):

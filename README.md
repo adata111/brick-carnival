@@ -71,10 +71,10 @@ After 10 seconds in Level 1, 15 seconds in level 2 and 30 seconds in level 3, th
 ### Classes created
 
 1. **Brick**
-Has subclasses `Breakable` for creating RED, YELLOW and GREEN breakable bricks and `Exploding` for creating the exploding bricks
+Has subclasses `Breakable` for creating RED, YELLOW and GREEN breakable bricks, `Rainbow` for rainbow bricks of level 2, `Exploding` for creating the exploding bricks, `UFO` for the UFO brick and `Defense` for UFO's defense wall bricks.
 2. **Ball**
 3. **PowerUp**
-Has one sublass for each power up. Therefore there are 6 subclasses as follows: Expand_paddle, Shrink_paddle, Ball_multiplier, Fast_ball, Thru_ball and Paddle_grab
+Has one sublass for each power up. Therefore there are 8 subclasses as follows: Paddle_shooter, Fire_ball, Expand_paddle, Shrink_paddle, Ball_multiplier, Fast_ball, Thru_ball and Paddle_grab
 4. **Board**
 5. **Paddle**
 6. **Laser**
@@ -84,15 +84,15 @@ Has one sublass for each power up. Therefore there are 6 subclasses as follows: 
 
 #### Inheritance
 Common attributes of the parent class inherited by the child classes. (Helps in avoiding redundant code)
-Here, a base class `Brick` has been declared from which multiple subclasses(`Breakable` and `Exploding`) inherit properties
-Also, a base class `PowerUp` has been declared from which multiple subclasses(`Expand_paddle`, `Shrink_paddle`, `Ball_multiplier`, `Fast_ball`, `Thru_ball` and `Paddle_grab`) inherit properties
+Here, a base class `Brick` has been declared from which multiple subclasses(`Breakable`, `Rainbow`, `Exploding`, `UFO` and `Defense`) inherit properties
+Also, a base class `PowerUp` has been declared from which multiple subclasses(`Paddle_shooter`, `Fire_ball`, `Expand_paddle`, `Shrink_paddle`, `Ball_multiplier`, `Fast_ball`, `Thru_ball` and `Paddle_grab`) inherit properties
 
 #### Polymorphism
 Utililizing the same function of a parent class for different functionalites of child classes
 Ex: `deactivate_power_up()` function in parent class `PowerUp` has been over-ridden by function of the same name in the different subclasses of `PowerUp`
 
 #### Encapsulation
-It is the idea of wrapping data and the methods that work on data within one unit. Prevents accidental modification of data. Class and object based approach for all the functionality implemented.
+It is the idea of wrapping data and the methods that work on data within one unit. Prevents accidental modification of data. Class and object based approach for all the functionality implemented. For eg, all the methods that can modify the properties of the paddle are inside the `Paddle` class.
 
 #### Abstraction
 Abstraction means hiding the complexity. Intuitive functions like move(), break_it(), kill_ball(), etc, used to hide inner details from the end user.

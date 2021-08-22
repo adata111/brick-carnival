@@ -11,9 +11,7 @@ class Ball:
 		self.width = 1
 		self.height = 1
 		self.x = x
-		# self.x=RIGHT-14
 		self.y = y
-		# self.y=TOP+5
 		self.v_x = vx
 		self.v_y = -1
 		self.moving = m
@@ -29,7 +27,7 @@ class Ball:
 		if(self.moving == 0): # movement with paddle
 			if(paddle.x+paddle.width>=RIGHT and v>0):
 				v = 0
-			elif(paddle.x<2 and v<0):
+			elif(paddle.x<=LEFT and v<0):
 				v = 0
 			self.x += v*paddle.v
 			return
@@ -51,9 +49,6 @@ class Ball:
 		self.y += self.v_y
 		temp = self.v_y
 		if(self.y+self.height>=BOTTOM and self.v_y>0):	# v_y>0 means it will go down
-			# f=open("debug.txt","a")
-			# f.write(str(self.y) + " " + str(self.height) + " " + str(HT) + "\n")
-			# f.close()
 			self.kill_ball()
 			return
 
@@ -84,7 +79,6 @@ class Ball:
 		if(self.x+self.width<paddle.x+paddle.width and self.x+self.v_x+self.width>paddle.x and self.v_x>=0): # top-left collision possible
 			if(self.y+self.height<paddle.y and self.y+self.v_y+self.height>paddle.y):
 				# top-left collision 
-				# self.set_vel(-self.v_y)
 				self.y = paddle.y-self.height - self.v_y
 				check=1
 		elif(self.x>(paddle.x) and self.x+self.v_x<paddle.width+paddle.x and self.v_x<=0): # top-right collision possible
@@ -93,8 +87,6 @@ class Ball:
 				# self.set_vel(-self.v_y)
 				self.y = paddle.y-self.height - self.v_y
 				check=1
-		# if(check==1):
-		# 	os.system('aplay -q ./sounds/ball_paddle.wav&')
 		return check
 
 
@@ -105,9 +97,6 @@ class Ball:
 		for brick in reversed(globalVar.obj_bricks):
 			if(brick.is_broken()):
 				continue
-			# f=open("debug.txt","a")
-			# f.write(str(brick.x)+ " " + str(brick.y) + " " + str(self.x) + " " + str(self.y) +"\n")
-			# f.close()
 			if((self.x>=brick.getx() and self.x+self.width<=brick.getx()+brick.width) and ((self.y<=brick.gety()+brick.height and self.y+self.height>=brick.gety() and self.v_y<0) or (self.y+self.height>=brick.gety() and self.y<=brick.gety()+brick.height and self.v_y>0)) ):
 				if(self.v_y==0): #not possible, but okay
 					continue
@@ -332,13 +321,9 @@ class Ball:
 			self.v_x += 1
 		elif(self.x - paddle.x>p3):
 			self.v_x += 2
-		# self.v_x = self.v_x + (-((self.x-paddle.x-(paddle.width//2))//-5))
-		# self.v_x = 2
 		self.v_y = vy
 
 	def incr_vel(self):
-		# if(self.v_y>=5): 
-		# 	return
 		if(self.fast):
 			return
 		self.fast = 1
@@ -363,10 +348,6 @@ class Ball:
 		for i in range(y, y+h):
 			for j in range(x,x+w):
 				arr[i][j] = (colour +symbol + Style.RESET_ALL)
-			#arr[i] = arr[i][:x] + color + Style.BRIGHT + symbol + Fore.RESET + Back.RESET + arr[i][x+1:]
-		# arr1 = list(arr[y])
-		# arr1[x] = Back.CYAN+" "+Style.RESET_ALL
-		# arr[y] = ''.join(arr1)
 		return arr
 
 	def set_thru(self):

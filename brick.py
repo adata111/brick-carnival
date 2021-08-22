@@ -4,7 +4,6 @@ from powerUp import *
 from bomb import *
 import globalVar
 from globalVar import SCORE, obj_bricks, ufo_dead, bombs
-from colorama import init, Fore, Back, Style
 
 colours = [Back.GREEN, Back.YELLOW, Back.RED ]
 
@@ -14,6 +13,8 @@ ufo = [
 [" "," "," ","/"," "," "," ","'","-","-","-","'"," "," "," ","\\"," "," "," "],
 [" "," "," ","'","-","-","_","_","_","_","_","_","_","-","-","'"," "," "," "]]
 
+unbreakable_strength = -1
+exploding_strength = 100
 
 def get_power_up(ind,x,y):
     pu = globalVar.all_power_ups[ind]
@@ -44,6 +45,13 @@ def get_power_up(ind,x,y):
     # globalVar.all_power_ups.pop(ind)
     return pu
 
+def destroy_brick(brick, v_x, v_y):
+	if(brick.strength == 100):
+		brick.reduce_strength(v_x, v_y)
+	else:
+		brick.break_it(v_x, v_y)
+
+
 class Brick:
 	def __init__(self, width, height, x,y, touch=1):
 		super().__init__()
@@ -52,10 +60,9 @@ class Brick:
 		self.x = x
 		self.y = y
 		self.broken = 0
-		self.strength = -1
+		self.strength = unbreakable_strength
 		self.power_up = None
 		self.touch = touch
-		# self.actual_x = xx
 		self.colour = Back.WHITE
 
 	def getArr(self, symbol, arr):
@@ -80,7 +87,6 @@ class Brick:
 		self.colour = Back.RESET
 
 		ind = random.randint(0,len(globalVar.all_power_ups)-1)
-		# ind=5
 		self.power_up = get_power_up(ind,self.x+5,self.y)
 		if(self.power_up):
 			self.power_up.set_visible(v_x, v_y)
@@ -91,9 +97,18 @@ class Brick:
 	def gety(self):
 		return self.y
 
+	def getheight(self):
+		return self.height
+
+	def getwidth(self):
+		return self.width
+
+	def getstrength(self):
+		return self.strength
+
 	def move(self,paddle_y):
 		self.y+=1
-		if(self.y+self.height>paddle_y):
+		if(self.y+self.height>=paddle_y):
 			return 1
 		return 0
 
@@ -168,7 +183,7 @@ class Breakable(Brick):
 class Exploding(Brick):
 	def __init__(self, width, height, x,y):
 		Brick.__init__(self,width, height, x,y)
-		self.strength = 100
+		self.strength = exploding_strength
 		if((x+y)%2):
 			self.colour = Back.LIGHTMAGENTA_EX
 		else:
@@ -188,9 +203,6 @@ class Rainbow(Brick):
 		if(self.strength==0):
 			self.strength=3
 		self.colour = colours[self.strength-1]
-		# f = open("debug.txt", "a")
-		# f.write(str(self.colour)+" "+str(self.strength)+"\n")
-		# f.close()
 
 	def reduce_strength(self, v_x, v_y):
 		self.strength -= 1
@@ -209,7 +221,6 @@ class UFO(Brick):
 		self.strength = 5
 		self.bomb_rate = 5
 		self.last_bomb = time.time()-2
-		# self.actual_x = xx
 		self.colour = Back.CYAN
 		globalVar.ufo_strength = self.strength
 		os.system('aplay -q ./sounds/ufo.wav&')

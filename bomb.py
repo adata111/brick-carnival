@@ -2,11 +2,12 @@
 from headers import *
 import globalVar
 from globalVar import SCORE, LIVES, paddle
-from colorama import init, Fore, Back, Style
 
 
 class Bomb:
-	"""docstring for Bomb"""
+	"""docstring for Bomb
+	Bomb dropped by UFO in level 3
+	"""
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
@@ -15,22 +16,20 @@ class Bomb:
 		self.width = 1
 		self.height = 1
 
-	def move(self,v=1):
+	def move(self):
 		self.y += self.v_y
-		
-		if(self.y>globalVar.paddle.y):
+		if(self.y>globalVar.paddle.y):	# If it goes below paddle, make it disappear
 			self.visible = 0
 
 	def check_paddle_collision(self):
-		check = 0
 		paddle = globalVar.paddle
-		if(self.x+self.width > paddle.x and self.x<paddle.x+paddle.width): # bomb is within x coordinates of paddle in this frame
-			if(self.y+self.height>=paddle.y):
+		if(self.x+self.width > paddle.getx() and self.x<paddle.getx()+paddle.getwidth()): # bomb is within x coordinates of paddle in this frame
+			if(self.y+self.height>=paddle.gety()):
 				globalVar.LIVES -= 1
 				os.system('aplay -q ./sounds/lose_life.wav&')
 				self.visible = 0
-			elif(self.y+self.height+self.v_y>paddle.y):
-				self.y= paddle.y-self.height-self.v_y		
+			elif(self.y+self.height+self.v_y>paddle.gety()):
+				self.y= paddle.gety()-self.height-self.v_y		
 		
 
 	def getArr(self, colour, symbol, arr):
@@ -41,9 +40,5 @@ class Bomb:
 		for i in range(y, y+h):
 			for j in range(x,x+w):
 				arr[i][j] = (colour +symbol + Style.RESET_ALL)
-			#arr[i] = arr[i][:x] + color + Style.BRIGHT + symbol + Fore.RESET + Back.RESET + arr[i][x+1:]
-		# arr1 = list(arr[y])
-		# arr1[x] = Back.CYAN+" "+Style.RESET_ALL
-		# arr[y] = ''.join(arr1)
 		return arr
 		
