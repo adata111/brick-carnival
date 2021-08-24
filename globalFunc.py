@@ -41,6 +41,7 @@ def setBricks2():
                     globalVar.obj_bricks.append(Brick(brick_width,4,i,y))
 
             elif((k==2 and j==0) or (k==5 and j==0) or (k==10 and j==0) or (k==13 and j==0) or (k%2 and j==2)):
+                ind = random.randint(1,3)
                 globalVar.obj_bricks.append(Rainbow(brick_width,4,i,y,ind))
             
             elif((k+j)%5==0):

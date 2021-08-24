@@ -5,7 +5,9 @@ rows = HT
 cols = WIDTH
 
 class Ball:
-	"""docstring for Ball"""
+	"""docstring for Ball
+	contains all methods that can modify state of the ball.
+	"""
 	def __init__(self, x, y, vx, vy, m):
 		super().__init__()
 		self.width = 1
@@ -167,17 +169,20 @@ class Ball:
 					v_y = -self.v_y
 					check = 1
 			if(check):
+				# ball-brick collision occurred, reduce brick strength now
 				os.system('aplay -q ./sounds/ball_brick.wav&')
 				if(self.thru==0):
 					self.v_y = v_y
 					self.v_x = v_x
 				else:
-					if(brick.strength == 100):
+					# if thru ball power up is activated, destroy bricks 
+					if(brick.strength == 100): # exploding brick
 						brick.reduce_strength(self.v_x, self.v_y)
 						break
 					if(self.fire==0):
 						brick.break_it(self.v_x, self.v_y)
 					else:
+						# if fire ball power up is activated, destroy bricks exploding bricks style
 						brick.fire(self.v_x, self.v_y)
 					break
 				if(brick.strength != -1):
@@ -186,6 +191,7 @@ class Ball:
 					else:
 						brick.reduce_strength(self.v_x, self.v_y)
 				else:
+					# unbreakable brick breaks only if the ball is fireball
 					if(self.fire):
 						brick.fire(self.v_x, self.v_y)
 				break

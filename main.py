@@ -97,7 +97,7 @@ def main():
 				break
 			else:		# the current level is over but there are more levels
 				setup()
-		print("\033[%d;%dH" % (0, 0))
+		print("\033[%d;%dH" % (0, 0))	# set cursor position at 0,0
 		globalVar.GAME_TIME = int(time.time()-globalVar.START_TIME)
 
 		power_ups_to_del = []

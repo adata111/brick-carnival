@@ -7,7 +7,10 @@ rows = HT
 cols = WIDTH
 
 class PowerUp:
-	"""docstring for Power Up"""
+	"""docstring for Power Up
+	contains methods for power ups. Sub classes for different
+	power ups inherit functions from this class.
+	"""
 	def __init__(self, x, y, sym):
 		super().__init__()
 		self.width = len(sym)
@@ -18,14 +21,13 @@ class PowerUp:
 		self.v_y = 2
 		self.symbol = sym
 		self.visible = 0
-		self.max_time = 10
+		self.max_time = 20
 		self.start_time = time.time()
 		self.active_time = 0
 		self.activated = 0
 
 	def update_active_time(self):
 		self.active_time = time.time()-self.start_time
-		# print(self.active_time)
 		if(self.active_time>=self.max_time):
 			self.deactivate_power_up()
 

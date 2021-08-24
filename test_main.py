@@ -1,4 +1,5 @@
 import unittest
+import mock
 from main import *
 
 class Test(unittest.TestCase):
@@ -12,7 +13,7 @@ class Test(unittest.TestCase):
 		assert globalVar.level == 1
 
 
-	def test_level_skip(self):
+	def test_ball_func(self):
 		pass
 
 if __name__ == '__main__':

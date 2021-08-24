@@ -30,7 +30,7 @@ Hitting a RED brick will reduce strength to 2 and change its colour to YELLOW. S
 - Rainbow bricks change colour in every frame until it hit by the ball
 
 ### Power-ups
-All power-ups (except ball multiplier) are are present only for a fixed amount of time(10 seconds) and lost at loss of a life. Power ups are displayed as yellow coloured letters
+All power-ups (except ball multiplier) are are present only for a fixed amount of time(20 seconds) and lost at loss of a life. Power ups are displayed as yellow coloured letters
 The power ups have gravity effect and take the velocity of the ball when the ball hits the brick
 1. Expand Paddle(E): Increases the size of the paddle by a certain amount (10 units). The size can't increase beyond 50 units
 2. Shrink Paddle(S): Reduce the size of the paddle by a certain amount (10 units) but not completely.
